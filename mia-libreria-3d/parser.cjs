@@ -1,3 +1,4 @@
+const { decapsulate } = require('crypto');
 const { EPub } = require('epub2');
 const fs = require('fs-extra');
 const path = require('path');
@@ -15,11 +16,26 @@ async function extractBookData(fileName) {
     try {
         // epub2 usa le funzioni moderne (createAsync)
         const epub = await EPub.createAsync(filePath);
+        let rawDescription = epub.metadata.description ? epub.metadata.description.replace(/<[^>]+>/g, '').trim() : '';
+
+        // Se la descrizione è troppo corta (es. "EDGT2190123" ha una sola parola) o manca, chiediamo a Google!
+        if (!rawDescription || rawDescription.split(' ').length < 10) {
+            console.log(`🔍 Trama assente o non valida per "${epub.metadata.title}". Cerco su Google Books...`);
+            const googlePlot = await fetchPlotFromGoogle(epub.metadata.title, epub.metadata.creator);
+            
+            if (googlePlot) {
+                rawDescription = googlePlot;
+                console.log(`✅ Trama scaricata da internet!`);
+            } else {
+                rawDescription = "Trama non disponibile al momento.";
+            }
+        }
 
         const metadata = {
             id: epub.metadata.identifier || Date.now().toString(),
             title: epub.metadata.title || fileName.replace('.epub', ''),
             author: epub.metadata.creator || 'Autore Sconosciuto',
+            description: rawDescription, // Inseriamo la trama pulita o scaricata
             fileName: fileName,
             coverPath: `covers/${fileName.replace('.epub', '.jpg')}`
         };
@@ -47,6 +63,28 @@ async function extractBookData(fileName) {
         console.error(`❌ Errore durante l'apertura di ${fileName}:`, error.message);
         return null; // Salta il libro corrotto e passa al prossimo
     }
+}
+
+// Funzione per cercare la trama su Google Books
+async function fetchPlotFromGoogle(title, author) {
+    try {
+        // Creiamo la query di ricerca codificando gli spazi
+        const query = encodeURIComponent(`intitle:${title} inauthor:${author}`);
+        const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&langRestrict=it`; // Cerchiamo in italiano
+        
+        const response = await fetch(url);
+        const data = await response.json();
+
+        // Se Google trova il libro e ha una descrizione, la restituiamo
+        if (data.items && data.items.length > 0 && data.items[0].volumeInfo.description) {
+            // Rimuoviamo eventuali tag HTML che Google a volte lascia
+            return data.items[0].volumeInfo.description.replace(/<[^>]+>/g, '').trim();
+        }
+    } catch (error) {
+        console.log(`⚠️ Impossibile contattare Google Books per: ${title}`);
+    }
+    
+    return null; // Se fallisce, restituisce null
 }
 
 async function main() {
