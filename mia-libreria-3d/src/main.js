@@ -1,20 +1,20 @@
 import './style.css';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 // --- 1. SETUP BASE ---
 const scene = new THREE.Scene();
+
+// 1. TELECAMERA ABBASSATA: Y passa da 0.5 a -0.2 per inquadrare i libri leggermente dal basso
+// e lasciare spazio al bottone nella parte inferiore dello schermo.
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 2, 5); 
+camera.position.set(0, -0.2, 3.5); 
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// --- 2. ILLUMINAZIONE ---
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
 scene.add(ambientLight);
-
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
 directionalLight.position.set(5, 10, 5);
 scene.add(directionalLight);
@@ -27,173 +27,204 @@ const pagesMaterial = new THREE.MeshStandardMaterial({ color: 0xf5f5dc });
 const baseCoverColor = '#1a1a1a';
 const baseCoverMaterial = new THREE.MeshStandardMaterial({ color: baseCoverColor });
 
-// --- 3. GENERATORI DI TEXTURE ---
+// Variabili di stato
+let booksArray = [];
+let currentIndex = 0;
+let isShowingBack = false;
 
-// Dorso
+// --- 2. STILI CSS MODERNI E UI ---
+// Aggiungiamo un blocco di stili per il bottone (Glassmorphism e animazioni)
+const styleStyle = document.createElement('style');
+styleStyle.innerHTML = `
+    .modern-btn {
+        padding: 12px 30px;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.08); /* Sfondo semitrasparente */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50px; /* Forma a pillola */
+        backdrop-filter: blur(10px); /* Effetto vetro satinato */
+        -webkit-backdrop-filter: blur(10px);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        outline: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .modern-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-3px); /* Si alza leggermente */
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    .modern-btn:active {
+        transform: translateY(0px); /* Torna giù al click */
+    }
+`;
+document.head.appendChild(styleStyle);
+
+const uiContainer = document.createElement('div');
+uiContainer.style.position = 'absolute';
+uiContainer.style.bottom = '40px'; // Alzato un po' dal fondo
+uiContainer.style.left = '50%';
+uiContainer.style.transform = 'translateX(-50%)';
+uiContainer.style.display = 'flex';
+uiContainer.style.gap = '20px';
+document.body.appendChild(uiContainer);
+
+const infoBtn = document.createElement('button');
+infoBtn.innerText = 'Mostra Trama';
+infoBtn.className = 'modern-btn'; // Applichiamo la classe minimalista
+uiContainer.appendChild(infoBtn);
+
+infoBtn.onclick = () => {
+    isShowingBack = !isShowingBack;
+    infoBtn.innerText = isShowingBack ? 'Mostra Copertina' : 'Mostra Trama';
+    updateCarousel();
+};
+
+// --- 3. GENERATORI DI TEXTURE ---
 function createSpineTexture(title, author) {
     const canvas = document.createElement('canvas');
-    canvas.width = 128;  
-    canvas.height = 1024;
+    canvas.width = 128; canvas.height = 1024;
     const ctx = canvas.getContext('2d');
-
-    ctx.fillStyle = baseCoverColor;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.rotate(Math.PI / 2); 
-
-    ctx.fillStyle = '#ffffff'; 
-    ctx.font = 'bold 40px Arial, sans-serif';
-    ctx.fillText(title, 0, -15);
-
-    ctx.fillStyle = '#cccccc'; 
-    ctx.font = 'italic 30px Arial, sans-serif';
-    ctx.fillText(author, 0, 30); 
-
+    ctx.fillStyle = baseCoverColor; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.translate(canvas.width / 2, canvas.height / 2); ctx.rotate(Math.PI / 2); 
+    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 40px Arial, sans-serif'; ctx.fillText(title, 0, -15);
+    ctx.fillStyle = '#cccccc'; ctx.font = 'italic 30px Arial, sans-serif'; ctx.fillText(author, 0, 30); 
     return new THREE.CanvasTexture(canvas);
 }
 
-// Quarta di Copertina: NIENTE PIÙ INVERSIONI, TESTO DRITTO E NORMALE!
-// Quarta di Copertina: ALGORITMO AUTO-FIT INTELLIGENTE
 function createBackCoverTexture(description) {
     const canvas = document.createElement('canvas');
-    // Usiamo una risoluzione alta con proporzione 2:3 (esattamente come il BoxGeometry 2x3)
-    canvas.width = 512; 
-    canvas.height = 768;
+    canvas.width = 512; canvas.height = 768;
     const ctx = canvas.getContext('2d');
-
-    // 1. Sfondo
-    ctx.fillStyle = baseCoverColor;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // 2. Impostazioni base
-    ctx.fillStyle = '#dddddd'; 
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
+    ctx.fillStyle = baseCoverColor; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#dddddd'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
 
     const words = description.split(' ');
-    const maxWidth = 432;  // 40px di margine per lato (512 - 80)
-    const maxHeight = 688; // 40px di margine sopra e sotto (768 - 80)
-
-    let fontSize = 28; // Partiamo da un font bello grande
-    let lineHeight;
-    let lines = [];
-
-    // --- 3. IL CICLO MAGICO DI ADATTAMENTO ---
-    // Rimpicciolisce il font di 2px alla volta finché non entra tutto
+    const maxWidth = 432; const maxHeight = 688;
+    let fontSize = 28; let lineHeight; let lines = [];
     while (fontSize >= 14) { 
         ctx.font = `${fontSize}px Arial, sans-serif`;
-        lineHeight = fontSize * 1.5; // L'interlinea è il 150% della grandezza del font
-        lines = [];
-        let line = '';
-
-        // Creiamo le righe provvisorie per misurare l'altezza totale
+        lineHeight = fontSize * 1.5; lines = []; let line = '';
         for (let n = 0; n < words.length; n++) {
             const testLine = line + words[n] + ' ';
-            const metrics = ctx.measureText(testLine);
-            
-            if (metrics.width > maxWidth && n > 0) {
-                lines.push(line);
-                line = words[n] + ' ';
-            } else {
-                line = testLine;
-            }
+            if (ctx.measureText(testLine).width > maxWidth && n > 0) {
+                lines.push(line); line = words[n] + ' ';
+            } else { line = testLine; }
         }
-        lines.push(line); // Aggiungi l'ultima riga
-
-        const totalHeight = lines.length * lineHeight;
-
-        if (totalHeight <= maxHeight) {
-            break; // Vittoria! Il testo entra, fermiamo il ciclo.
-        }
-
-        fontSize -= 2; // Se sfora, riduci il font e ripeti il ciclo
+        lines.push(line); if (lines.length * lineHeight <= maxHeight) break;
+        fontSize -= 2; 
     }
-
-    // --- 4. STAMPA REALE SUL CANVAS ---
-    ctx.font = `${fontSize}px Arial, sans-serif`; // Reimpostiamo il font vincente
-    let y = 40; // Margine superiore
-    const x = 40; // Margine sinistro
-
+    ctx.font = `${fontSize}px Arial, sans-serif`; 
+    let y = 40; const x = 40;
     for (let i = 0; i < lines.length; i++) {
-        // Blocco di sicurezza: se la trama è un'enciclopedia e sfora anche col font minimo, tronchiamo con i puntini.
         if (y + lineHeight > maxHeight + 40 && i < lines.length - 1) {
-            let lastLine = lines[i].trim();
-            ctx.fillText(lastLine + '...', x, y);
-            break;
+            ctx.fillText(lines[i].trim() + '...', x, y); break;
         }
-        ctx.fillText(lines[i], x, y);
-        y += lineHeight;
+        ctx.fillText(lines[i], x, y); y += lineHeight;
     }
-
     return new THREE.CanvasTexture(canvas);
 }
-// --- 4. CARICAMENTO E GENERAZIONE LIBRI ---
 
+// --- 4. CARICAMENTO E LOGICA CAROSELLO ---
 async function loadBooks() {
     try {
         const response = await fetch('/books.json');
         const booksData = await response.json();
 
         booksData.forEach((bookData, index) => {
-            // IL LIBRO BASE (Senza trama sul retro)
             const geometry = new THREE.BoxGeometry(2, 3, 0.4);
             const spineTexture = createSpineTexture(bookData.title, bookData.author);
             const spineMaterial = new THREE.MeshStandardMaterial({ map: spineTexture, roughness: 0.7 });
 
             let materials = [
-                pagesMaterial,      // 0: Destra
-                spineMaterial,      // 1: Sinistra (Dorso)
-                pagesMaterial,      // 2: Sopra
-                pagesMaterial,      // 3: Sotto
-                baseCoverMaterial,  // 4: Fronte (temporaneo)
-                baseCoverMaterial   // 5: Retro (SOLO COLORE SCURO, NIENTE TESTO)
+                pagesMaterial, spineMaterial, pagesMaterial, pagesMaterial, baseCoverMaterial, baseCoverMaterial
             ];
 
             if (bookData.coverPath) {
-                const coverTexture = textureLoader.load(`/${bookData.coverPath}`);
-                materials[4] = new THREE.MeshStandardMaterial({ map: coverTexture, roughness: 0.8 });
+                materials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load(`/${bookData.coverPath}`), roughness: 0.8 });
             }
 
             const bookMesh = new THREE.Mesh(geometry, materials);
-            bookMesh.position.x = index * 2.2; 
-            bookMesh.userData = bookData;
-
-            // --- LA SOLUZIONE: IL "PIANO ADESIVO" PER LA TRAMA ---
-            const backTexture = createBackCoverTexture(bookData.description);
-            // Creiamo un foglio piatto grande quanto il libro (larghezza 2, altezza 3)
+            
             const planeGeo = new THREE.PlaneGeometry(2, 3); 
-            const planeMat = new THREE.MeshStandardMaterial({ map: backTexture, roughness: 0.8 });
+            const planeMat = new THREE.MeshStandardMaterial({ map: createBackCoverTexture(bookData.description), roughness: 0.8 });
             const backPlane = new THREE.Mesh(planeGeo, planeMat);
-
-            // Lo posizioniamo esattamente dietro al libro (-0.2 è il bordo del libro, -0.201 lo fa sporgere di un capello per essere visibile)
-            backPlane.position.z = -0.201; 
-            // Lo giriamo di 180 gradi così guarda in fuori e il testo è dritto
-            backPlane.rotation.y = Math.PI; 
-
-            // Incolliamo l'adesivo al libro
+            backPlane.position.z = -0.201; backPlane.rotation.y = Math.PI; 
             bookMesh.add(backPlane);
-            // ---------------------------------------------------
 
+            bookMesh.userData = { ...bookData, index: index };
             libraryGroup.add(bookMesh);
+            booksArray.push(bookMesh);
         });
 
-    } catch (error) {
-        console.error("Errore nel caricamento dei libri:", error);
-    }
+        updateCarousel();
+    } catch (e) { console.error(e); }
 }
+
+function updateCarousel() {
+    booksArray.forEach((book, i) => {
+        const offset = i - currentIndex;
+
+        if (offset === 0) {
+            book.userData.targetX = 0;
+            book.userData.targetZ = 0.5;
+            book.userData.targetRotY = isShowingBack ? Math.PI : 0;
+        } else {
+            const direction = Math.sign(offset);
+            book.userData.targetX = (direction * 1.8) + (offset * 0.6);
+            book.userData.targetZ = -1.5;
+            book.userData.targetRotY = -Math.PI / 2;
+        }
+    });
+}
+
+// --- 5. INTERAZIONE CLICK ---
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+window.addEventListener('click', (event) => {
+    if (event.target.tagName === 'BUTTON') return;
+
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(libraryGroup.children, true);
+
+    if (intersects.length > 0) {
+        let obj = intersects[0].object;
+        while (obj.parent !== libraryGroup) obj = obj.parent;
+        
+        const clickedIndex = obj.userData.index;
+        if (clickedIndex !== currentIndex) {
+            currentIndex = clickedIndex;
+            isShowingBack = false;
+            infoBtn.innerText = 'Mostra Trama';
+            updateCarousel();
+        }
+    }
+});
 
 loadBooks();
 
-// --- 5. CONTROLLI E ANIMAZIONE ---
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-
+// --- 6. ANIMAZIONE ---
 function animate() {
     requestAnimationFrame(animate);
-    controls.update();
+    
+    booksArray.forEach(book => {
+        if (book.userData.targetX !== undefined) {
+            book.position.x = THREE.MathUtils.lerp(book.position.x, book.userData.targetX, 0.1);
+            book.position.z = THREE.MathUtils.lerp(book.position.z, book.userData.targetZ, 0.1);
+            book.rotation.y = THREE.MathUtils.lerp(book.rotation.y, book.userData.targetRotY, 0.1);
+        }
+    });
+
     renderer.render(scene, camera);
 }
 
