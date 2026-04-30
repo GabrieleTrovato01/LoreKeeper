@@ -12,8 +12,11 @@
     "vite": "^8.0.10"
   },
   "dependencies": {
+    "axios": "^1.15.2",
     "epub2": "^3.0.2",
+    "express": "^5.2.1",
     "fs-extra": "^11.3.4",
+    "multer": "^2.1.1",
     "three": "^0.184.0"
   }
 }

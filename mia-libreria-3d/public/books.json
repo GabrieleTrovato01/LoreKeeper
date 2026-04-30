@@ -1,26 +1,38 @@
 [
-  {
-    "id": "1777466636618",
-    "title": "Crypto",
-    "author": "Dan Brown",
-    "description": "EDGT2429764\nWashington. La trentottenne Susan Fletcher, brillantissima mente matematica e responsabile della divisione di crittologia della National Security Agency, viene convocata d'urgenza nell'ufficio del comandante Strathmore. Qualcuno ha realizzato un programma capace di \"ingannare\" il più sofisticato strumento informatico di spionaggio al mondo, un supercomputer che può decodificare qualunque testo cifrato a una velocità strabiliante. Pochissimi conoscono l'esistenza di questa macchina, ideata per contrastare le nuove minacce alla sicurezza nell'era di Internet e in grado di controllare la posta elettronica di chiunque. La stessa NSA, nata per proteggere le comunicazione del governo americano e intercettare quelle delle potenze straniere, opera in semiclandestinità, al di fuori del controllo pubblico. Susan non si stupisce quando viene a sapere che \"Fortezza Digitale\", così è stato battezzato il programma, è frutto delle ricerche di un genio dell'informatica: il giapponese Ensei Tankado, handicappato dalla nascita per gli effetti del disastro atomico di Hiroshima, che dopo essere stato chiamato negli Stati Uniti a lavorare per l'NSA ha sbattuto la porta in faccia ai suoi capi quando si è accorto che il supercomputer rischiava di trasformarsi in un nuovo Grande Fratello. I suoi intenti sono nobili, ma la sua decisione di boicottare l'operato dell'NSA, mettendo il programma in rete e permettendo a chiunque di scaricarlo, rischia di creare l'anarchia e di assicurare libertà d'azione a spie e criminali.",
-    "fileName": "Crypto_Dan_Brown.epub",
-    "coverPath": "covers/Crypto_Dan_Brown.jpg"
-  },
-  {
-    "id": "1777466641141",
-    "title": "Fahrenheit 451",
-    "author": "Ray Bradbury",
-    "description": "Nearly seventy years after its original publication, Ray Bradbury’s internationally acclaimed novel Fahrenheit 451 stands as a classic of world literature set in a bleak, dystopian future. Today its message has grown more relevant than ever before. Guy Montag is a fireman. His job is to destroy the most illegal of commodities, the printed book, along with the houses in which they are hidden. Montag never questions the destruction and ruin his actions produce, returning each day to his bland life and wife, Mildred, who spends all day with her television “family.” But when he meets an eccentric young neighbor, Clarisse, who introduces him to a past where people didn’t live in fear and to a present where one sees the world through the ideas in books instead of the mindless chatter of television, Montag begins to question everything he has ever known.",
-    "fileName": "Fahrenheit_451_Ray_Bradbury.epub",
-    "coverPath": "covers/Fahrenheit_451_Ray_Bradbury.jpg"
-  },
-  {
-    "id": "1777466641160",
-    "title": "Wohpe",
-    "author": "Salvatore Sanfilippo",
-    "description": "Fine del XXI secolo. L'intelligenza artificiale forte è vietata da vent'anni, ma ora i cambiamenti climatici sono inarrestabili, la civiltà in pericolo. Asako e Michel, due esperti di intelligenza artificiale, fanno gli ultimi controlli prima dell'avvio del progetto Wohpe: l'enorme rete neurale a cui porre le domande decisive. Sarà la salvezza o la fine di tutto.",
-    "fileName": "Wohpe_Salvatore_Sanfilippo.epub",
-    "coverPath": "covers/Wohpe_Salvatore_Sanfilippo.jpg"
-  }
+    {
+        "id": "1777466636618",
+        "title": "Crypto",
+        "author": "Dan Brown",
+        "description": "EDGT2429764\nWashington. La trentottenne Susan Fletcher, brillantissima mente matematica e responsabile della divisione di crittologia della National Security Agency, viene convocata d'urgenza nell'ufficio del comandante Strathmore. Qualcuno ha realizzato un programma capace di \"ingannare\" il più sofisticato strumento informatico di spionaggio al mondo, un supercomputer che può decodificare qualunque testo cifrato a una velocità strabiliante. Pochissimi conoscono l'esistenza di questa macchina, ideata per contrastare le nuove minacce alla sicurezza nell'era di Internet e in grado di controllare la posta elettronica di chiunque. La stessa NSA, nata per proteggere le comunicazione del governo americano e intercettare quelle delle potenze straniere, opera in semiclandestinità, al di fuori del controllo pubblico. Susan non si stupisce quando viene a sapere che \"Fortezza Digitale\", così è stato battezzato il programma, è frutto delle ricerche di un genio dell'informatica: il giapponese Ensei Tankado, handicappato dalla nascita per gli effetti del disastro atomico di Hiroshima, che dopo essere stato chiamato negli Stati Uniti a lavorare per l'NSA ha sbattuto la porta in faccia ai suoi capi quando si è accorto che il supercomputer rischiava di trasformarsi in un nuovo Grande Fratello. I suoi intenti sono nobili, ma la sua decisione di boicottare l'operato dell'NSA, mettendo il programma in rete e permettendo a chiunque di scaricarlo, rischia di creare l'anarchia e di assicurare libertà d'azione a spie e criminali.",
+        "fileName": "Crypto_Dan_Brown.epub",
+        "coverPath": "covers/Crypto_Dan_Brown.jpg"
+    },
+    {
+        "id": "1777466641141",
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "description": "Nearly seventy years after its original publication, Ray Bradbury’s internationally acclaimed novel Fahrenheit 451 stands as a classic of world literature set in a bleak, dystopian future. Today its message has grown more relevant than ever before. Guy Montag is a fireman. His job is to destroy the most illegal of commodities, the printed book, along with the houses in which they are hidden. Montag never questions the destruction and ruin his actions produce, returning each day to his bland life and wife, Mildred, who spends all day with her television “family.” But when he meets an eccentric young neighbor, Clarisse, who introduces him to a past where people didn’t live in fear and to a present where one sees the world through the ideas in books instead of the mindless chatter of television, Montag begins to question everything he has ever known.",
+        "fileName": "Fahrenheit_451_Ray_Bradbury.epub",
+        "coverPath": "covers/Fahrenheit_451_Ray_Bradbury.jpg"
+    },
+    {
+        "id": "1777466641160",
+        "title": "Wohpe",
+        "author": "Salvatore Sanfilippo",
+        "description": "Fine del XXI secolo. L'intelligenza artificiale forte è vietata da vent'anni, ma ora i cambiamenti climatici sono inarrestabili, la civiltà in pericolo. Asako e Michel, due esperti di intelligenza artificiale, fanno gli ultimi controlli prima dell'avvio del progetto Wohpe: l'enorme rete neurale a cui porre le domande decisive. Sarà la salvezza o la fine di tutto.",
+        "fileName": "Wohpe_Salvatore_Sanfilippo.epub",
+        "coverPath": "covers/Wohpe_Salvatore_Sanfilippo.jpg"
+    },
+    {
+        "title": "Il Dottor Futuro",
+        "author": "Dick Philip K",
+        "description": "SAN FRANCISCO, 2012. Jim Parsons è un medico di talento, estremamente competente nell'utilizzare la raffinata tecnologia del XXI secolo. In seguito a un bizzarro incidente automobilistico, si ritrova catapultato a centinaia di anni nel futuro, in un tempo che al primo impatto gli sembra meraviglioso. Presto però scopre che in quel mondo la sua missione - curare le malattie e salvare vite - è illegale: si tratta, infatti, di una società globalizzata in cui la popolazione è mantenuta costante e, solo se un individuo muore, si può avere la nascita di un nuovo bambino, il cui patrimonio genetico viene continuamente migliorato, generazione dopo generazione. In quella civiltà così fervidamente votata alla morte, Parsons scopre però che ci sono altre persone che condividono il suo desiderio di prolungare la vita umana. Per loro, le capacità terapeutiche del dottore sono l'unica via per fondare un futuro diverso... La più terribile tra le distopie - una civiltà intera che abbraccia il culto della morte e dell'eugenetica - e i paradossi dei viaggi nel tempo, due temi classici della narrativa fantascientifica, rivisitati dalla caleidoscopica immaginazione di Philip K. Dick.",
+        "coverPath": "covers/book_1777546235436_google.jpg"
+    },
+    {
+        "title": "Titolo Sconosciuto",
+        "author": "Autore Sconosciuto",
+        "description": "Trama non trovata su Google Books. È un libro molto misterioso...",
+        "coverPath": "covers/book_1777547995374.jpg"
+    }
 ]

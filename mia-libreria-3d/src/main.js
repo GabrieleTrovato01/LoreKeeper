@@ -4,8 +4,6 @@ import * as THREE from 'three';
 // --- 1. SETUP BASE ---
 const scene = new THREE.Scene();
 
-// 1. TELECAMERA ABBASSATA: Y passa da 0.5 a -0.2 per inquadrare i libri leggermente dal basso
-// e lasciare spazio al bottone nella parte inferiore dello schermo.
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, -0.2, 3.5); 
 
@@ -32,60 +30,179 @@ let booksArray = [];
 let currentIndex = 0;
 let isShowingBack = false;
 
-// --- 2. STILI CSS MODERNI E UI ---
-// Aggiungiamo un blocco di stili per il bottone (Glassmorphism e animazioni)
+// --- 2. STILI CSS MODERNI E UI (Menu + Bottone Inferiore) ---
 const styleStyle = document.createElement('style');
 styleStyle.innerHTML = `
+    /* Stili condivisi per l'effetto Glassmorphism */
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        color: #ffffff;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        transition: all 0.3s ease;
+        outline: none;
+    }
+
+    /* Bottone moderno */
     .modern-btn {
         padding: 12px 30px;
-        font-family: 'Segoe UI', system-ui, sans-serif;
         font-size: 13px;
         font-weight: 600;
         letter-spacing: 2px;
         text-transform: uppercase;
-        color: #ffffff;
-        background: rgba(255, 255, 255, 0.08); /* Sfondo semitrasparente */
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 50px; /* Forma a pillola */
-        backdrop-filter: blur(10px); /* Effetto vetro satinato */
-        -webkit-backdrop-filter: blur(10px);
+        border-radius: 50px;
         cursor: pointer;
-        transition: all 0.3s ease;
-        outline: none;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        text-align: center;
     }
     .modern-btn:hover {
         background: rgba(255, 255, 255, 0.2);
         border-color: rgba(255, 255, 255, 0.5);
-        transform: translateY(-3px); /* Si alza leggermente */
+        transform: translateY(-3px);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     }
     .modern-btn:active {
-        transform: translateY(0px); /* Torna giù al click */
+        transform: translateY(0px);
     }
+
+    /* Barra superiore e Input di ricerca */
+    .top-bar {
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        z-index: 100;
+        width: 90%;
+        max-width: 700px;
+    }
+    .modern-input {
+        padding: 12px 25px;
+        font-size: 14px;
+        border-radius: 50px;
+        flex-grow: 1; /* Occupa tutto lo spazio rimanente */
+    }
+    .modern-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+    .modern-input:focus {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Nascondiamo l'input file originale brutto da vedere */
+    #file-upload { display: none; }
 `;
 document.head.appendChild(styleStyle);
 
+// --- COSTRUZIONE MENU SUPERIORE ---
+const topBar = document.createElement('div');
+topBar.className = 'top-bar';
+document.body.appendChild(topBar);
+
+const searchInput = document.createElement('input');
+searchInput.type = 'text';
+searchInput.placeholder = 'Cerca per titolo o autore...';
+searchInput.className = 'glass-effect modern-input';
+topBar.appendChild(searchInput);
+
+const uploadLabel = document.createElement('label');
+uploadLabel.innerText = '+ Carica Ebook';
+uploadLabel.className = 'glass-effect modern-btn';
+uploadLabel.htmlFor = 'file-upload';
+topBar.appendChild(uploadLabel);
+
+const fileInput = document.createElement('input');
+fileInput.type = 'file';
+fileInput.id = 'file-upload';
+fileInput.accept = '.epub';
+topBar.appendChild(fileInput);
+
+// --- COSTRUZIONE BOTTONE INFERIORE ---
 const uiContainer = document.createElement('div');
 uiContainer.style.position = 'absolute';
-uiContainer.style.bottom = '40px'; // Alzato un po' dal fondo
+uiContainer.style.bottom = '40px';
 uiContainer.style.left = '50%';
 uiContainer.style.transform = 'translateX(-50%)';
-uiContainer.style.display = 'flex';
-uiContainer.style.gap = '20px';
 document.body.appendChild(uiContainer);
 
 const infoBtn = document.createElement('button');
 infoBtn.innerText = 'Mostra Trama';
-infoBtn.className = 'modern-btn'; // Applichiamo la classe minimalista
+infoBtn.className = 'glass-effect modern-btn';
 uiContainer.appendChild(infoBtn);
 
+// --- EVENTI UI ---
 infoBtn.onclick = () => {
     isShowingBack = !isShowingBack;
     infoBtn.innerText = isShowingBack ? 'Mostra Copertina' : 'Mostra Trama';
     updateCarousel();
 };
 
+// Logica di ricerca in tempo reale
+searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    if (!query) return;
+
+    // Cerca il primo libro che contiene il testo nel titolo o nell'autore
+    const foundIndex = booksArray.findIndex(book => 
+        book.userData.title.toLowerCase().includes(query) || 
+        book.userData.author.toLowerCase().includes(query)
+    );
+
+    if (foundIndex !== -1 && foundIndex !== currentIndex) {
+        currentIndex = foundIndex;
+        isShowingBack = false;
+        infoBtn.innerText = 'Mostra Trama';
+        updateCarousel();
+    }
+});
+
+// Avviso per l'upload
+fileInput.addEventListener('change', async (e) => {
+    if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        
+        // Creiamo un pacchetto dati (FormData) per spedire il file via HTTP
+        const formData = new FormData();
+        formData.append('ebook', file);
+
+        // Cambiamo il testo del bottone per dare feedback all'utente
+        const originalText = uploadLabel.innerText;
+        uploadLabel.innerText = 'Caricamento... ⏳';
+        uploadLabel.style.pointerEvents = 'none'; // Blocchiamo i click multipli
+
+        try {
+            // Spediamo il file al nostro nuovo backend Node.js
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Il server ha finito di elaborare l'EPUB e ha aggiornato books.json
+                alert('Libro aggiunto con successo allo scaffale! Ricarico la libreria...');
+                // Ricarichiamo la pagina per fargli scaricare il nuovo books.json e far spawnare il libro
+                location.reload(); 
+            } else {
+                alert('Errore dal server: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Errore di rete:', error);
+            alert("Impossibile contattare il server. Hai avviato server.js?");
+        } finally {
+            // Ripristiniamo il bottone
+            uploadLabel.innerText = originalText;
+            uploadLabel.style.pointerEvents = 'auto';
+            fileInput.value = ''; // Resettiamo l'input
+        }
+    }
+});
 // --- 3. GENERATORI DI TEXTURE ---
 function createSpineTexture(title, author) {
     const canvas = document.createElement('canvas');
@@ -178,19 +295,20 @@ function updateCarousel() {
             book.userData.targetRotY = isShowingBack ? Math.PI : 0;
         } else {
             const direction = Math.sign(offset);
-            book.userData.targetX = (direction * 1.8) + (offset * 0.6);
+            book.userData.targetRotY = Math.PI / 2; // Il dorso è a sinistra, quindi rotazione di -90 gradi!
             book.userData.targetZ = -1.5;
-            book.userData.targetRotY = Math.PI / 2;
+            book.userData.targetX = (direction * 1.8) + (offset * 0.45);
         }
     });
 }
 
-// --- 5. INTERAZIONE CLICK ---
+// --- 5. INTERAZIONE CLICK SUI LIBRI ---
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 window.addEventListener('click', (event) => {
-    if (event.target.tagName === 'BUTTON') return;
+    // Ignora i click sull'interfaccia HTML
+    if (event.target.tagName === 'BUTTON' || event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL') return;
 
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
