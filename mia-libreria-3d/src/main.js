@@ -136,6 +136,49 @@ infoBtn.innerText = 'Mostra Trama';
 infoBtn.className = 'glass-effect modern-btn';
 uiContainer.appendChild(infoBtn);
 
+// --- COSTRUZIONE FRECCE LATERALI ---
+const leftArrow = document.createElement('button');
+leftArrow.innerHTML = '&#10094;'; // Simbolo freccia sinistra
+leftArrow.className = 'glass-effect modern-btn';
+leftArrow.style.position = 'absolute';
+leftArrow.style.left = '20px';
+leftArrow.style.top = '50%';
+leftArrow.style.transform = 'translateY(-50%)';
+leftArrow.style.fontSize = '24px';
+leftArrow.style.padding = '15px 20px';
+leftArrow.style.borderRadius = '50%'; // Le facciamo tonde!
+document.body.appendChild(leftArrow);
+
+const rightArrow = document.createElement('button');
+rightArrow.innerHTML = '&#10095;'; // Simbolo freccia destra
+rightArrow.className = 'glass-effect modern-btn';
+rightArrow.style.position = 'absolute';
+rightArrow.style.right = '20px';
+rightArrow.style.top = '50%';
+rightArrow.style.transform = 'translateY(-50%)';
+rightArrow.style.fontSize = '24px';
+rightArrow.style.padding = '15px 20px';
+rightArrow.style.borderRadius = '50%';
+document.body.appendChild(rightArrow);
+
+// Funzione unificata per scorrere i libri
+function changeBook(direction) {
+    if (booksArray.length === 0) return;
+    const newIndex = currentIndex + direction;
+
+    // Controlliamo di non andare oltre i limiti della libreria
+    if (newIndex >= 0 && newIndex < booksArray.length) {
+        currentIndex = newIndex;
+        isShowingBack = false;
+        infoBtn.innerText = 'Mostra Trama';
+        updateCarousel();
+    }
+}
+
+// Eventi click sulle frecce
+leftArrow.onclick = () => changeBook(-1);
+rightArrow.onclick = () => changeBook(1);
+
 // --- EVENTI UI ---
 infoBtn.onclick = () => {
     isShowingBack = !isShowingBack;
@@ -357,33 +400,80 @@ function updateCarousel() {
     }
 }
 
-// --- 5. INTERAZIONE CLICK SUI LIBRI ---
+// --- 5. INTERAZIONI UNIFICATE (Click, Swipe, Trackpad) ---
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-window.addEventListener('click', (event) => {
-    // Ignora i click sull'interfaccia HTML
+// Variabili per riconoscere lo swipe (trascinamento)
+let pointerStartX = 0;
+let pointerEndX = 0;
+let isDragging = false;
+
+window.addEventListener('pointerdown', (event) => {
+    // Ignora le interazioni se l'utente sta cliccando la UI (bottoni, barra di ricerca)
     if (event.target.tagName === 'BUTTON' || event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL') return;
+    
+    pointerStartX = event.clientX;
+    isDragging = true;
+});
 
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(libraryGroup.children, true);
+window.addEventListener('pointerup', (event) => {
+    if (!isDragging) return;
+    isDragging = false;
+    pointerEndX = event.clientX;
+    
+    // Calcoliamo di quanti pixel si è spostato il mouse/dito
+    const deltaX = pointerStartX - pointerEndX;
 
-    if (intersects.length > 0) {
-        let obj = intersects[0].object;
-        while (obj.parent !== libraryGroup) obj = obj.parent;
-        
-        const clickedIndex = obj.userData.index;
-        if (clickedIndex !== currentIndex) {
-            currentIndex = clickedIndex;
-            isShowingBack = false;
-            infoBtn.innerText = 'Mostra Trama';
-            updateCarousel();
+    // Se si è mosso di più di 50 pixel, è chiaramente uno SWIPE (trascinamento)
+    if (Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+            changeBook(1); // Swipe verso sinistra -> scorre in avanti
+        } else {
+            changeBook(-1); // Swipe verso destra -> scorre indietro
+        }
+    } 
+    // Altrimenti, se non si è mosso (o si è mosso pochissimo), è un CLICK su un libro
+    else {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(libraryGroup.children, true);
+
+        if (intersects.length > 0) {
+            let obj = intersects[0].object;
+            while (obj.parent !== libraryGroup) obj = obj.parent;
+            
+            const clickedIndex = obj.userData.index;
+            if (clickedIndex !== currentIndex) {
+                currentIndex = clickedIndex;
+                isShowingBack = false;
+                infoBtn.innerText = 'Mostra Trama';
+                updateCarousel();
+            }
         }
     }
 });
 
+// Aggiungiamo il supporto alla ROTELLINA DEL MOUSE e al TRACKPAD
+let scrollTimeout = null; // Ci serve per non far schizzare i libri a mille all'ora
+window.addEventListener('wheel', (event) => {
+    if (scrollTimeout) return; // Se stiamo già scorrendo, ignora l'input
+
+    // event.deltaY cattura la rotellina classica, event.deltaX cattura lo swipe orizzontale del trackpad
+    if (Math.abs(event.deltaX) > 20 || Math.abs(event.deltaY) > 20) {
+        if (event.deltaX > 0 || event.deltaY > 0) {
+            changeBook(1); // Scorre avanti
+        } else {
+            changeBook(-1); // Scorre indietro
+        }
+        
+        // Imposta una "pausa" di 300 millisecondi prima di poter scorrere di nuovo
+        scrollTimeout = setTimeout(() => { scrollTimeout = null; }, 300);
+    }
+});
+
+// ESEGUIAMO IL CARICAMENTO DEI LIBRI ALL'AVVIO!
 loadBooks();
 
 // --- 6. ANIMAZIONE ---
