@@ -15,7 +15,7 @@ camera.position.set(0, -0.2, 3.5);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
+renderer.shadowMap.type = THREE.PCFShadowMap; 
 document.body.appendChild(renderer.domElement);
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -490,11 +490,30 @@ window.addEventListener('pointerup', (event) => {
             while (obj.parent !== libraryGroup) obj = obj.parent;
             
             const clickedIndex = obj.userData.index;
+
             if (clickedIndex !== currentIndex) {
                 currentIndex = clickedIndex;
                 isShowingBack = false;
                 infoBtn.innerText = 'Mostra Trama';
                 updateCarousel();
+            }else {
+                // LA MAGIA: Se clicchi il libro già al centro... APRIAMOLO!
+                const activeBook = booksArray[currentIndex];
+                
+                // Animazione: Portiamo il libro dritto in faccia alla telecamera
+                activeBook.userData.targetZ = 2.8; // Molto vicino alla telecamera (che è a Z=3.5)
+                activeBook.userData.targetRotY = 0; // Piatto e dritto
+                
+                // Nascondiamo l'interfaccia 3D
+                document.querySelector('.top-bar').style.opacity = '0';
+                uiContainer.style.opacity = '0';
+                leftArrow.style.opacity = '0';
+                rightArrow.style.opacity = '0';
+
+                // Aspettiamo mezza frazione di secondo che l'animazione 3D parta, poi avviamo il lettore 2D
+                setTimeout(() => {
+                    window.openReader(activeBook.userData.epubPath, activeBook.userData.id);
+                }, 400); 
             }
         }
     }
@@ -516,6 +535,17 @@ window.addEventListener('wheel', (event) => {
         // Imposta una "pausa" di 300 millisecondi prima di poter scorrere di nuovo
         scrollTimeout = setTimeout(() => { scrollTimeout = null; }, 300);
     }
+});
+// Quando il lettore viene chiuso, ripristiniamo la vista 3D
+window.addEventListener('readerClosed', () => {
+    // Rendi l'interfaccia 3D visibile
+    document.querySelector('.top-bar').style.opacity = '1';
+    uiContainer.style.opacity = '1';
+    leftArrow.style.opacity = '1';
+    rightArrow.style.opacity = '1';
+    
+    // Rimetti il libro al suo posto nel carosello
+    updateCarousel(); 
 });
 
 // ESEGUIAMO IL CARICAMENTO DEI LIBRI ALL'AVVIO!

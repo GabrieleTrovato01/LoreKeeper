@@ -87,7 +87,7 @@ async function fetchGoogleBooksData(title, author) {
         const cleanQuery = `${searchTitle} ${searchAuthor}`.replace(/[_-]/g, ' ').trim();
         
         // 2. CHIEDIAMO I PRIMI 10 RISULTATI (maxResults=10)
-        const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(cleanQuery)}&langRestrict=it&printType=books&maxResults=10`;
+        const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(cleanQuery)}&langRestrict=it&printType=books&maxResults=10&key=AIzaSyDf-vxdHbYaoJJ0s65sR-9l_aIWoV2qgqA`;
         
         const response = await axios.get(url, { timeout: 8000 });
 
@@ -227,7 +227,7 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         } else if (!finalCoverPath && !googleData.coverUrl) {
             console.log(`⚠️  Copertina non trovata né nell'EPUB né su Google Books.`);
         }
-        
+
         // 5. IL FALLBACK DELLA TRAMA (Con Filtro Anti-Codici)
         let finalDescription = "Nessuna trama disponibile per questo libro.";
         let epubDesc = epubData.description;
@@ -250,13 +250,24 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         } else {
             console.log(`⚠️ Trama non trovata né nell'EPUB né su Google Books.`);
         }
-        // 6. Prepariamo il nuovo libro (con i dati puliti e corretti!)
+        // 6. SALVATAGGIO DEL FILE EPUB NELLA NOSTRA LIBRERIA
+        const ebooksDir = path.join(publicDir, 'ebooks');
+        if (!fsSync.existsSync(ebooksDir)) fsSync.mkdirSync(ebooksDir, { recursive: true });
+        
+        const finalEpubPath = `ebooks/${baseName}.epub`;
+
+        // INVECE di cancellare il file (fs.unlink), lo spostiamo nella nostra libreria!
+        await fs.rename(file.path, path.join(publicDir, finalEpubPath));
+
+        // 6. Prepariamo il nuovo libro (Aggiungiamo l'epubPath!)
         const newBook = {
+            id: baseName, // Ci serve un ID unico per salvare la pagina letta
             title: finalTitle,
             author: finalAuthor,
             description: finalDescription, 
             coverPath: finalCoverPath,
-            pageCount: googleData.pageCount 
+            pageCount: googleData.pageCount,
+            epubPath: finalEpubPath // SALVIAMO IL PERCORSO DEL FILE!
         };
 
         // 7. Aggiornamento JSON
@@ -273,7 +284,13 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         await fs.writeFile(booksJsonPath, JSON.stringify(books, null, 4));
 
         // 8. Pulizia
-        await fs.unlink(file.path);
+        // Cerchiamo di pulire il file temporaneo, ma senza far crashare tutto se non c'è più
+        try {
+            await fs.unlink(file.path);
+        } catch (unlinkError) {
+            // Ignoriamo silenziosamente l'errore ENOENT. 
+            // Significa che il file è già stato spostato con successo in /ebooks!
+        }
 
         console.log(`✅ Successo! "${newBook.title}" aggiunto allo scaffale.\n`);
         res.json({ success: true, message: 'Libro elaborato e aggiunto con successo!' });
