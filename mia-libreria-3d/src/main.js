@@ -5,6 +5,10 @@ import * as THREE from 'three';
 // --- 1. SETUP BASE ---
 const scene = new THREE.Scene();
 
+// Diamo un colore alla scena (la "parete" dietro la libreria)
+// Puoi cambiare questo codice esadecimale con il colore che preferisci!
+scene.background = new THREE.Color('#2c3e50'); 
+
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, -0.2, 3.5); 
 
@@ -18,9 +22,34 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
 directionalLight.position.set(5, 10, 5);
 scene.add(directionalLight);
 
-const textureLoader = new THREE.TextureLoader();
+let textureLoader = new THREE.TextureLoader();
+// --- COSTRUZIONE DELLA MENSOLA (Con Texture Legno Reale) ---
+const shelfGeometry = new THREE.BoxGeometry(50, 0.2, 4); 
+
+// 1. Carichiamo la texture del legno (da internet o da un file locale)
+const woodTexture = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/hardwood2_diffuse.jpg');
+
+// 2. Ripetiamo la texture per evitare che si "stiri" sulla mensola lunghissima
+woodTexture.wrapS = THREE.RepeatWrapping;
+woodTexture.wrapT = THREE.RepeatWrapping;
+// Ripetiamo l'immagine 12 volte in larghezza e 1 volta in profondità
+woodTexture.repeat.set(12, 1); 
+
+// 3. Creiamo il materiale applicando la fotografia
+const shelfMaterial = new THREE.MeshStandardMaterial({ 
+    map: woodTexture,
+    roughness: 0.85, // Mantiene quell'aspetto un po' grezzo e non troppo riflettente
+    color: '#aaaaaa' // Scuriamo leggermente la foto originale per far risaltare meglio i libri
+});
+
+const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
+shelf.position.set(0, -1.6, -0.5); 
+scene.add(shelf);
+// ---------------------------------
+
 const libraryGroup = new THREE.Group();
 scene.add(libraryGroup);
+
 
 const pagesMaterial = new THREE.MeshStandardMaterial({ color: 0xf5f5dc });
 const baseCoverColor = '#1a1a1a';
