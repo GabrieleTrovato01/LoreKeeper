@@ -180,7 +180,7 @@ function updateCarousel() {
             const direction = Math.sign(offset);
             book.userData.targetX = (direction * 1.8) + (offset * 0.6);
             book.userData.targetZ = -1.5;
-            book.userData.targetRotY = -Math.PI / 2;
+            book.userData.targetRotY = Math.PI / 2;
         }
     });
 }
