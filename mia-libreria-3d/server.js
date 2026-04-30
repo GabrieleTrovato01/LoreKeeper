@@ -25,14 +25,26 @@ app.use(express.static('public'));
 
 // --- FUNZIONI HELPER ---
 
-// 1. Estrae dati e copertina dall'EPUB usando epub2
-async function parseEpub(filePath, coverFileName) {
+// 1. Estrae dati dall'EPUB. ORA ACCETTA ANCHE IL NOME DEL FILE ORIGINALE.
+async function parseEpub(filePath, coverFileName, originalFileName) {
     try {
         const epub = await EPub.createAsync(filePath);
         
+        let extractedTitle = epub.metadata.title;
+        let extractedAuthor = epub.metadata.creator;
+
+        // PIANO B: Se mancano i metadati, usiamo il nome del file pulito!
+        if (!extractedTitle || extractedTitle.trim() === '') {
+            console.log(`⚠️ Metadati mancanti! Uso il nome del file come esca per Google...`);
+            // Prende "Stephen_King_IT.epub" e lo fa diventare "Stephen King IT"
+            extractedTitle = originalFileName.replace(/\.epub$/i, '').replace(/[_-]/g, ' ').trim();
+            extractedAuthor = ''; // Lasciamo l'autore vuoto, ci penserà Google
+        }
+
         const metadata = {
-            title: epub.metadata.title || 'Titolo Sconosciuto',
-            author: epub.metadata.creator || 'Autore Sconosciuto',
+            title: extractedTitle,
+            author: extractedAuthor || 'Autore Sconosciuto',
+            description: epub.metadata.description ? epub.metadata.description.replace(/<[^>]*>?/gm, '').trim() : null,
             coverPath: null
         };
 
@@ -57,32 +69,78 @@ async function parseEpub(filePath, coverFileName) {
         throw new Error(`Errore di parsing EPUB: ${error.message}`);
     }
 }
-
-// 2. Cerca la trama e il LINK della copertina su Google Books
+// 2. Ricerca su Google Books (Sistema a Punteggio sui primi 10 risultati)
 async function fetchGoogleBooksData(title, author) {
     let result = {
-        description: "Trama non trovata su Google Books. È un libro molto misterioso...",
-        coverUrl: null
+        description: "Trama non trovata su Google Books.",
+        coverUrl: null,
+        pageCount: 350,
+        googleTitle: null,
+        googleAuthor: null
     };
 
     try {
-        const cleanQuery = `${title} ${author}`.replace(/[_-]/g, ' ').trim();
-        const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(cleanQuery)}&langRestrict=it`;
+        // 1. Rimuoviamo le "Parole Avvelenate"
+        const searchTitle = title === 'Titolo Sconosciuto' ? '' : title;
+        const searchAuthor = author === 'Autore Sconosciuto' ? '' : author;
         
-        // FIX: Rimosso l'User-Agent. L'API ufficiale preferisce richieste standard e non "mascherate".
-        const response = await axios.get(url, {
-            timeout: 8000 // Aumentato un po' il tempo di attesa per sicurezza
-        });
+        const cleanQuery = `${searchTitle} ${searchAuthor}`.replace(/[_-]/g, ' ').trim();
+        
+        // 2. CHIEDIAMO I PRIMI 10 RISULTATI (maxResults=10)
+        const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(cleanQuery)}&langRestrict=it&printType=books&maxResults=10`;
+        
+        const response = await axios.get(url, { timeout: 8000 });
 
         if (response.data.items && response.data.items.length > 0) {
-            const volumeInfo = response.data.items[0].volumeInfo;
-            
-            if (volumeInfo.description) {
-                result.description = volumeInfo.description.replace(/<[^>]*>?/gm, ''); 
+            let bestVolume = null;
+            let highestScore = -1;
+
+            // Estraiamo le parole chiave (più lunghe di 3 lettere) dalla nostra ricerca
+            const queryWords = cleanQuery.toLowerCase().split(' ').filter(w => w.length > 3);
+
+            // 3. IL SISTEMA A PUNTEGGIO: Valutiamo TUTTI i 10 risultati prima di decidere
+            for (let item of response.data.items) {
+                const volumeInfo = item.volumeInfo;
+                const itemTitle = (volumeInfo.title || '').toLowerCase();
+                const itemAuthors = (volumeInfo.authors || []).join(' ').toLowerCase();
+                const fullText = `${itemTitle} ${itemAuthors}`;
+
+                let score = 0;
+
+                // Diamo un punto per ogni parola chiave trovata nel titolo o nell'autore di questo libro
+                for (let word of queryWords) {
+                    if (fullText.includes(word)) {
+                        score++;
+                    }
+                }
+
+                // BONUS: Diamo mezzo punto in più se il libro ha una descrizione (preferiamo libri con la trama!)
+                if (volumeInfo.description) {
+                    score += 0.5;
+                }
+
+                // Se questo libro ha un punteggio più alto del precedente, diventa il nuovo "Miglior Candidato"
+                if (score > highestScore) {
+                    highestScore = score;
+                    bestVolume = volumeInfo;
+                }
             }
-            if (volumeInfo.imageLinks && volumeInfo.imageLinks.thumbnail) {
-                result.coverUrl = volumeInfo.imageLinks.thumbnail.replace('http:', 'https:').replace('&zoom=1', '&zoom=0');
+
+            // Se per qualche assurdo motivo non abbiamo trovato nulla, prendiamo il primo per disperazione
+            if (!bestVolume) {
+                bestVolume = response.data.items[0].volumeInfo;
             }
+
+            // 4. ESTRAIAMO I DATI DAL VINCITORE ASSOLUTO
+            if (bestVolume.description) {
+                result.description = bestVolume.description.replace(/<[^>]*>?/gm, ''); 
+            }
+            if (bestVolume.imageLinks && bestVolume.imageLinks.thumbnail) {
+                result.coverUrl = bestVolume.imageLinks.thumbnail.replace('http:', 'https:').replace('&zoom=1', '&zoom=0');
+            }
+            if (bestVolume.pageCount) result.pageCount = bestVolume.pageCount;
+            if (bestVolume.title) result.googleTitle = bestVolume.title;
+            if (bestVolume.authors && bestVolume.authors.length > 0) result.googleAuthor = bestVolume.authors.join(', ');
         }
     } catch (error) {
         console.error("❌ Errore con l'API di Google Books:", error.message);
@@ -94,7 +152,6 @@ async function fetchGoogleBooksData(title, author) {
 // 3. Scarica l'immagine da internet
 async function downloadCoverImage(url, fileName) {
     try {
-        // FIX: Qui invece MANTENIAMO l'User-Agent, perché i server delle immagini bloccano Node.js
         const response = await axios({ 
             url, 
             method: 'GET', 
@@ -128,16 +185,40 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         const timestamp = Date.now();
         const baseName = `book_${timestamp}`;
 
-        // 1. Estrazione dall'EPUB
+        // 1. Estrazione dall'EPUB (Passiamo anche il nome del file originale come Piano B)
         console.log(`⚙️  Estrazione metadati e copertina interna...`);
-        const epubData = await parseEpub(file.path, baseName);
-        console.log(`✔️  Trovato: "${epubData.title}" di ${epubData.author}`);
+        const epubData = await parseEpub(file.path, baseName, file.originalname);
+        console.log(`✔️  Dati iniziali: "${epubData.title}" di ${epubData.author}`);
 
         // 2. Google Books
-        console.log(`🔍 Ricerca trama e copertina su Google Books...`);
+        console.log(`🔍 Ricerca dati su Google Books...`);
         const googleData = await fetchGoogleBooksData(epubData.title, epubData.author);
 
-        // 3. IL FALLBACK DELLA COPERTINA
+        // 3. AUTOCORREZIONE TITOLO E AUTORE
+        // Se Google ha trovato nomi migliori (molto utile se l'EPUB era vuoto o rotto), li sovrascriviamo!
+        let finalTitle = epubData.title;
+        let finalAuthor = epubData.author;
+
+        if (googleData.googleTitle) {
+            // Estraiamo le parole lunghe (più di 3 lettere) dal nostro titolo originale
+            const titleWords = epubData.title.toLowerCase().split(' ').filter(w => w.length > 3);
+            const googleTitleLower = googleData.googleTitle.toLowerCase();
+            
+            // Verifichiamo se il titolo di Google contiene ALMENO UNA delle nostre parole chiave
+            const isRelated = titleWords.some(word => googleTitleLower.includes(word));
+
+            if (isRelated || epubData.title === 'Titolo Sconosciuto') {
+                finalTitle = googleData.googleTitle;
+                finalAuthor = googleData.googleAuthor || epubData.author;
+                console.log(`✨ Autocorrezione: Titolo corretto in "${finalTitle}"`);
+            } else {
+                console.log(`🛡️ Risultato di Google ignorato ("${googleData.googleTitle}"). Mantengo il nome originale.`);
+                // Se rifiutiamo il titolo di Google, probabilmente ha trovato il libro sbagliato,
+                // quindi teniamo l'autore originale/sconosciuto per non fare pasticci.
+            }
+        }
+
+        // 4. IL FALLBACK DELLA COPERTINA
         let finalCoverPath = epubData.coverPath; 
 
         if (!finalCoverPath && googleData.coverUrl) {
@@ -146,16 +227,39 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         } else if (!finalCoverPath && !googleData.coverUrl) {
             console.log(`⚠️  Copertina non trovata né nell'EPUB né su Google Books.`);
         }
+        
+        // 5. IL FALLBACK DELLA TRAMA (Con Filtro Anti-Codici)
+        let finalDescription = "Nessuna trama disponibile per questo libro.";
+        let epubDesc = epubData.description;
 
-        // 4. Prepariamo il nuovo libro
+        // Pulizia preliminare: se la trama dell'EPUB inizia con "EDGT" seguito da numeri, lo tagliamo via!
+        if (epubDesc) {
+            // Cerca codici tipo EDGT12345 all'inizio del testo e li rimuove
+            epubDesc = epubDesc.replace(/^(EDGT[0-9]+[\r\n\s]*)/i, '').trim();
+        }
+
+        // Valutiamo quale trama usare
+        if (epubDesc && epubDesc.length > 30) {
+            // Se la trama dell'EPUB esiste ancora ed è lunga più di 30 caratteri, è sicuramente valida
+            console.log(`📖 Trama valida trovata all'interno dell'EPUB!`);
+            finalDescription = epubDesc;
+        } else if (googleData.description && googleData.description !== "Trama non trovata su Google Books.") {
+            // Se la trama dell'EPUB era assente o era solo un misero codice, peschiamo da Google!
+            console.log(`🌐 Trama EPUB assente o non valida. Trama scaricata da Google Books.`);
+            finalDescription = googleData.description;
+        } else {
+            console.log(`⚠️ Trama non trovata né nell'EPUB né su Google Books.`);
+        }
+        // 6. Prepariamo il nuovo libro (con i dati puliti e corretti!)
         const newBook = {
-            title: epubData.title,
-            author: epubData.author,
-            description: googleData.description,
-            coverPath: finalCoverPath 
+            title: finalTitle,
+            author: finalAuthor,
+            description: finalDescription, 
+            coverPath: finalCoverPath,
+            pageCount: googleData.pageCount 
         };
 
-        // 5. Aggiornamento JSON
+        // 7. Aggiornamento JSON
         console.log(`📝 Aggiornamento della libreria...`);
         let books = [];
         try {
@@ -168,10 +272,10 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         books.push(newBook);
         await fs.writeFile(booksJsonPath, JSON.stringify(books, null, 4));
 
-        // 6. Pulizia
+        // 8. Pulizia
         await fs.unlink(file.path);
 
-        console.log(`✅ Successo! Il libro è stato aggiunto allo scaffale.\n`);
+        console.log(`✅ Successo! "${newBook.title}" aggiunto allo scaffale.\n`);
         res.json({ success: true, message: 'Libro elaborato e aggiunto con successo!' });
 
     } catch (error) {

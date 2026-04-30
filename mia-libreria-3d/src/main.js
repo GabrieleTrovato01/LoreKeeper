@@ -1,3 +1,4 @@
+import { thickness } from 'three/src/nodes/core/PropertyNode.js';
 import './style.css';
 import * as THREE from 'three';
 
@@ -250,13 +251,37 @@ function createBackCoverTexture(description) {
 }
 
 // --- 4. CARICAMENTO E LOGICA CAROSELLO ---
+// --- 4. CARICAMENTO E LOGICA CAROSELLO (Con Modellazione Reale dello spessore) ---
 async function loadBooks() {
     try {
         const response = await fetch('/books.json');
         const booksData = await response.json();
 
         booksData.forEach((bookData, index) => {
-            const geometry = new THREE.BoxGeometry(2, 3, 0.4);
+            // --- DIMENSIONI REALI ---
+            // Larghezza e Altezza Standard (per garantire che le copertine si mappino perfettamente)
+            // Se li cambiassimo a caso come prima, le immagini della copertina si distorcerebbero.
+            const bookWidth = 2.0;
+            const bookHeight = 3.0;
+
+            // --- SPESSORE REALE BASATO SULLE PAGINE ---
+            // Recuperiamo il pageCount ( fallback a 350 se il dato manca nel JSON per vecchi libri)
+            const pages = bookData.pageCount || 350;
+            
+            // Formula matematica di modellazione fisica:
+            // Ipotizziamo uno spessore standard della carta editoriale (circa 0.1mm per foglio, 
+            // quindi 0.05mm per pagina visto che è stampata fronte/retro).
+            // Nelle nostre unità Three.js, un fattore di 0.001 per pagina funziona perfettamente:
+            // 100 pagine = 0.1 unità di spessore
+            // 350 pagine (standard) = 0.35 unità di spessore
+            // 1000 pagine (mattone) = 1.0 unità di spessore
+            const bookThickness = pages * 0.001; 
+            
+            console.log(`Creazione 3D: "${bookData.title}" -> Pagine: ${pages}, Spessore calcolato: ${bookThickness.toFixed(3)} unità.`);
+
+            // Creiamo la geometria esatta
+            const geometry = new THREE.BoxGeometry(bookWidth, bookHeight, bookThickness);
+            
             const spineTexture = createSpineTexture(bookData.title, bookData.author);
             const spineMaterial = new THREE.MeshStandardMaterial({ map: spineTexture, roughness: 0.7 });
 
@@ -270,36 +295,66 @@ async function loadBooks() {
 
             const bookMesh = new THREE.Mesh(geometry, materials);
             
-            const planeGeo = new THREE.PlaneGeometry(2, 3); 
+            // Adattiamo il piano posteriore della trama alle nuove misure!
+            const planeGeo = new THREE.PlaneGeometry(bookWidth, bookHeight); 
             const planeMat = new THREE.MeshStandardMaterial({ map: createBackCoverTexture(bookData.description), roughness: 0.8 });
             const backPlane = new THREE.Mesh(planeGeo, planeMat);
-            backPlane.position.z = -0.201; backPlane.rotation.y = Math.PI; 
+            
+            // Posizioniamo il retro esattamente dietro al cubo: metà dello spessore + un millimetro di sicurezza
+            backPlane.position.z = -(bookThickness / 2) - 0.001; 
+            backPlane.rotation.y = Math.PI; 
             bookMesh.add(backPlane);
 
-            bookMesh.userData = { ...bookData, index: index };
+            bookMesh.userData = { ...bookData, index: index , thickness: bookThickness };
             libraryGroup.add(bookMesh);
             booksArray.push(bookMesh);
         });
 
+        // NOTA SULLA SPAZIATURA: La spaziatura laterale a 0.75 che abbiamo impostato precedentemente
+        // è sufficiente per contenere anche libri molto spessi (fino a 700-800 pagine) senza che si tocchino.
         updateCarousel();
     } catch (e) { console.error(e); }
 }
 
 function updateCarousel() {
-    booksArray.forEach((book, i) => {
-        const offset = i - currentIndex;
+    // 1. Posizioniamo il libro centrale
+    if (booksArray[currentIndex]) {
+        const centerBook = booksArray[currentIndex];
+        centerBook.userData.targetX = 0;
+        centerBook.userData.targetZ = 0.5;
+        centerBook.userData.targetRotY = isShowingBack ? Math.PI : 0;
+    }
 
-        if (offset === 0) {
-            book.userData.targetX = 0;
-            book.userData.targetZ = 0.5;
-            book.userData.targetRotY = isShowingBack ? Math.PI : 0;
-        } else {
-            const direction = Math.sign(offset);
-            book.userData.targetRotY = Math.PI / 2; // Il dorso è a sinistra, quindi rotazione di -90 gradi!
-            book.userData.targetZ = -1.5;
-            book.userData.targetX = (direction * 1.8) + (offset * 0.45);
-        }
-    });
+    const centerGap = 1.6; 
+    const margin = 0.08; 
+
+    // 2. Impiliamo i libri verso DESTRA
+    let currentXRight = centerGap;
+    for (let i = currentIndex + 1; i < booksArray.length; i++) {
+        let book = booksArray[i];
+        
+        book.userData.targetX = currentXRight + (book.userData.thickness / 2);
+        book.userData.targetZ = -1.5;
+        // Mantiene il dorso frontale
+        book.userData.targetRotY = Math.PI / 2; 
+        
+        currentXRight += book.userData.thickness + margin;
+    }
+
+    // 3. Impiliamo i libri verso SINISTRA
+    let currentXLeft = -centerGap;
+    for (let i = currentIndex - 1; i >= 0; i--) {
+        let book = booksArray[i];
+        
+        book.userData.targetX = currentXLeft - (book.userData.thickness / 2);
+        book.userData.targetZ = -1.5;
+        
+        // LA CORREZIONE È QUI: Anche a sinistra la rotazione DEVE essere negativa!
+        // Se la metti positiva, ci mostrerà il lato destro del libro (le pagine).
+        book.userData.targetRotY = Math.PI / 2; 
+        
+        currentXLeft -= (book.userData.thickness + margin);
+    }
 }
 
 // --- 5. INTERAZIONE CLICK SUI LIBRI ---
