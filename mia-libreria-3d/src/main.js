@@ -14,12 +14,25 @@ camera.position.set(0, -0.2, 3.5);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
 document.body.appendChild(renderer.domElement);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
+
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-directionalLight.position.set(5, 10, 5);
+directionalLight.position.set(5, 10, 7.5); // Spostata un po' più avanti per ombre migliori
+directionalLight.castShadow = true; // ABILITA PROIEZIONE
+
+// Ottimizzazione risoluzione e area ombre
+directionalLight.shadow.mapSize.width = 1024;
+directionalLight.shadow.mapSize.height = 1024;
+directionalLight.shadow.camera.left = -10;
+directionalLight.shadow.camera.right = 10;
+directionalLight.shadow.camera.top = 10;
+directionalLight.shadow.camera.bottom = -10;
+
 scene.add(directionalLight);
 
 let textureLoader = new THREE.TextureLoader();
@@ -44,6 +57,7 @@ const shelfMaterial = new THREE.MeshStandardMaterial({
 
 const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
 shelf.position.set(0, -1.6, -0.5); 
+shelf.receiveShadow = true;
 scene.add(shelf);
 // ---------------------------------
 
@@ -366,7 +380,9 @@ async function loadBooks() {
             }
 
             const bookMesh = new THREE.Mesh(geometry, materials);
-            
+            bookMesh.castShadow = true; // IL LIBRO GETTA L'OMBRA
+            bookMesh.receiveShadow = true;
+
             // Adattiamo il piano posteriore della trama alle nuove misure!
             const planeGeo = new THREE.PlaneGeometry(bookWidth, bookHeight); 
             const planeMat = new THREE.MeshStandardMaterial({ map: createBackCoverTexture(bookData.description), roughness: 0.8 });
