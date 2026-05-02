@@ -164,6 +164,7 @@ const fileInput = document.createElement('input');
 fileInput.type = 'file';
 fileInput.id = 'file-upload';
 fileInput.accept = '.epub';
+fileInput.multiple = true;
 topBar.appendChild(fileInput);
 
 // --- COSTRUZIONE BOTTONE INFERIORE ---
@@ -249,46 +250,65 @@ searchInput.addEventListener('input', (e) => {
 });
 
 // Avviso per l'upload
-fileInput.addEventListener('change', async (e) => {
-    if (e.target.files.length > 0) {
-        const file = e.target.files[0];
-        
-        // Creiamo un pacchetto dati (FormData) per spedire il file via HTTP
-        const formData = new FormData();
-        formData.append('ebook', file);
+// --- GESTIONE UPLOAD MULTIPLO ---
+fileInput.addEventListener('change', async (event) => {
+    const files = event.target.files;
+    if (files.length === 0) return;
 
-        // Cambiamo il testo del bottone per dare feedback all'utente
-        const originalText = uploadLabel.innerText;
-        uploadLabel.innerText = 'Caricamento... ⏳';
-        uploadLabel.style.pointerEvents = 'none'; // Blocchiamo i click multipli
+    // Blocchiamo temporaneamente la barra di ricerca per evitare problemi durante l'upload
+    searchInput.disabled = true;
+
+    let successCount = 0;
+    let duplicateCount = 0;
+    let errorCount = 0;
+
+    // Manda i file in coda, uno dopo l'altro
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        
+        // Aggiorniamo il testo del bottone per mostrare il progresso
+        uploadLabel.innerText = `⏳ Carico ${i + 1}/${files.length}...`;
+        console.log(`Caricamento ${i + 1} di ${files.length}: ${file.name}...`);
+        
+        const formData = new FormData();
+        formData.append('ebook', file); 
 
         try {
-            // Spediamo il file al nostro nuovo backend Node.js
+            // Aspettiamo che il server finisca QUESTO libro prima di passare al prossimo
             const response = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData
             });
-
+            
             const result = await response.json();
-
+            
             if (result.success) {
-                // Il server ha finito di elaborare l'EPUB e ha aggiornato books.json
-                alert('Libro aggiunto con successo allo scaffale! Ricarico la libreria...');
-                // Ricarichiamo la pagina per fargli scaricare il nuovo books.json e far spawnare il libro
-                location.reload(); 
+                successCount++;
+            } else if (result.message && result.message.includes('già presente')) {
+                duplicateCount++;
             } else {
-                alert('Errore dal server: ' + result.message);
+                errorCount++;
             }
         } catch (error) {
-            console.error('Errore di rete:', error);
-            alert("Impossibile contattare il server. Hai avviato server.js?");
-        } finally {
-            // Ripristiniamo il bottone
-            uploadLabel.innerText = originalText;
-            uploadLabel.style.pointerEvents = 'auto';
-            fileInput.value = ''; // Resettiamo l'input
+            console.error("Errore di rete con", file.name);
+            errorCount++;
         }
     }
+
+    // Finito il ciclo, diamo il resoconto!
+    let finalMessage = `Upload completato!\n✅ Aggiunti: ${successCount}`;
+    if (duplicateCount > 0) finalMessage += `\n🛑 Duplicati ignorati: ${duplicateCount}`;
+    if (errorCount > 0) finalMessage += `\n❌ Errori: ${errorCount}`;
+    
+    alert(finalMessage);
+
+    // Puliamo e ripristiniamo l'interfaccia
+    fileInput.value = '';
+    uploadLabel.innerText = '+ Carica Ebook';
+    searchInput.disabled = false;
+
+    // Ricarichiamo la pagina per posizionare i nuovi libri sullo scaffale 3D!
+    location.reload(); 
 });
 // --- 3. GENERATORI DI TEXTURE ---
 function createSpineTexture(title, author) {
