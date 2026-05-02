@@ -5,6 +5,7 @@ import fs from 'fs/promises';
 import fsSync from 'fs';
 import { EPub } from 'epub2';
 import axios from 'axios';
+import { generateResponse } from './ai-service.js';
 
 const app = express();
 const port = 3000;
@@ -21,6 +22,7 @@ if (!fsSync.existsSync(coversDir)) fsSync.mkdirSync(coversDir, { recursive: true
 
 const upload = multer({ dest: uploadDir });
 
+app.use(express.json());
 app.use(express.static('public'));
 
 // --- FUNZIONI HELPER ---
@@ -298,6 +300,26 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
     } catch (error) {
         console.error("❌ Errore critico durante l'elaborazione del libro:", error);
         res.status(500).json({ success: false, message: 'Errore interno del server.' });
+    }
+});
+
+// --- ROTTA PER LA CHAT CON IA LOCALE ---
+app.post('/api/chat', async (req, res) => {
+    try {
+        const { question, context } = req.body;
+
+        // Richiamiamo direttamente la funzione importata!
+        const responseText = await generateResponse(question, context);
+        
+        console.log("Risposta generata con successo.");
+        res.json({ success: true, answer: responseText });
+
+    } catch (error) {
+        console.error("Errore nella chat AI:", error.message);
+        res.status(500).json({ 
+            success: false, 
+            message: error.message || "Il mio cervello locale ha fatto cortocircuito." 
+        });
     }
 });
 

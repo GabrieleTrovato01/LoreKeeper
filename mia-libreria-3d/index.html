@@ -13,14 +13,39 @@
     <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
     <!-- Interfaccia del Lettore (Nascosta di default) -->
     <!-- Interfaccia del Lettore -->
+    <!-- 1. INTERFACCIA DEL LETTORE -->
     <div id="reader-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #faf9f6; z-index: 999; opacity: 0; transition: opacity 0.8s ease;">
-        <div style="position: absolute; top: 10px; right: 20px; z-index: 1000;">
+        
+        <div style="position: absolute; top: 10px; right: 20px; z-index: 1000; display: flex; gap: 10px;">
+          <!-- NUOVO: Bottone per aprire l'IA -->
+          <button id="ai-chat-btn" class="glass-effect modern-btn" style="background: rgba(0, 150, 255, 0.5); color: white; cursor: pointer;">✨ Chiedi all'IA</button>  
+          
           <button id="theme-toggle-btn" class="glass-effect modern-btn" style="background: rgba(0,0,0,0.5); color: white;">🌙 Dark Mode</button>  
           <button id="close-reader-btn" class="glass-effect modern-btn" style="background: rgba(0,0,0,0.5); color: white;">&times; Chiudi Libro</button>
         </div>
+
         <div id="viewer" style="width: 100%; height: 100vh; padding: 40px 20px; box-sizing: border-box;"></div>
         <button id="prev-page-btn" style="position: absolute; top: 50%; left: 20px; font-size: 30px; background: none; border: none; cursor: pointer;">&#10094;</button>
         <button id="next-page-btn" style="position: absolute; top: 50%; right: 20px; font-size: 30px; background: none; border: none; cursor: pointer;">&#10095;</button>
+
+        <!-- NUOVO: PANNELLO LATERALE DELLA CHAT -->
+        <div id="ai-chat-panel" class="glass-effect" style="display: none; position: absolute; right: 0; top: 0; width: 350px; height: 100%; background: rgba(30,30,30,0.95); border-left: 1px solid rgba(255,255,255,0.2); flex-direction: column; z-index: 1001; transition: transform 0.3s ease; transform: translateX(100%);">
+            <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: space-between; align-items: center; color: white;">
+                <h3 style="margin: 0; font-family: sans-serif;">✨ Assistente Locale</h3>
+                <button id="close-chat-btn" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer;">&times;</button>
+            </div>
+            
+            <div id="chat-messages" style="flex-grow: 1; padding: 20px; overflow-y: auto; color: white; font-family: sans-serif; font-size: 14px; display: flex; flex-direction: column; gap: 15px;">
+                <div style="background: rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 15px 15px 15px 0; align-self: flex-start; max-width: 85%;">
+                    Ciao! Sono il tuo assistente offline. Chiedimi un riassunto o il significato di una parola in questo capitolo!
+                </div>
+            </div>
+
+            <div style="padding: 15px; border-top: 1px solid rgba(255,255,255,0.2); display: flex; gap: 10px;">
+                <input type="text" id="chat-input" placeholder="Chiedi qualcosa..." style="flex-grow: 1; padding: 10px; color: white; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;">
+                <button id="send-chat-btn" style="padding: 10px 15px; background: rgba(0, 150, 255, 0.6); border: none; border-radius: 8px; color: white; cursor: pointer;">Invia</button>
+            </div>
+        </div>
     </div>
 
     <button id="help-btn" class="glass-effect modern-btn" style="position: fixed; bottom: 30px; right: 30px; border-radius: 50%; width: 55px; height: 55px; font-size: 26px; padding: 0; z-index: 100; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.4);">
