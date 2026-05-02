@@ -1,14 +1,5 @@
 [
     {
-        "id": "book_1777582051563",
-        "title": "La forza del male: I vendicatori-Desperation",
-        "author": "Stephen King",
-        "description": "Nessuna trama disponibile per questo libro.",
-        "coverPath": "covers/book_1777582051563.jpg",
-        "pageCount": 985,
-        "epubPath": "ebooks/book_1777582051563.epub"
-    },
-    {
         "id": "book_1777582074567",
         "title": "Fahrenheit 451 di Ray Bradbury (Analisi del libro)",
         "author": "Anne-Sophie De Clercq",
@@ -52,5 +43,14 @@
         "coverPath": "covers/book_1777717826021.jpg",
         "pageCount": 297,
         "epubPath": "ebooks/book_1777717826021.epub"
+    },
+    {
+        "id": "book_1777743464749",
+        "title": "La forza del male",
+        "author": "Stephen King",
+        "description": "DAL GENIO VISIONARIO DI STEPHEN KING UN ECCEZIONALE ESPERIMENTO LETTERARIO. DUE ROMANZI LEGATI INDISSOLUBILMENTE IN UN UNICO IMPERDIBILE VOLUME. Pubblicati per la prima volta in Italia nel 1997, I vendicatori e Desperation sono due romanzi complementari, uniti dallo stesso, mostruoso protagonista: Tak, la forza oscura, una creatura diabolica e informe, in grado di scatenare un apocalittico scontro fra bene e male. È quello che accade a Wentworth, nell'Ohio, quando un'esplosione di inaudita malvagità e violenza si abbatte sulla piccola comunità, sovvertendo l'ordine delle cose. Solo una casa sembra indenne alla furia che sta devastando il quartiere, una casa in cui una donna e suo nipote lottano disperatamente contro l'entità che si sta impossessando di loro... Ed è anche quello che succede a Desperation, una tetra cittadina mineraria nel deserto del Nevada, dove alcuni inconsapevoli viaggiatori approdano senza sapere che una presenza demoniaca ha contagiato il sottosuolo e si è impadronita del corpo del poliziotto Collie Entragian. Per i vecchi fan del Re e per i nuovi adepti, due terrificanti storie parallele da scoprire o rileggere: horror allo stato puro.",
+        "coverPath": "covers/book_1777743464749.jpg",
+        "pageCount": 968,
+        "epubPath": "ebooks/book_1777743464749.epub"
     }
 ]

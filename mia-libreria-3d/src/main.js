@@ -180,6 +180,137 @@ infoBtn.innerText = 'Mostra Trama';
 infoBtn.className = 'glass-effect modern-btn';
 uiContainer.appendChild(infoBtn);
 
+// --- AGGIUNTA BOTTONE CHAT ---
+const chatBtn = document.createElement('button');
+chatBtn.innerHTML = '💬 Parla col Libro';
+chatBtn.className = 'glass-effect modern-btn';
+chatBtn.style.marginLeft = '15px'; // Lo stacchiamo un po' dal bottone della trama
+uiContainer.appendChild(chatBtn);
+
+// --- LOGICA DEL PANNELLO CHAT IA ---
+const chatPanel = document.getElementById('global-chat-panel');
+const closeChatBtn = document.getElementById('close-global-chat-btn');
+const chatMessages = document.getElementById('global-chat-messages');
+const chatInput = document.getElementById('global-chat-input');
+const sendChatBtn = document.getElementById('send-global-chat-btn');
+
+// 1. Aprire il pannello
+// 1. Aprire il pannello (Ora usa la dissolvenza)
+chatBtn.onclick = () => {
+    if (booksArray.length === 0) return;
+    const activeBook = booksArray[currentIndex];
+    
+    chatPanel.style.display = 'flex';
+    // Usiamo l'opacità invece del transform per un bell'effetto fade-in a schermo intero
+    setTimeout(() => chatPanel.style.opacity = '1', 10); 
+    
+    // Svuotiamo le vecchie chat e diamo il benvenuto
+    chatMessages.innerHTML = '';
+    appendChatMessage('IA', `Ciao! Sono il bibliotecario IA. Chiedimi pure qualsiasi cosa su <b>"${activeBook.userData.title}"</b>!`);
+};
+
+// 2. Chiudere il pannello
+closeChatBtn.onclick = () => {
+    chatPanel.style.opacity = '0';
+    setTimeout(() => chatPanel.style.display = 'none', 300);
+};
+
+// 🛑 LO SCUDO ANTI-SWIPE: Blocchiamo la propagazione degli eventi al 3D!
+chatPanel.addEventListener('pointerdown', (e) => e.stopPropagation());
+chatPanel.addEventListener('pointerup', (e) => e.stopPropagation());
+chatPanel.addEventListener('wheel', (e) => e.stopPropagation());
+// Se usi dispositivi touch, blocchiamo anche i touch nativi per sicurezza
+chatPanel.addEventListener('touchstart', (e) => e.stopPropagation());
+chatPanel.addEventListener('touchend', (e) => e.stopPropagation());
+chatPanel.addEventListener('touchmove', (e) => e.stopPropagation());
+
+// 3. Funzione per stampare i messaggi a schermo
+function appendChatMessage(sender, text) {
+    const msgDiv = document.createElement('div');
+    msgDiv.style.padding = '12px 16px';
+    msgDiv.style.borderRadius = '12px';
+    msgDiv.style.maxWidth = '85%';
+    msgDiv.style.lineHeight = '1.4';
+    
+    if (sender === 'Tu') {
+        msgDiv.style.alignSelf = 'flex-end';
+        msgDiv.style.background = 'rgba(0, 150, 255, 0.2)';
+        msgDiv.style.border = '1px solid rgba(0, 150, 255, 0.4)';
+    } else {
+        msgDiv.style.alignSelf = 'flex-start';
+        msgDiv.style.background = 'rgba(255, 255, 255, 0.1)';
+        msgDiv.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+    }
+    
+    // Trasforma i ritorni a capo testuali in <br> HTML per una lettura migliore
+    const formattedText = text.replace(/\n/g, '<br>');
+    msgDiv.innerHTML = `<strong style="color: ${sender === 'Tu' ? '#4da6ff' : '#ffd700'}">${sender}:</strong><br><div style="margin-top: 5px;">${formattedText}</div>`;
+    
+    chatMessages.appendChild(msgDiv);
+    // Scorri automaticamente in basso per mostrare l'ultimo messaggio
+    chatMessages.scrollTop = chatMessages.scrollHeight; 
+}
+
+// 4. Inviare la domanda al Server (RAG)
+async function sendChatMessage() {
+    const text = chatInput.value.trim();
+    if (!text || booksArray.length === 0) return;
+
+    const activeBook = booksArray[currentIndex];
+
+    // Stampiamo la nostra domanda
+    appendChatMessage('Tu', text);
+    chatInput.value = '';
+    
+    // Blocchiamo l'input mentre l'IA pensa
+    chatInput.disabled = true;
+    sendChatBtn.disabled = true;
+    
+    // Aggiungiamo un indicatore di caricamento
+    const loadingId = 'loading-' + Date.now();
+    appendChatMessage('IA', `<span id="${loadingId}">Sto sfogliando il libro per cercare la risposta... 📚</span>`);
+
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                question: text,
+                epubUrl: activeBook.userData.epubPath,
+                currentSnippet: "L'utente sta chiedendo informazioni generali sul libro dal menu principale." 
+            })
+        });
+
+        const result = await response.json();
+        
+        // Rimuoviamo il messaggio "Sto sfogliando..."
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.parentNode.remove();
+
+        // Mostriamo la risposta reale
+        if (result.success) {
+            appendChatMessage('IA', result.answer);
+        } else {
+            appendChatMessage('IA', '❌ Errore: ' + result.message);
+        }
+    } catch (error) {
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.parentNode.remove();
+        appendChatMessage('IA', '❌ Impossibile contattare l\'IA. Ollama è acceso in background?');
+    } finally {
+        // Sblocchiamo l'input
+        chatInput.disabled = false;
+        sendChatBtn.disabled = false;
+        chatInput.focus();
+    }
+}
+
+// 5. Trigger per l'invio (Bottone o tasto Invio)
+sendChatBtn.onclick = sendChatMessage;
+chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendChatMessage();
+});
+
 // --- COSTRUZIONE FRECCE LATERALI ---
 const leftArrow = document.createElement('button');
 leftArrow.innerHTML = '&#10094;'; // Simbolo freccia sinistra
