@@ -579,6 +579,40 @@ window.addEventListener('readerClosed', () => {
 // ESEGUIAMO IL CARICAMENTO DEI LIBRI ALL'AVVIO!
 loadBooks();
 
+// --- 7. LOGICA PANNELLO HELP ---
+const helpBtn = document.getElementById('help-btn');
+const helpModal = document.getElementById('help-modal');
+const closeHelpBtn = document.getElementById('close-help-btn');
+
+// Apri il modale
+if (helpBtn) {
+    helpBtn.addEventListener('click', () => {
+        helpModal.style.display = 'flex';
+        // Aspettiamo un istante minuscolo per far partire l'animazione CSS
+        setTimeout(() => helpModal.style.opacity = '1', 10);
+    });
+}
+
+// Funzione unificata per chiudere il modale
+const closeHelp = () => {
+    helpModal.style.opacity = '0';
+    setTimeout(() => helpModal.style.display = 'none', 300); // Aspetta la fine della dissolvenza
+};
+
+// Chiudi col bottone "Ho capito"
+if (closeHelpBtn) {
+    closeHelpBtn.addEventListener('click', closeHelp);
+}
+
+// Chiudi cliccando fuori dal pannello (sul nero sfumato)
+if (helpModal) {
+    helpModal.addEventListener('click', (event) => {
+        if (event.target === helpModal) {
+            closeHelp();
+        }
+    });
+}
+
 // --- 6. ANIMAZIONE ---
 function animate() {
     requestAnimationFrame(animate);

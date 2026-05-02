@@ -29,6 +29,22 @@ window.openReader = function(epubUrl, bookId) {
         spread: "none"
     });
 
+    const keyListener = function(e) {
+        if (e.key === "ArrowRight") rendition.next();
+        if (e.key === "ArrowLeft") rendition.prev();
+    };
+    document.addEventListener("keydown", keyListener);
+
+    // 2. Ascolta i tasti premuti DENTRO il libro (iframe)
+    // Dobbiamo farlo ogni volta che viene visualizzata una nuova pagina
+    rendition.on("keydown", keyListener);
+
+    // 3. Pulizia quando il libro viene chiuso
+    // Dobbiamo rimuovere l'ascoltatore globale per non creare conflitti col carosello 3D
+    window.addEventListener('readerClosed', () => {
+        document.removeEventListener("keydown", keyListener);
+    }, { once: true });
+
     // --- REGISTRAZIONE TEMI EPUB.JS ---
     rendition.themes.register("light", {
         "body": { "background": "#faf9f6", "color": "#000000" },

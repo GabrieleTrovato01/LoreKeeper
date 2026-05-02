@@ -34,5 +34,14 @@
         "coverPath": "covers/book_1777582113343.jpg",
         "pageCount": 350,
         "epubPath": "ebooks/book_1777582113343.epub"
+    },
+    {
+        "id": "book_1777716620196",
+        "title": "Crypto",
+        "author": "Dan Brown",
+        "description": "Washington. La trentottenne Susan Fletcher, brillantissima mente matematica e responsabile della divisione di crittologia della National Security Agency, viene convocata d'urgenza nell'ufficio del comandante Strathmore. Qualcuno ha realizzato un programma capace di \"ingannare\" il più sofisticato strumento informatico di spionaggio al mondo, un supercomputer che può decodificare qualunque testo cifrato a una velocità strabiliante. Pochissimi conoscono l'esistenza di questa macchina, ideata per contrastare le nuove minacce alla sicurezza nell'era di Internet e in grado di controllare la posta elettronica di chiunque. La stessa NSA, nata per proteggere le comunicazione del governo americano e intercettare quelle delle potenze straniere, opera in semiclandestinità, al di fuori del controllo pubblico. Susan non si stupisce quando viene a sapere che \"Fortezza Digitale\", così è stato battezzato il programma, è frutto delle ricerche di un genio dell'informatica: il giapponese Ensei Tankado, handicappato dalla nascita per gli effetti del disastro atomico di Hiroshima, che dopo essere stato chiamato negli Stati Uniti a lavorare per l'NSA ha sbattuto la porta in faccia ai suoi capi quando si è accorto che il supercomputer rischiava di trasformarsi in un nuovo Grande Fratello. I suoi intenti sono nobili, ma la sua decisione di boicottare l'operato dell'NSA, mettendo il programma in rete e permettendo a chiunque di scaricarlo, rischia di creare l'anarchia e di assicurare libertà d'azione a spie e criminali.",
+        "coverPath": "covers/book_1777716620196.jpg",
+        "pageCount": 434,
+        "epubPath": "ebooks/book_1777716620196.epub"
     }
 ]
