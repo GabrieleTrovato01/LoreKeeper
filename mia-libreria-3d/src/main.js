@@ -579,6 +579,42 @@ window.addEventListener('wheel', (event) => {
         scrollTimeout = setTimeout(() => { scrollTimeout = null; }, 300);
     }
 });
+
+// --- 8. NAVIGAZIONE CON TASTIERA (Frecce Direzionali) ---
+window.addEventListener('keydown', (event) => {
+    // 1. Evitiamo di cambiare libro se l'utente sta scrivendo nella barra di ricerca
+    if (document.activeElement.tagName === 'INPUT') return;
+
+    // 2. Evitiamo di spostare i libri 3D se il lettore 2D è aperto
+    const readerOverlay = document.getElementById('reader-overlay');
+    if (readerOverlay && readerOverlay.style.display === 'block') return;
+
+    // 3. Gestiamo le frecce!
+    if (event.key === 'ArrowRight') {
+        changeBook(1); // Scorre avanti
+    } else if (event.key === 'ArrowLeft') {
+        changeBook(-1); // Scorre indietro
+    } 
+    // BONUS: Se preme Invio o Spazio, apre il libro centrale o mostra la trama!
+    else if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault(); // Evita scroll strani con la barra spaziatrice
+        
+        // Simuliamo un click al centro dello schermo per aprire il libro o voltarlo
+        if (booksArray.length > 0) {
+            // Se non stiamo mostrando il retro, premi spazio/invio per vedere la trama
+            if (!isShowingBack) {
+                infoBtn.click();
+            } else {
+                // Altrimenti, un secondo invio/spazio apre il lettore!
+                const activeBook = booksArray[currentIndex];
+                if (activeBook && activeBook.userData.epubPath) {
+                    window.openReader(activeBook.userData.epubPath, activeBook.userData.id);
+                }
+            }
+        }
+    }
+});
+
 // Quando il lettore viene chiuso, ripristiniamo la vista 3D
 window.addEventListener('readerClosed', () => {
     // Rendi l'interfaccia 3D visibile
