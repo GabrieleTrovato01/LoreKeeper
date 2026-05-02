@@ -138,10 +138,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prevBtn) prevBtn.onclick = () => { if(rendition) rendition.prev(); };
     if (nextBtn) nextBtn.onclick = () => { if(rendition) rendition.next(); };
 
-    if (chatBtn && chatPanel) {
+    if (chatBtn && chatPanel && viewer) {
         chatBtn.onclick = () => {
             chatPanel.style.display = 'flex';
             setTimeout(() => chatPanel.style.transform = 'translateX(0)', 10);
+            
+            viewer.style.width = 'calc(100% - 350px)';
+
+            if (nextBtn) {
+                nextBtn.style.right = '370px'; 
+            }
+
+            if(rendition){
+                setTimeout(() => rendition.resize(), 310);
+            }
         };
     }
     
@@ -149,6 +159,16 @@ document.addEventListener('DOMContentLoaded', () => {
         closeChatBtn.onclick = () => {
             chatPanel.style.transform = 'translateX(100%)';
             setTimeout(() => chatPanel.style.display = 'none', 300);
+
+            viewer.style.width = '100%';
+            
+            if (nextBtn) {
+                nextBtn.style.right = '20px'; // Torna alla posizione originale
+            }
+
+            if(rendition){
+                setTimeout(() => rendition.resize(), 310);
+            }
         };
     }
 
