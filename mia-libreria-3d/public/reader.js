@@ -1,14 +1,15 @@
 let currentBook = null;
 let rendition = null;
 
-// Funzione globale per aprire il lettore
+// Recuperiamo la preferenza salvata (di base è falso)
+let isDarkMode = localStorage.getItem('readerDarkMode') === 'true';
+
 window.openReader = function(epubUrl, bookId) {
     if (!epubUrl) {
         alert("File EPUB non trovato per questo libro!");
         return;
     }
 
-    // Cerchiamo gli elementi SOLO quando apriamo il libro
     const readerOverlay = document.getElementById('reader-overlay');
     const viewer = document.getElementById('viewer');
 
@@ -28,9 +29,22 @@ window.openReader = function(epubUrl, bookId) {
         spread: "none"
     });
 
+    // --- REGISTRAZIONE TEMI EPUB.JS ---
+    rendition.themes.register("light", {
+        "body": { "background": "#faf9f6", "color": "#000000" },
+        "p, span, div": { "color": "#000000" }
+    });
+    rendition.themes.register("dark", {
+        "body": { "background": "#121212", "color": "#e0e0e0" },
+        "p, span, div": { "color": "#e0e0e0" }, // Forza il testo a essere chiaro
+        "a": { "color": "#4da6ff" } // Rende i link visibili sul nero
+    });
+
+    // Applichiamo subito il tema corretto in base alla preferenza salvata
+    applyTheme();
+
     const savedLocation = localStorage.getItem(`bookmark_${bookId}`);
     if (savedLocation) {
-        console.log("Riprendo dalla posizione:", savedLocation);
         rendition.display(savedLocation);
     } else {
         rendition.display();
@@ -41,7 +55,6 @@ window.openReader = function(epubUrl, bookId) {
     });
 };
 
-// Funzione globale per chiuderlo
 window.closeReader = function() {
     const readerOverlay = document.getElementById('reader-overlay');
     const viewer = document.getElementById('viewer');
@@ -59,11 +72,29 @@ window.closeReader = function() {
     }, 800); 
 };
 
-// Aspettiamo che il DOM (l'HTML) sia pronto prima di agganciare i click ai pulsanti
+// --- NUOVA FUNZIONE: Applica il Tema ---
+function applyTheme() {
+    const readerOverlay = document.getElementById('reader-overlay');
+    const themeBtn = document.getElementById('theme-toggle-btn');
+
+    if (isDarkMode) {
+        // Applica Scuro
+        readerOverlay.style.background = '#121212';
+        if (rendition) rendition.themes.select("dark");
+        if (themeBtn) themeBtn.innerText = '☀️ Light Mode';
+    } else {
+        // Applica Chiaro
+        readerOverlay.style.background = '#faf9f6';
+        if (rendition) rendition.themes.select("light");
+        if (themeBtn) themeBtn.innerText = '🌙 Dark Mode';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('close-reader-btn');
     const prevBtn = document.getElementById('prev-page-btn');
     const nextBtn = document.getElementById('next-page-btn');
+    const themeBtn = document.getElementById('theme-toggle-btn'); // Il nuovo bottone
 
     if (closeBtn) {
         closeBtn.onclick = () => {
@@ -71,6 +102,16 @@ document.addEventListener('DOMContentLoaded', () => {
             window.dispatchEvent(new Event('readerClosed')); 
         };
     }
+    
+    // Al click sul bottone del tema, invertiamo lo stato e salviamo!
+    if (themeBtn) {
+        themeBtn.onclick = () => {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('readerDarkMode', isDarkMode); // Salviamo in memoria
+            applyTheme();
+        };
+    }
+
     if (prevBtn) prevBtn.onclick = () => { if(rendition) rendition.prev(); };
     if (nextBtn) nextBtn.onclick = () => { if(rendition) rendition.next(); };
 });

@@ -504,11 +504,34 @@ window.addEventListener('pointerup', (event) => {
                 activeBook.userData.targetZ = 2.8; // Molto vicino alla telecamera (che è a Z=3.5)
                 activeBook.userData.targetRotY = 0; // Piatto e dritto
                 
+                if (!activeBook.userData.hasHinge) {
+                    const coverGeo = new THREE.PlaneGeometry(2.0, 3.0);
+                    const coverMat = activeBook.material[4]; // Copiamo la texture della copertina attuale
+
+                    // Creiamo un gruppo che farà da "cerniera" posizionato sul lato sinistro del libro
+                    const hinge = new THREE.Group();
+                    hinge.position.set(-1.0, 0, activeBook.userData.thickness / 2 + 0.002);
+
+                    // Creiamo il foglio della copertina e lo spostiamo a destra per bilanciare la cerniera
+                    const movingCover = new THREE.Mesh(coverGeo, coverMat);
+                    movingCover.position.set(1.0, 0, 0);
+                    hinge.add(movingCover);
+
+                    activeBook.add(hinge);
+                    activeBook.userData.hinge = hinge;
+                    activeBook.userData.hasHinge = true;
+
+                    // Cancelliamo la copertina stampata sul "mattone" e mettiamo una pagina bianca!
+                    activeBook.material[4] = new THREE.MeshStandardMaterial({ color: 0xf5f5dc, roughness: 0.9 });
+                }
+
                 // Nascondiamo l'interfaccia 3D
                 document.querySelector('.top-bar').style.opacity = '0';
                 uiContainer.style.opacity = '0';
                 leftArrow.style.opacity = '0';
                 rightArrow.style.opacity = '0';
+                
+                activeBook.userData.hinge.userData = { targetRotY: -Math.PI * 0.85 };
 
                 // Aspettiamo mezza frazione di secondo che l'animazione 3D parta, poi avviamo il lettore 2D
                 setTimeout(() => {
@@ -544,6 +567,11 @@ window.addEventListener('readerClosed', () => {
     leftArrow.style.opacity = '1';
     rightArrow.style.opacity = '1';
     
+    const activeBook = booksArray[currentIndex];
+    if (activeBook && activeBook.userData.hasHinge) {
+        activeBook.userData.hinge.userData.targetRotY = 0; 
+    }
+
     // Rimetti il libro al suo posto nel carosello
     updateCarousel(); 
 });
@@ -560,6 +588,9 @@ function animate() {
             book.position.x = THREE.MathUtils.lerp(book.position.x, book.userData.targetX, 0.1);
             book.position.z = THREE.MathUtils.lerp(book.position.z, book.userData.targetZ, 0.1);
             book.rotation.y = THREE.MathUtils.lerp(book.rotation.y, book.userData.targetRotY, 0.1);
+        }
+        if (book.userData.hasHinge && book.userData.hinge.userData.targetRotY !== undefined) {
+            book.userData.hinge.rotation.y = THREE.MathUtils.lerp(book.userData.hinge.rotation.y, book.userData.hinge.userData.targetRotY, 0.08);
         }
     });
 
