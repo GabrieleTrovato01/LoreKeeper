@@ -5,7 +5,7 @@ import fs from 'fs/promises';
 import fsSync from 'fs';
 import { EPub } from 'epub2';
 import axios from 'axios';
-import { generateResponse } from './ai-service.js';
+import { askBookRAG } from './rag-service.js'; // Importiamo il nostro nuovo Bibliotecario
 
 const app = express();
 const port = 3000;
@@ -38,9 +38,8 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
         // PIANO B: Se mancano i metadati, usiamo il nome del file pulito!
         if (!extractedTitle || extractedTitle.trim() === '') {
             console.log(`⚠️ Metadati mancanti! Uso il nome del file come esca per Google...`);
-            // Prende "Stephen_King_IT.epub" e lo fa diventare "Stephen King IT"
             extractedTitle = originalFileName.replace(/\.epub$/i, '').replace(/[_-]/g, ' ').trim();
-            extractedAuthor = ''; // Lasciamo l'autore vuoto, ci penserà Google
+            extractedAuthor = ''; 
         }
 
         const metadata = {
@@ -71,6 +70,7 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
         throw new Error(`Errore di parsing EPUB: ${error.message}`);
     }
 }
+
 // 2. Ricerca su Google Books (Sistema a Punteggio sui primi 10 risultati)
 async function fetchGoogleBooksData(title, author) {
     let result = {
@@ -82,13 +82,11 @@ async function fetchGoogleBooksData(title, author) {
     };
 
     try {
-        // 1. Rimuoviamo le "Parole Avvelenate"
         const searchTitle = title === 'Titolo Sconosciuto' ? '' : title;
         const searchAuthor = author === 'Autore Sconosciuto' ? '' : author;
         
         const cleanQuery = `${searchTitle} ${searchAuthor}`.replace(/[_-]/g, ' ').trim();
         
-        // 2. CHIEDIAMO I PRIMI 10 RISULTATI (maxResults=10)
         const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(cleanQuery)}&langRestrict=it&printType=books&maxResults=10&key=AIzaSyDf-vxdHbYaoJJ0s65sR-9l_aIWoV2qgqA`;
         
         const response = await axios.get(url, { timeout: 8000 });
@@ -97,10 +95,8 @@ async function fetchGoogleBooksData(title, author) {
             let bestVolume = null;
             let highestScore = -1;
 
-            // Estraiamo le parole chiave (più lunghe di 3 lettere) dalla nostra ricerca
             const queryWords = cleanQuery.toLowerCase().split(' ').filter(w => w.length > 3);
 
-            // 3. IL SISTEMA A PUNTEGGIO: Valutiamo TUTTI i 10 risultati prima di decidere
             for (let item of response.data.items) {
                 const volumeInfo = item.volumeInfo;
                 const itemTitle = (volumeInfo.title || '').toLowerCase();
@@ -109,31 +105,22 @@ async function fetchGoogleBooksData(title, author) {
 
                 let score = 0;
 
-                // Diamo un punto per ogni parola chiave trovata nel titolo o nell'autore di questo libro
                 for (let word of queryWords) {
-                    if (fullText.includes(word)) {
-                        score++;
-                    }
+                    if (fullText.includes(word)) score++;
                 }
 
-                // BONUS: Diamo mezzo punto in più se il libro ha una descrizione (preferiamo libri con la trama!)
-                if (volumeInfo.description) {
-                    score += 0.5;
-                }
+                if (volumeInfo.description) score += 0.5;
 
-                // Se questo libro ha un punteggio più alto del precedente, diventa il nuovo "Miglior Candidato"
                 if (score > highestScore) {
                     highestScore = score;
                     bestVolume = volumeInfo;
                 }
             }
 
-            // Se per qualche assurdo motivo non abbiamo trovato nulla, prendiamo il primo per disperazione
             if (!bestVolume) {
                 bestVolume = response.data.items[0].volumeInfo;
             }
 
-            // 4. ESTRAIAMO I DATI DAL VINCITORE ASSOLUTO
             if (bestVolume.description) {
                 result.description = bestVolume.description.replace(/<[^>]*>?/gm, ''); 
             }
@@ -187,20 +174,15 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         const timestamp = Date.now();
         const baseName = `book_${timestamp}`;
 
-        // 1. Estrazione dall'EPUB
         console.log(`⚙️  Estrazione metadati e copertina interna...`);
         const epubData = await parseEpub(file.path, baseName, file.originalname);
 
-        // --- NUOVO: CONTROLLO DUPLICATI ---
         let currentBooks = [];
         try {
             const fileData = await fs.readFile(booksJsonPath, 'utf-8');
             currentBooks = JSON.parse(fileData);
-        } catch (e) {
-            // Se il file non esiste, l'array rimane vuoto
-        }
+        } catch (e) {}
 
-        // Verifichiamo se esiste già un libro con lo stesso titolo E autore
         const isDuplicate = currentBooks.some(book => 
             book.title.toLowerCase().trim() === epubData.title.toLowerCase().trim() && 
             book.author.toLowerCase().trim() === epubData.author.toLowerCase().trim()
@@ -208,26 +190,15 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
 
         if (isDuplicate) {
             console.log(`🛑 Upload bloccato: "${epubData.title}" è già presente in libreria.`);
-            
-            // Pulizia: cancelliamo il file temporaneo nella cartella uploads
-            try {
-                await fs.unlink(file.path);
-            } catch (err) {}
-
-            return res.json({ 
-                success: false, 
-                message: 'Questo libro è già presente nel tuo scaffale!' 
-            });
+            try { await fs.unlink(file.path); } catch (err) {}
+            return res.json({ success: false, message: 'Questo libro è già presente nel tuo scaffale!' });
         }
-        // ----------------------------------
 
         console.log(`✔️  Dati iniziali: "${epubData.title}" di ${epubData.author}`);
 
-        // 2. Google Books
         console.log(`🔍 Ricerca dati su Google Books...`);
         const googleData = await fetchGoogleBooksData(epubData.title, epubData.author);
 
-        // 3. AUTOCORREZIONE TITOLO E AUTORE
         let finalTitle = epubData.title;
         let finalAuthor = epubData.author;
 
@@ -243,20 +214,16 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
             }
         }
 
-        // 4. IL FALLBACK DELLA COPERTINA
         let finalCoverPath = epubData.coverPath; 
         if (!finalCoverPath && googleData.coverUrl) {
             console.log(`🖼️  Copertina assente nell'EPUB. Download in corso da Google Books...`);
             finalCoverPath = await downloadCoverImage(googleData.coverUrl, baseName);
         }
 
-        // 5. IL FALLBACK DELLA TRAMA
         let finalDescription = "Nessuna trama disponibile per questo libro.";
         let epubDesc = epubData.description;
 
-        if (epubDesc) {
-            epubDesc = epubDesc.replace(/^(EDGT[0-9]+[\r\n\s]*)/i, '').trim();
-        }
+        if (epubDesc) epubDesc = epubDesc.replace(/^(EDGT[0-9]+[\r\n\s]*)/i, '').trim();
 
         if (epubDesc && epubDesc.length > 30) {
             console.log(`📖 Trama valida trovata all'interno dell'EPUB!`);
@@ -266,14 +233,12 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
             finalDescription = googleData.description;
         }
 
-        // 6. SALVATAGGIO DEL FILE EPUB DEFINITIVO
         const ebooksDir = path.join(publicDir, 'ebooks');
         if (!fsSync.existsSync(ebooksDir)) fsSync.mkdirSync(ebooksDir, { recursive: true });
         
         const finalEpubPath = `ebooks/${baseName}.epub`;
         await fs.rename(file.path, path.join(publicDir, finalEpubPath));
 
-        // 7. PREPARAZIONE OGGETTO LIBRO
         const newBook = {
             id: baseName,
             title: finalTitle,
@@ -284,15 +249,11 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
             epubPath: finalEpubPath
         };
 
-        // 8. AGGIORNAMENTO DB JSON
         console.log(`📝 Aggiornamento della libreria...`);
         currentBooks.push(newBook);
         await fs.writeFile(booksJsonPath, JSON.stringify(currentBooks, null, 4));
 
-        // 9. PULIZIA FINALE (Safety catch)
-        try {
-            await fs.unlink(file.path);
-        } catch (unlinkError) {}
+        try { await fs.unlink(file.path); } catch (unlinkError) {}
 
         console.log(`✅ Successo! "${newBook.title}" aggiunto allo scaffale.\n`);
         res.json({ success: true, message: 'Libro elaborato e aggiunto con successo!' });
@@ -303,22 +264,39 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
     }
 });
 
-// --- ROTTA PER LA CHAT CON IA LOCALE ---
+// --- ROTTA PER LA CHAT RAG CON IA LOCALE ---
 app.post('/api/chat', async (req, res) => {
-    try {
-        const { question, context } = req.body;
+    // Ora ci aspettiamo anche epubUrl e currentSnippet dal frontend
+    const { question, currentSnippet, epubUrl } = req.body; 
 
-        // Richiamiamo direttamente la funzione importata!
-        const responseText = await generateResponse(question, context);
+    if (!question || !epubUrl) {
+        return res.status(400).json({ success: false, message: 'Dati mancanti (domanda o url del libro)' });
+    }
+
+    try {
+        // TRUCCO DEL PERCORSO: Trasforma l'URL relativo in percorso fisico
+        const decodedUrl = decodeURI(epubUrl); 
         
-        console.log("Risposta generata con successo.");
-        res.json({ success: true, answer: responseText });
+        // Rimuove lo slash iniziale se presente, per un path.join sicuro
+        const cleanUrl = decodedUrl.replace(/^\//, ''); 
+        
+        // Collega la cartella 'public' al nome del file (es: public/ebooks/book_123.epub)
+        const physicalEpubPath = path.join(publicDir, cleanUrl);
+
+        console.log(`\n==================================================`);
+        console.log(`📍 L'utente è qui: "${(currentSnippet || "").substring(0, 60)}..."`);
+        console.log(`==================================================\n`);
+
+        // Lanciamo la ricerca e generazione RAG!
+        const answer = await askBookRAG(physicalEpubPath, question, currentSnippet || "");
+        
+        res.json({ success: true, answer: answer });
 
     } catch (error) {
-        console.error("Errore nella chat AI:", error.message);
+        console.error("Errore nella chat AI (RAG):", error.message);
         res.status(500).json({ 
             success: false, 
-            message: error.message || "Il mio cervello locale ha fatto cortocircuito." 
+            message: "Errore durante la consultazione del libro o la comunicazione con Ollama." 
         });
     }
 });

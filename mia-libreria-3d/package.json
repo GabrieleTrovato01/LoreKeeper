@@ -12,10 +12,18 @@
     "vite": "^8.0.10"
   },
   "dependencies": {
+    "@langchain/classic": "^1.0.32",
+    "@langchain/community": "^1.1.27",
+    "@langchain/core": "^1.1.43",
+    "@langchain/ollama": "^1.2.7",
+    "@langchain/textsplitters": "^1.0.1",
     "axios": "^1.15.2",
+    "cheerio": "^1.2.0",
     "epub2": "^3.0.2",
     "express": "^5.2.1",
     "fs-extra": "^11.3.4",
+    "html-to-text": "^10.0.0",
+    "langchain": "^0.3.37",
     "multer": "^2.1.1",
     "three": "^0.184.0"
   }
