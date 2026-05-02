@@ -185,9 +185,40 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         const timestamp = Date.now();
         const baseName = `book_${timestamp}`;
 
-        // 1. Estrazione dall'EPUB (Passiamo anche il nome del file originale come Piano B)
+        // 1. Estrazione dall'EPUB
         console.log(`⚙️  Estrazione metadati e copertina interna...`);
         const epubData = await parseEpub(file.path, baseName, file.originalname);
+
+        // --- NUOVO: CONTROLLO DUPLICATI ---
+        let currentBooks = [];
+        try {
+            const fileData = await fs.readFile(booksJsonPath, 'utf-8');
+            currentBooks = JSON.parse(fileData);
+        } catch (e) {
+            // Se il file non esiste, l'array rimane vuoto
+        }
+
+        // Verifichiamo se esiste già un libro con lo stesso titolo E autore
+        const isDuplicate = currentBooks.some(book => 
+            book.title.toLowerCase().trim() === epubData.title.toLowerCase().trim() && 
+            book.author.toLowerCase().trim() === epubData.author.toLowerCase().trim()
+        );
+
+        if (isDuplicate) {
+            console.log(`🛑 Upload bloccato: "${epubData.title}" è già presente in libreria.`);
+            
+            // Pulizia: cancelliamo il file temporaneo nella cartella uploads
+            try {
+                await fs.unlink(file.path);
+            } catch (err) {}
+
+            return res.json({ 
+                success: false, 
+                message: 'Questo libro è già presente nel tuo scaffale!' 
+            });
+        }
+        // ----------------------------------
+
         console.log(`✔️  Dati iniziali: "${epubData.title}" di ${epubData.author}`);
 
         // 2. Google Books
@@ -195,102 +226,71 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         const googleData = await fetchGoogleBooksData(epubData.title, epubData.author);
 
         // 3. AUTOCORREZIONE TITOLO E AUTORE
-        // Se Google ha trovato nomi migliori (molto utile se l'EPUB era vuoto o rotto), li sovrascriviamo!
         let finalTitle = epubData.title;
         let finalAuthor = epubData.author;
 
         if (googleData.googleTitle) {
-            // Estraiamo le parole lunghe (più di 3 lettere) dal nostro titolo originale
             const titleWords = epubData.title.toLowerCase().split(' ').filter(w => w.length > 3);
             const googleTitleLower = googleData.googleTitle.toLowerCase();
-            
-            // Verifichiamo se il titolo di Google contiene ALMENO UNA delle nostre parole chiave
             const isRelated = titleWords.some(word => googleTitleLower.includes(word));
 
             if (isRelated || epubData.title === 'Titolo Sconosciuto') {
                 finalTitle = googleData.googleTitle;
                 finalAuthor = googleData.googleAuthor || epubData.author;
                 console.log(`✨ Autocorrezione: Titolo corretto in "${finalTitle}"`);
-            } else {
-                console.log(`🛡️ Risultato di Google ignorato ("${googleData.googleTitle}"). Mantengo il nome originale.`);
-                // Se rifiutiamo il titolo di Google, probabilmente ha trovato il libro sbagliato,
-                // quindi teniamo l'autore originale/sconosciuto per non fare pasticci.
             }
         }
 
         // 4. IL FALLBACK DELLA COPERTINA
         let finalCoverPath = epubData.coverPath; 
-
         if (!finalCoverPath && googleData.coverUrl) {
             console.log(`🖼️  Copertina assente nell'EPUB. Download in corso da Google Books...`);
             finalCoverPath = await downloadCoverImage(googleData.coverUrl, baseName);
-        } else if (!finalCoverPath && !googleData.coverUrl) {
-            console.log(`⚠️  Copertina non trovata né nell'EPUB né su Google Books.`);
         }
 
-        // 5. IL FALLBACK DELLA TRAMA (Con Filtro Anti-Codici)
+        // 5. IL FALLBACK DELLA TRAMA
         let finalDescription = "Nessuna trama disponibile per questo libro.";
         let epubDesc = epubData.description;
 
-        // Pulizia preliminare: se la trama dell'EPUB inizia con "EDGT" seguito da numeri, lo tagliamo via!
         if (epubDesc) {
-            // Cerca codici tipo EDGT12345 all'inizio del testo e li rimuove
             epubDesc = epubDesc.replace(/^(EDGT[0-9]+[\r\n\s]*)/i, '').trim();
         }
 
-        // Valutiamo quale trama usare
         if (epubDesc && epubDesc.length > 30) {
-            // Se la trama dell'EPUB esiste ancora ed è lunga più di 30 caratteri, è sicuramente valida
             console.log(`📖 Trama valida trovata all'interno dell'EPUB!`);
             finalDescription = epubDesc;
         } else if (googleData.description && googleData.description !== "Trama non trovata su Google Books.") {
-            // Se la trama dell'EPUB era assente o era solo un misero codice, peschiamo da Google!
             console.log(`🌐 Trama EPUB assente o non valida. Trama scaricata da Google Books.`);
             finalDescription = googleData.description;
-        } else {
-            console.log(`⚠️ Trama non trovata né nell'EPUB né su Google Books.`);
         }
-        // 6. SALVATAGGIO DEL FILE EPUB NELLA NOSTRA LIBRERIA
+
+        // 6. SALVATAGGIO DEL FILE EPUB DEFINITIVO
         const ebooksDir = path.join(publicDir, 'ebooks');
         if (!fsSync.existsSync(ebooksDir)) fsSync.mkdirSync(ebooksDir, { recursive: true });
         
         const finalEpubPath = `ebooks/${baseName}.epub`;
-
-        // INVECE di cancellare il file (fs.unlink), lo spostiamo nella nostra libreria!
         await fs.rename(file.path, path.join(publicDir, finalEpubPath));
 
-        // 6. Prepariamo il nuovo libro (Aggiungiamo l'epubPath!)
+        // 7. PREPARAZIONE OGGETTO LIBRO
         const newBook = {
-            id: baseName, // Ci serve un ID unico per salvare la pagina letta
+            id: baseName,
             title: finalTitle,
             author: finalAuthor,
             description: finalDescription, 
             coverPath: finalCoverPath,
-            pageCount: googleData.pageCount,
-            epubPath: finalEpubPath // SALVIAMO IL PERCORSO DEL FILE!
+            pageCount: googleData.pageCount || 350,
+            epubPath: finalEpubPath
         };
 
-        // 7. Aggiornamento JSON
+        // 8. AGGIORNAMENTO DB JSON
         console.log(`📝 Aggiornamento della libreria...`);
-        let books = [];
-        try {
-            const fileData = await fs.readFile(booksJsonPath, 'utf-8');
-            books = JSON.parse(fileData);
-        } catch (e) {
-            console.log("File books.json non trovato, ne creo uno nuovo.");
-        }
-        
-        books.push(newBook);
-        await fs.writeFile(booksJsonPath, JSON.stringify(books, null, 4));
+        currentBooks.push(newBook);
+        await fs.writeFile(booksJsonPath, JSON.stringify(currentBooks, null, 4));
 
-        // 8. Pulizia
-        // Cerchiamo di pulire il file temporaneo, ma senza far crashare tutto se non c'è più
+        // 9. PULIZIA FINALE (Safety catch)
         try {
             await fs.unlink(file.path);
-        } catch (unlinkError) {
-            // Ignoriamo silenziosamente l'errore ENOENT. 
-            // Significa che il file è già stato spostato con successo in /ebooks!
-        }
+        } catch (unlinkError) {}
 
         console.log(`✅ Successo! "${newBook.title}" aggiunto allo scaffale.\n`);
         res.json({ success: true, message: 'Libro elaborato e aggiunto con successo!' });
