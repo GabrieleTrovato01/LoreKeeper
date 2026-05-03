@@ -147,11 +147,11 @@ document.head.appendChild(styleStyle);
 // --- COSTRUZIONE MENU SUPERIORE ---
 const topBar = document.createElement('div');
 topBar.className = 'top-bar';
-topBar.style.width = '95%'; // Allarghiamo un po' per farci stare tutto
+topBar.style.width = '95%'; 
 topBar.style.maxWidth = '1000px'; 
 document.body.appendChild(topBar);
 
-// --- COSTRUZIONE ETICHETTA CATEGORIA (In alto a sinistra) ---
+// 1. Etichetta Categoria Attuale
 const categoryLabel = document.createElement('div');
 categoryLabel.className = 'glass-effect';
 categoryLabel.style.padding = '12px 20px';
@@ -160,16 +160,17 @@ categoryLabel.style.fontSize = '13px';
 categoryLabel.style.fontWeight = 'bold';
 categoryLabel.style.letterSpacing = '1px';
 categoryLabel.style.whiteSpace = 'nowrap';
-categoryLabel.style.display = 'none'; // Nascosta all'avvio
+categoryLabel.style.display = 'none';
 topBar.appendChild(categoryLabel);
 
-const tagBtn = document.createElement('button');
-tagBtn.innerHTML = '✏️ Modifica';
-tagBtn.title = 'Sposta questo libro su una mensola diversa';
-tagBtn.className = 'glass-effect modern-btn';
-tagBtn.style.padding = '12px 15px';
-tagBtn.style.display = 'none'; // Nascosto all'avvio
-topBar.appendChild(tagBtn);
+// 2. Bottone per Gestire la Mensola intera
+const manageCatBtn = document.createElement('button');
+manageCatBtn.innerHTML = '⚙️ Gestisci';
+manageCatBtn.title = 'Rinomina o elimina questa categoria';
+manageCatBtn.className = 'glass-effect modern-btn';
+manageCatBtn.style.padding = '12px 15px';
+manageCatBtn.style.display = 'none';
+topBar.appendChild(manageCatBtn);
 
 const searchInput = document.createElement('input');
 searchInput.type = 'text';
@@ -181,6 +182,7 @@ const uploadLabel = document.createElement('label');
 uploadLabel.innerText = '+ Carica Ebook';
 uploadLabel.className = 'glass-effect modern-btn';
 uploadLabel.htmlFor = 'file-upload';
+uploadLabel.style.whiteSpace = 'nowrap';
 topBar.appendChild(uploadLabel);
 
 const fileInput = document.createElement('input');
@@ -191,15 +193,14 @@ fileInput.multiple = true;
 topBar.appendChild(fileInput);
 
 
-
-// --- COSTRUZIONE BOTTONE INFERIORE ---
+// --- COSTRUZIONE MENU INFERIORE ---
 const uiContainer = document.createElement('div');
 uiContainer.style.position = 'absolute';
 uiContainer.style.bottom = '40px';
 uiContainer.style.left = '50%';
 uiContainer.style.transform = 'translateX(-50%)';
-uiContainer.style.display = 'flex'; // Usiamo Flexbox per allinearli perfettamente
-uiContainer.style.gap = '15px';     // Spazio uniforme tra i bottoni
+uiContainer.style.display = 'flex'; 
+uiContainer.style.gap = '15px';     
 uiContainer.style.alignItems = 'center';
 document.body.appendChild(uiContainer);
 
@@ -208,11 +209,80 @@ infoBtn.innerText = 'Mostra Trama';
 infoBtn.className = 'glass-effect modern-btn';
 uiContainer.appendChild(infoBtn);
 
-// --- AGGIUNTA BOTTONE CHAT ---
 const chatBtn = document.createElement('button');
 chatBtn.innerHTML = '💬 Parla col Libro';
 chatBtn.className = 'glass-effect modern-btn';
 uiContainer.appendChild(chatBtn);
+
+// 3. Bottone per Assegnare la Categoria al Libro
+const assignCatBtn = document.createElement('button');
+assignCatBtn.innerHTML = '🏷️ Assegna Categoria';
+assignCatBtn.className = 'glass-effect modern-btn';
+uiContainer.appendChild(assignCatBtn);
+
+// --- LOGICA DEL BOTTONE ASSEGNA CATEGORIA (Singolo Libro) ---
+assignCatBtn.onclick = async () => {
+    if (booksArray.length === 0) return;
+    const activeBook = booksArray[currentIndex];
+    
+    const newTag = prompt(`Sposta "${activeBook.userData.title}" in una nuova categoria/mensola:\nAttuale: ${activeBook.userData.category}`);
+    if (!newTag || newTag.trim() === '') return;
+
+    try {
+        const response = await fetch(`/api/books/${activeBook.userData.id}/tags`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tag: newTag })
+        });
+        const result = await response.json();
+        if (result.success) location.reload();
+        else alert(result.message);
+    } catch (e) { console.error(e); }
+};
+
+// --- LOGICA DEL BOTTONE GESTISCI CATEGORIA (Intera Mensola) ---
+manageCatBtn.onclick = async () => {
+    if (booksArray.length === 0) return;
+    const activeCategory = booksArray[currentIndex].userData.category;
+
+    if (activeCategory === 'Senza Categoria') {
+        alert('Non puoi modificare la mensola predefinita di sistema.');
+        return;
+    }
+
+    const choice = prompt(`Gestione mensola: [ ${activeCategory.toUpperCase()} ]\n\nCosa vuoi fare?\nScrivi "R" per Rinominare\nScrivi "E" per Eliminare`).toUpperCase();
+    
+    if (choice === 'R') {
+        const newName = prompt(`Scegli il nuovo nome per la categoria "${activeCategory}":`);
+        if (!newName || newName.trim() === '') return;
+        
+        await updateCategoryOnServer(activeCategory, newName.trim(), 'rename');
+        
+    } else if (choice === 'E') {
+        const confirmDelete = confirm(`Sei sicuro di voler eliminare la mensola "${activeCategory}"?\nI libri torneranno nella sezione "Senza Categoria".`);
+        if (confirmDelete) {
+            await updateCategoryOnServer(activeCategory, null, 'delete');
+        }
+    } else {
+        alert('Comando annullato o non riconosciuto.');
+    }
+};
+
+async function updateCategoryOnServer(oldName, newName, action) {
+    try {
+        const response = await fetch('/api/categories', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ oldName, newName, action })
+        });
+        const result = await response.json();
+        if (result.success) {
+            location.reload(); // Ricarica la pagina per ricostruire le mensole 3D
+        } else {
+            alert(result.message);
+        }
+    } catch (e) { console.error(e); }
+}
 
 // --- LOGICA DEL PANNELLO CHAT IA ---
 const chatPanel = document.getElementById('global-chat-panel');
@@ -221,37 +291,29 @@ const chatMessages = document.getElementById('global-chat-messages');
 const chatInput = document.getElementById('global-chat-input');
 const sendChatBtn = document.getElementById('send-global-chat-btn');
 
-// 1. Aprire il pannello
-// 1. Aprire il pannello (Ora usa la dissolvenza)
 chatBtn.onclick = () => {
     if (booksArray.length === 0) return;
     const activeBook = booksArray[currentIndex];
     
     chatPanel.style.display = 'flex';
-    // Usiamo l'opacità invece del transform per un bell'effetto fade-in a schermo intero
     setTimeout(() => chatPanel.style.opacity = '1', 10); 
     
-    // Svuotiamo le vecchie chat e diamo il benvenuto
     chatMessages.innerHTML = '';
     appendChatMessage('IA', `Ciao! Sono il bibliotecario IA. Chiedimi pure qualsiasi cosa su <b>"${activeBook.userData.title}"</b>!`);
 };
 
-// 2. Chiudere il pannello
 closeChatBtn.onclick = () => {
     chatPanel.style.opacity = '0';
     setTimeout(() => chatPanel.style.display = 'none', 300);
 };
 
-// 🛑 LO SCUDO ANTI-SWIPE: Blocchiamo la propagazione degli eventi al 3D!
 chatPanel.addEventListener('pointerdown', (e) => e.stopPropagation());
 chatPanel.addEventListener('pointerup', (e) => e.stopPropagation());
 chatPanel.addEventListener('wheel', (e) => e.stopPropagation());
-// Se usi dispositivi touch, blocchiamo anche i touch nativi per sicurezza
 chatPanel.addEventListener('touchstart', (e) => e.stopPropagation());
 chatPanel.addEventListener('touchend', (e) => e.stopPropagation());
 chatPanel.addEventListener('touchmove', (e) => e.stopPropagation());
 
-// 3. Funzione per stampare i messaggi a schermo
 function appendChatMessage(sender, text) {
     const msgDiv = document.createElement('div');
     msgDiv.style.padding = '12px 16px';
@@ -269,31 +331,25 @@ function appendChatMessage(sender, text) {
         msgDiv.style.border = '1px solid rgba(255, 255, 255, 0.2)';
     }
     
-    // Trasforma i ritorni a capo testuali in <br> HTML per una lettura migliore
     const formattedText = text.replace(/\n/g, '<br>');
     msgDiv.innerHTML = `<strong style="color: ${sender === 'Tu' ? '#4da6ff' : '#ffd700'}">${sender}:</strong><br><div style="margin-top: 5px;">${formattedText}</div>`;
     
     chatMessages.appendChild(msgDiv);
-    // Scorri automaticamente in basso per mostrare l'ultimo messaggio
     chatMessages.scrollTop = chatMessages.scrollHeight; 
 }
 
-// 4. Inviare la domanda al Server (RAG)
 async function sendChatMessage() {
     const text = chatInput.value.trim();
     if (!text || booksArray.length === 0) return;
 
     const activeBook = booksArray[currentIndex];
 
-    // Stampiamo la nostra domanda
     appendChatMessage('Tu', text);
     chatInput.value = '';
     
-    // Blocchiamo l'input mentre l'IA pensa
     chatInput.disabled = true;
     sendChatBtn.disabled = true;
     
-    // Aggiungiamo un indicatore di caricamento
     const loadingId = 'loading-' + Date.now();
     appendChatMessage('IA', `<span id="${loadingId}">Sto sfogliando il libro per cercare la risposta... 📚</span>`);
 
@@ -310,11 +366,9 @@ async function sendChatMessage() {
 
         const result = await response.json();
         
-        // Rimuoviamo il messaggio "Sto sfogliando..."
         const loadingEl = document.getElementById(loadingId);
         if (loadingEl) loadingEl.parentNode.remove();
 
-        // Mostriamo la risposta reale
         if (result.success) {
             appendChatMessage('IA', result.answer);
         } else {
@@ -325,46 +379,16 @@ async function sendChatMessage() {
         if (loadingEl) loadingEl.parentNode.remove();
         appendChatMessage('IA', '❌ Impossibile contattare l\'IA. Ollama è acceso in background?');
     } finally {
-        // Sblocchiamo l'input
         chatInput.disabled = false;
         sendChatBtn.disabled = false;
         chatInput.focus();
     }
 }
 
-// 5. Trigger per l'invio (Bottone o tasto Invio)
 sendChatBtn.onclick = sendChatMessage;
 chatInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendChatMessage();
 });
-
-
-tagBtn.onclick = async () => {
-    if (booksArray.length === 0) return;
-    const activeBook = booksArray[currentIndex];
-    
-    const newTag = prompt(`Crea una nuova mensola/categoria per "${activeBook.userData.title}":`);
-    if (!newTag || newTag.trim() === '') return;
-
-    try {
-        const response = await fetch(`/api/books/${activeBook.userData.id}/tags`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ tag: newTag })
-        });
-        const result = await response.json();
-        
-        if (result.success) {
-            alert('Categoria assegnata! La libreria verrà riorganizzata.');
-            // Ricarichiamo la pagina per ricostruire le mensole fisiche da zero!
-            location.reload();
-        } else {
-            alert(result.message);
-        }
-    } catch (e) {
-        console.error(e);
-    }
-};
 
 // --- COSTRUZIONE FRECCE LATERALI ---
 const leftArrow = document.createElement('button');
@@ -680,7 +704,7 @@ function updateCarousel() {
     const activeCategory = activeBook.userData.category;
 
     categoryLabel.style.display = 'block'; 
-    tagBtn.style.display = 'block'; // Mostriamo anche il bottoncino
+    manageCatBtn.style.display = 'block'; // Mostriamo anche il bottoncino
     categoryLabel.innerText = `📁 ${activeCategory.toUpperCase()}`;
 
     // SPOSTA LA TELECAMERA sull'asse Y della mensola attiva

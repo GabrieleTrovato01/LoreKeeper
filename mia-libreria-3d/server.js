@@ -364,6 +364,40 @@ app.post('/api/books/:id/tags', async (req, res) => {
     }
 });
 
+// --- ROTTA PER GESTIRE LE CATEGORIE IN BLOCCO (Rinomina/Elimina) ---
+app.put('/api/categories', async (req, res) => {
+    const { oldName, newName, action } = req.body;
+
+    try {
+        const fileData = await fs.readFile(booksJsonPath, 'utf-8');
+        let books = JSON.parse(fileData);
+        let updatedCount = 0;
+
+        books.forEach(book => {
+            // Se il libro ha tag e il primo tag corrisponde alla categoria che stiamo modificando
+            if (book.tags && book.tags.length > 0 && book.tags[0] === oldName) {
+                if (action === 'rename' && newName) {
+                    book.tags[0] = newName.trim();
+                    updatedCount++;
+                } else if (action === 'delete') {
+                    book.tags = []; // Resettiamo i tag: il libro tornerà "Senza Categoria"
+                    updatedCount++;
+                }
+            }
+        });
+
+        if (updatedCount > 0) {
+            await fs.writeFile(booksJsonPath, JSON.stringify(books, null, 4));
+            res.json({ success: true, message: `Categoria aggiornata con successo su ${updatedCount} libri.` });
+        } else {
+            res.json({ success: false, message: 'Nessun libro trovato per questa categoria.' });
+        }
+    } catch (error) {
+        console.error("Errore nella gestione categorie:", error);
+        res.status(500).json({ success: false, message: 'Errore interno del server.' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`🚀 Backend in ascolto su http://localhost:${port}`);
 });
