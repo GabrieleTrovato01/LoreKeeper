@@ -1,56 +1,182 @@
 [
     {
-        "id": "book_1777582074567",
-        "title": "Fahrenheit 451 di Ray Bradbury (Analisi del libro)",
-        "author": "Anne-Sophie De Clercq",
-        "description": "Che cosa dobbiamo ricordare di Fahrenheit 451, il romanzo per eccellenza della fantascienza americana? Scoprite tutto quello che c'è da sapere su quest'opera in una relazione completa e dettagliata. In questo opuscolo troverete: - Un riassunto completo - Una presentazione dei personaggi principali come Guy Montag, Mildred Montag e il Capitano Beatly - Un'analisi delle caratteristiche specifiche dell'opera: un anti-romanzo distopico, i temi del controllo politico, della censura e dell'autodafé, il potere dei media e la scomparsa dei libri. Un'analisi di riferimento per comprendere rapidamente il significato dell'opera.",
-        "coverPath": "covers/book_1777582074567.jpg",
-        "pageCount": 190,
-        "epubPath": "ebooks/book_1777582074567.epub"
+        "id": "book_1777805700252",
+        "title": "AI Superpowers",
+        "author": "Kai-Fu Lee",
+        "description": "AI Superpowers is Kai-Fu Lee's New York Times and USA Today bestseller about the American-Chinese competition over the future of artificial intelligence.",
+        "coverPath": "covers/book_1777805700252.jpg",
+        "pageCount": 275,
+        "epubPath": "ebooks/book_1777805700252.epub",
+        "tags": []
     },
     {
-        "id": "book_1777582090474",
-        "title": "Dottor Futuro",
-        "author": "Philip K. Dick",
-        "description": "SAN FRANCISCO, 2012. Jim Parsons è un medico di talento, estremamente competente nell'utilizzare la raffinata tecnologia del XXI secolo. In seguito a un bizzarro incidente automobilistico, si ritrova catapultato a centinaia di anni nel futuro, in un tempo che al primo impatto gli sembra meraviglioso. Presto però scopre che in quel mondo la sua missione - curare le malattie e salvare vite - è illegale: si tratta, infatti, di una società globalizzata in cui la popolazione è mantenuta costante e, solo se un individuo muore, si può avere la nascita di un nuovo bambino, il cui patrimonio genetico viene continuamente migliorato, generazione dopo generazione. In quella civiltà così fervidamente votata alla morte, Parsons scopre però che ci sono altre persone che condividono il suo desiderio di prolungare la vita umana. Per loro, le capacità terapeutiche del dottore sono l'unica via per fondare un futuro diverso... La più terribile tra le distopie - una civiltà intera che abbraccia il culto della morte e dell'eugenetica - e i paradossi dei viaggi nel tempo, due temi classici della narrativa fantascientifica, rivisitati dalla caleidoscopica immaginazione di Philip K. Dick.",
-        "coverPath": "covers/book_1777582090474_google.jpg",
-        "pageCount": 160,
-        "epubPath": "ebooks/book_1777582090474.epub"
+        "id": "book_1777805703069",
+        "title": "Codici & segreti. La storia affascinante dei messaggi cifrati dall'antico Egitto a Internet",
+        "author": "Simon Singh",
+        "description": "Fin dall'antichità l'uomo ha pensato di creare codici segreti, sistemi di segni capaci di nascondere a occhi indiscreti un importante messaggio e rivelarlo solo ai destinatari. Al mondo misterioso dei codici è dedicato il libro di Simon Singh, che racconta con passione una serie di storie esemplari: quella di Maria Stuarda e del codice segreto che la condusse al patibolo; la macchina Enigma, usata dai tedeschi durante la seconda guerra mondiale, il cui codice fu violato da Alan Turing; la decifrazione della Lineare B, la scrittura della civiltà micenea; la natura e la scoperta del codice genetico; l'elaborazione dei codici elettronici; la possibilità di inventare una crittografia a prova di decifrazione.",
+        "coverPath": "covers/book_1777805703069_google.jpg",
+        "pageCount": 414,
+        "epubPath": "ebooks/book_1777805703069.epub",
+        "tags": []
     },
     {
-        "id": "book_1777582113343",
-        "title": "Wohpe",
-        "author": "Salvatore Sanfilippo",
-        "description": "Fine del XXI secolo. L'intelligenza artificiale forte è vietata da vent'anni, ma ora i cambiamenti climatici sono inarrestabili, la civiltà in pericolo. Asako e Michel, due esperti di intelligenza artificiale, fanno gli ultimi controlli prima dell'avvio del progetto Wohpe: l'enorme rete neurale a cui porre le domande decisive. Sarà la salvezza o la fine di tutto.",
-        "coverPath": "covers/book_1777582113343.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777582113343.epub"
+        "id": "book_1777805713603",
+        "title": "Come funziona Google",
+        "author": "Eric Schmidt, Jonathan Rosenberg",
+        "description": "Eric Schmidt, Executive Chairman ed ex CEO di Google, e Jonathan \nRosenberg, già Senior VP per i Prodotti, entrarono in Google più di \ndieci anni fa, come manager di esperienza nel settore tecnologico.A \nquel tempo, la società era già nota per “fare le cose in modo diverso”, \nriflettendo i principi visionari – e spesso in controtendenza – dei \nfondatori Larry Page e Sergey Brin; così non ci misero molto a capire \nche per avere successo avrebbero dovuto imparare da capo tutto quello \nche pensavano di sapere sul management e sul business.Oggi Google è \nun’icona globale che sposta continuamente in avanti i confini \ndell’innovazione in molteplici campi e Come funziona Google è un testo \nbrillante e coinvolgente con le lezioni che Eric e Jonathan hanno \nappreso mentre contribuivano a costruire la società.Gli autori \nspiegano come la tecnologia ha spostato la bilancia del potere dalle \nimprese ai consumatori e che il solo modo per avere successo in questo \nambiente in continuo mutamento è creare prodotti superiori e attirare \nuna nuova razza di collaboratori poliedrici, i “creativi smart”.Affrontando\n temi quali cultura aziendale, strategia, decision making, comunicazione\n e innovazione, essi illustrano le loro massime di gestione con numerosi\n aneddoti interni dalla storia di Google, molti dei quali vengono \nraccontati qui per la prima volta.",
+        "coverPath": "covers/book_1777805713603.jpg",
+        "pageCount": 328,
+        "epubPath": "ebooks/book_1777805713603.epub",
+        "tags": []
     },
     {
-        "id": "book_1777716620196",
+        "id": "book_1777805716106",
         "title": "Crypto",
         "author": "Dan Brown",
         "description": "Washington. La trentottenne Susan Fletcher, brillantissima mente matematica e responsabile della divisione di crittologia della National Security Agency, viene convocata d'urgenza nell'ufficio del comandante Strathmore. Qualcuno ha realizzato un programma capace di \"ingannare\" il più sofisticato strumento informatico di spionaggio al mondo, un supercomputer che può decodificare qualunque testo cifrato a una velocità strabiliante. Pochissimi conoscono l'esistenza di questa macchina, ideata per contrastare le nuove minacce alla sicurezza nell'era di Internet e in grado di controllare la posta elettronica di chiunque. La stessa NSA, nata per proteggere le comunicazione del governo americano e intercettare quelle delle potenze straniere, opera in semiclandestinità, al di fuori del controllo pubblico. Susan non si stupisce quando viene a sapere che \"Fortezza Digitale\", così è stato battezzato il programma, è frutto delle ricerche di un genio dell'informatica: il giapponese Ensei Tankado, handicappato dalla nascita per gli effetti del disastro atomico di Hiroshima, che dopo essere stato chiamato negli Stati Uniti a lavorare per l'NSA ha sbattuto la porta in faccia ai suoi capi quando si è accorto che il supercomputer rischiava di trasformarsi in un nuovo Grande Fratello. I suoi intenti sono nobili, ma la sua decisione di boicottare l'operato dell'NSA, mettendo il programma in rete e permettendo a chiunque di scaricarlo, rischia di creare l'anarchia e di assicurare libertà d'azione a spie e criminali.",
-        "coverPath": "covers/book_1777716620196.jpg",
+        "coverPath": "covers/book_1777805716106.jpg",
         "pageCount": 434,
-        "epubPath": "ebooks/book_1777716620196.epub"
+        "epubPath": "ebooks/book_1777805716106.epub",
+        "tags": [
+            "svago"
+        ]
     },
     {
-        "id": "book_1777717826021",
-        "title": "La teoria di lasciare andare. The Let Them Theory",
-        "author": "Mel Robbins",
-        "description": "Lascia andare: e se la chiave per la felicità, il successo e l’amore fosse semplice come queste due parole? Se ti senti bloccato, sopraffatto o frustrato, il problema non sei tu. Il problema è il potere che dai agli altri. Bastano due semplici parole per liberarti dalle ansie e dalle preoccupazioni: lascia andare. Lascia perdere i giudizi, i condizionamenti o i comportamenti spiacevoli altrui: è più facile di quel che sembra. Scopri come vivere una vita più serena grazie a questa guida brillante e accessibile, ricca di storie di vita vissuta, ma anche di richiami ai migliori studi di psicologia, neuroscienze e antropologia e di pillole di saggezza attinte dai grandi pensatori antichi e moderni. La teoria di lasciare andare cambierà per sempre il tuo modo di concepire i rapporti con gli altri e ti darà gli strumenti per riprendere in mano le redini della tua esistenza: per rimettere in scala le priorità e ottenere ciò che desideri davvero, per rendere più appagante la tua vita professionale e affettiva, o magari per iniziare un nuovo capitolo e aprirti a nuove sfide. Il libro che sta cambiando la vita di milioni di persone in tutto il mondo. 2 milioni di copie vendute in un mese negli USA: un record storico per la non fiction «Mel Robbins mi ha fatto dire: “Ok, questo credo sia davvero il punto di svolta!”» «Avevo sentito tante cose positive su questo libro... E in effetti ha cambiato la mia prospettiva sulla vita quotidiana!» «Una filosofia semplice ma potente.» Mel Robbins È un’autrice di bestseller del «New York Times» e un’esperta di fama mondiale in materia di mindset, motivazione e cambiamento comportamentale, le cui opere sono state tradotte in oltre 60 lingue. Con milioni di libri venduti, sette titoli al primo posto su Audible e miliardi di visualizzazioni video, l’impatto di Mel è realmente globale. Come conduttrice di The Mel Robbins Podcast, uno dei podcast più apprezzati al mondo, ogni giorno Mel fa sentire più forti gli ascoltatori di 194 paesi. La sua media company, 143 Studios, produce contenuti stimolanti e pluripremiati, eventi trasformativi e programmi di formazione originali per clienti come Starbucks, JPMorgan-Chase, LinkedIn, Headspace e Ulta Beauty. Nota per la sua capacità di semplificare argomenti complessi in azioni pratiche quotidiane, Mel Robbins propone con La teoria di lasciare andare la sua opera più potente e profonda.",
-        "coverPath": "covers/book_1777717826021.jpg",
-        "pageCount": 297,
-        "epubPath": "ebooks/book_1777717826021.epub"
+        "id": "book_1777805718797",
+        "title": "Elon Musk. Hybris maxima",
+        "author": "Faiz Siddiqui",
+        "description": "Nessuna trama disponibile per questo libro.",
+        "coverPath": "covers/book_1777805718797.jpg",
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777805718797.epub",
+        "tags": []
     },
     {
-        "id": "book_1777743464749",
+        "id": "book_1777805724621",
+        "title": "Fahrenheit 451 di Ray Bradbury (Analisi del libro)",
+        "author": "Anne-Sophie De Clercq",
+        "description": "Che cosa dobbiamo ricordare di Fahrenheit 451, il romanzo per eccellenza della fantascienza americana? Scoprite tutto quello che c'è da sapere su quest'opera in una relazione completa e dettagliata. In questo opuscolo troverete: - Un riassunto completo - Una presentazione dei personaggi principali come Guy Montag, Mildred Montag e il Capitano Beatly - Un'analisi delle caratteristiche specifiche dell'opera: un anti-romanzo distopico, i temi del controllo politico, della censura e dell'autodafé, il potere dei media e la scomparsa dei libri. Un'analisi di riferimento per comprendere rapidamente il significato dell'opera.",
+        "coverPath": "covers/book_1777805724621.jpg",
+        "pageCount": 190,
+        "epubPath": "ebooks/book_1777805724621.epub",
+        "tags": [
+            "svago"
+        ]
+    },
+    {
+        "id": "book_1777805727275",
+        "title": "Hello World",
+        "author": "Hannah Fry",
+        "description": "'One of the best books yet written on data and algorithms. . .deserves a place on the bestseller charts.' (The Times) You are accused of a crime. Who would you rather determined your fate - a human or an algorithm? An algorithm is more consistent and less prone to error of judgement. Yet a human can look you in the eye before passing sentence. Welcome to the age of the algorithm, the story of a not-too-distant future where machines rule supreme, making important decisions - in healthcare, transport, finance, security, what we watch, where we go even who we send to prison. So how much should we rely on them? What kind of future do we want? Hannah Fry takes us on a tour of the good, the bad and the downright ugly of the algorithms that surround us. In Hello World she lifts the lid on their inner workings, demonstrates their power, exposes their limitations, and examines whether they really are an improvement on the humans they are replacing. A BBC RADIO 4: BOOK OF THE WEEK SHORTLISTED FOR THE 2018 BAILLIE GIFFORD PRIZE AND 2018 ROYAL SOCIETY SCIENCE BOOK PRIZE",
+        "coverPath": "covers/book_1777805727275.jpg",
+        "pageCount": 267,
+        "epubPath": "ebooks/book_1777805727275.epub",
+        "tags": []
+    },
+    {
+        "id": "book_1777805730001",
+        "title": "Homo deus. Breve storia del futuro",
+        "author": "Yuval Noah Harari",
+        "description": "Nella seconda metà del XX secolo l'umanità è riuscita in un'impresa che per migliaia di anni è parsa impossibile: tenere sotto controllo carestie, pestilenze e guerre. Oggi è più probabile che l'uomo medio muoia per un'abbuffata da McDonald's piuttosto che per la siccità, il virus Ebola o un attacco di al-Qaida. Nel XXI secolo, in un mondo ormai libero dalle epidemie, economicamente prospero e in pace, coltiviamo con strumenti sempre più potenti l'ambizione antica di elevarci al rango di divinità, di trasformare \"Homo sapiens\" in \"Homo Deus\". E allora cosa accadrà quando robotica, intelligenza artificiale e ingegneria genetica saranno messe al servizio della ricerca dell'immortalità e della felicità eterna? Harari racconta sogni e incubi che daranno forma al XXI secolo in una sintesi audace e lucidissima di storia, filosofia, scienza e tecnologia, e ci mette in guardia: il genere umano rischia di rendere sé stesso superfluo. Saremo in grado di proteggere questo fragile pianeta e l'umanità stessa dai nostri nuovi poteri divini?",
+        "coverPath": "covers/book_1777805730001.jpg",
+        "pageCount": 672,
+        "epubPath": "ebooks/book_1777805730001.epub",
+        "tags": []
+    },
+    {
+        "id": "book_1777805732593",
+        "title": "Dottor Futuro",
+        "author": "Philip K. Dick",
+        "description": "SAN FRANCISCO, 2012. Jim Parsons è un medico di talento, estremamente competente nell'utilizzare la raffinata tecnologia del XXI secolo. In seguito a un bizzarro incidente automobilistico, si ritrova catapultato a centinaia di anni nel futuro, in un tempo che al primo impatto gli sembra meraviglioso. Presto però scopre che in quel mondo la sua missione - curare le malattie e salvare vite - è illegale: si tratta, infatti, di una società globalizzata in cui la popolazione è mantenuta costante e, solo se un individuo muore, si può avere la nascita di un nuovo bambino, il cui patrimonio genetico viene continuamente migliorato, generazione dopo generazione. In quella civiltà così fervidamente votata alla morte, Parsons scopre però che ci sono altre persone che condividono il suo desiderio di prolungare la vita umana. Per loro, le capacità terapeutiche del dottore sono l'unica via per fondare un futuro diverso... La più terribile tra le distopie - una civiltà intera che abbraccia il culto della morte e dell'eugenetica - e i paradossi dei viaggi nel tempo, due temi classici della narrativa fantascientifica, rivisitati dalla caleidoscopica immaginazione di Philip K. Dick.",
+        "coverPath": "covers/book_1777805732593_google.jpg",
+        "pageCount": 160,
+        "epubPath": "ebooks/book_1777805732593.epub",
+        "tags": [
+            "svago"
+        ]
+    },
+    {
+        "id": "book_1777805736247",
         "title": "La forza del male",
         "author": "Stephen King",
         "description": "DAL GENIO VISIONARIO DI STEPHEN KING UN ECCEZIONALE ESPERIMENTO LETTERARIO. DUE ROMANZI LEGATI INDISSOLUBILMENTE IN UN UNICO IMPERDIBILE VOLUME. Pubblicati per la prima volta in Italia nel 1997, I vendicatori e Desperation sono due romanzi complementari, uniti dallo stesso, mostruoso protagonista: Tak, la forza oscura, una creatura diabolica e informe, in grado di scatenare un apocalittico scontro fra bene e male. È quello che accade a Wentworth, nell'Ohio, quando un'esplosione di inaudita malvagità e violenza si abbatte sulla piccola comunità, sovvertendo l'ordine delle cose. Solo una casa sembra indenne alla furia che sta devastando il quartiere, una casa in cui una donna e suo nipote lottano disperatamente contro l'entità che si sta impossessando di loro... Ed è anche quello che succede a Desperation, una tetra cittadina mineraria nel deserto del Nevada, dove alcuni inconsapevoli viaggiatori approdano senza sapere che una presenza demoniaca ha contagiato il sottosuolo e si è impadronita del corpo del poliziotto Collie Entragian. Per i vecchi fan del Re e per i nuovi adepti, due terrificanti storie parallele da scoprire o rileggere: horror allo stato puro.",
-        "coverPath": "covers/book_1777743464749.jpg",
+        "coverPath": "covers/book_1777805736247.jpg",
         "pageCount": 968,
-        "epubPath": "ebooks/book_1777743464749.epub"
+        "epubPath": "ebooks/book_1777805736247.epub",
+        "tags": [
+            "svago"
+        ]
+    },
+    {
+        "id": "book_1777805742068",
+        "title": "La nuova rivoluzione delle macchine. Lavoro e prosperità nell'era della tecnologia trionfante",
+        "author": "Erik Brynjolfsson, Andrew McAfee",
+        "description": "La prima rivoluzione industriale ha dato luogo alla più rapida e ripida crescita (di popolazione, di reddito, di produttività) della storia. In due secoli ha cambiato il volto del pianeta e la vita degli uomini, portando ricchezza e nuove possibilità, ma anche sfruttamento, inquinamento, impoverimento e distruzione di molti stili di vita tradizionali. In uno dei libri più esplosivi del 2014, in cima a tutte le classifiche di vendita americane e adorato e discusso da tutti i più importanti accademici e imprenditori, i due economisti del MIT Eric Brynjjolfsson e Andrew McAfee sostengono che è arrivato il momento per una nuova rivoluzione – questa volta non per meccanizzare il lavoro manuale, ma quello mentale. Mentre le macchine che si guidano da sole di Google macinano migliaia di chilometri per le strade della California e in ogni tasca c’è quello che dieci anni fa sarebbe stato un supercomputer, si comincia a intravedere dove può portare la convergenza digitale di hardware sempre più veloci e meno costosi e software sempre più sofisticati e adattabili: a un mondo in cui, semplicemente, molti lavori di concetto non esisteranno più, perché saranno svolti dai computer; in cui avremo accesso a un’abbondanza mai vista prima di tecnologie che ci aiuteranno in ogni ambito della nostra vita; in cui molto del nostro modello economico, e modo di vivere, sarà antico, superato, distrutto. Lavorando a partire da decenni di ricerca originale, Brynjolfsson e McAfee mostrano come siamo ormai arrivati al punto di svolta, e soprattutto offrono molte idee per affrontare questo cambiamento epocale, senza rimanere schiacciati dalla sua velocità e ampiezza.",
+        "coverPath": "covers/book_1777805742068.jpg",
+        "pageCount": 316,
+        "epubPath": "ebooks/book_1777805742068.epub",
+        "tags": []
+    },
+    {
+        "id": "book_1777805744762",
+        "title": "La singolarità è più vicina",
+        "author": "Ray Kurzweil",
+        "description": "A vent'anni dalla pubblicazione de La singolarità è vicina, Ray Kurzweil torna ad anticiparci il futuro. Nel frattempo, molte delle sue previsioni si sono avverate con l'intelligenza artificiale e le biotecnologie ormai parte della nostra vita. In questo nuovo visionario libro, Kurzweil racconta i passi avanti fatti verso la singolarità, prevede che le AI raggiungeranno il livello umano entro il 2029 e che nel prossimo futuro l'umanità cambierà in maniera radicale. Si parla di intervenire sulla materia a livello atomico attraverso nanobot, di rallentare l'invecchiamento ed estendere la vita oltre il limite di 120 anni, di potenziare la mente collegando i nostri cervelli a computer in cloud, di utilizzare gli sviluppi esponenziali della tecnologia per la creazione di energie rinnovabili e per ridurre povertà e violenza. Non mancano però le riflessioni sui potenziali rischi, come l'impatto dell'AI sull'occupazione, la sicurezza delle auto autonome e la tecnologia afterlife, che mira a far rivivere virtualmente persone decedute attraverso una combinazione di dati e DNA. Culmine di sei decenni di ricerca, La singolarità è più vicina è il coronamento del contributo di Ray Kurzweil alla rivoluzione che l'umanità sta per affrontare.",
+        "coverPath": "covers/book_1777805744762.jpg",
+        "pageCount": 230,
+        "epubPath": "ebooks/book_1777805744762.epub",
+        "tags": []
+    },
+    {
+        "id": "book_1777805747394",
+        "title": "La teoria di lasciare andare. The Let Them Theory",
+        "author": "Mel Robbins",
+        "description": "Lascia andare: e se la chiave per la felicità, il successo e l’amore fosse semplice come queste due parole? Se ti senti bloccato, sopraffatto o frustrato, il problema non sei tu. Il problema è il potere che dai agli altri. Bastano due semplici parole per liberarti dalle ansie e dalle preoccupazioni: lascia andare. Lascia perdere i giudizi, i condizionamenti o i comportamenti spiacevoli altrui: è più facile di quel che sembra. Scopri come vivere una vita più serena grazie a questa guida brillante e accessibile, ricca di storie di vita vissuta, ma anche di richiami ai migliori studi di psicologia, neuroscienze e antropologia e di pillole di saggezza attinte dai grandi pensatori antichi e moderni. La teoria di lasciare andare cambierà per sempre il tuo modo di concepire i rapporti con gli altri e ti darà gli strumenti per riprendere in mano le redini della tua esistenza: per rimettere in scala le priorità e ottenere ciò che desideri davvero, per rendere più appagante la tua vita professionale e affettiva, o magari per iniziare un nuovo capitolo e aprirti a nuove sfide. Il libro che sta cambiando la vita di milioni di persone in tutto il mondo. 2 milioni di copie vendute in un mese negli USA: un record storico per la non fiction «Mel Robbins mi ha fatto dire: “Ok, questo credo sia davvero il punto di svolta!”» «Avevo sentito tante cose positive su questo libro... E in effetti ha cambiato la mia prospettiva sulla vita quotidiana!» «Una filosofia semplice ma potente.» Mel Robbins È un’autrice di bestseller del «New York Times» e un’esperta di fama mondiale in materia di mindset, motivazione e cambiamento comportamentale, le cui opere sono state tradotte in oltre 60 lingue. Con milioni di libri venduti, sette titoli al primo posto su Audible e miliardi di visualizzazioni video, l’impatto di Mel è realmente globale. Come conduttrice di The Mel Robbins Podcast, uno dei podcast più apprezzati al mondo, ogni giorno Mel fa sentire più forti gli ascoltatori di 194 paesi. La sua media company, 143 Studios, produce contenuti stimolanti e pluripremiati, eventi trasformativi e programmi di formazione originali per clienti come Starbucks, JPMorgan-Chase, LinkedIn, Headspace e Ulta Beauty. Nota per la sua capacità di semplificare argomenti complessi in azioni pratiche quotidiane, Mel Robbins propone con La teoria di lasciare andare la sua opera più potente e profonda.",
+        "coverPath": "covers/book_1777805747394.jpg",
+        "pageCount": 297,
+        "epubPath": "ebooks/book_1777805747394.epub",
+        "tags": []
+    },
+    {
+        "id": "book_1777805750292",
+        "title": "Superintelligenza. Tendenze, pericoli, strategie",
+        "author": "Nick Bostrom",
+        "description": "«Lo consiglio vivamente. »Bill Gates «Da leggere assolutamente... Dobbiamo essere estremamente cauti con l’Intelligenza Artificiale. Potenzialmente, è più pericolosa del nucleare. »Elon Musk««Non c’è alcun dubbio sulla forza degli argomenti di Bostrom. Il problema pone una sfida formidabile ai migliori talenti matematici della prossima generazione. È in gioco la sopravvivenza della civiltà umana. »Financial Times«Questa superba analisi, condotta da uno dei più chiari pensatori del mondo, affronta una delle più grandi sfide dell’umanità: se l’Intelligenza Artificiale sovrumana diventa il più grande evento della storia umana, allora come potremo garantire che non diventi anche l’ultimo?»Max TegmarkNel gennaio 2015 Nick Bostrom è stato cofirmatario, assieme tra gli altri a Stephen Hawking, di una celebre lettera aperta che metteva in guardia sui potenziali pericoli dell’Intelligenza Artificiale. Non ha firmato quell’appello per passatismo, né tantomeno per luddismo, bensì in virtù di un lineare ragionamento filosofico. L’Intelligenza Artificiale è una delle più grandi promesse dell’umanità; grazie ai suoi sviluppi, attuali e futuri, saremo probabilmente in grado di fare cose che oggi sarebbero impensabili, vivremo meglio, e magari più a lungo e più felici. E tuttavia c’è una nube minacciosa sopra il cielo dell’Intelligenza Artificiale, e con questo libro Nick Bostrom è stato il primo a vederla e ad analizzarla, lanciando un allarme che ha avuto un’eco vastissima in tutto il mondo. Siamo proprio certi che riusciremo a governare senza problemi una macchina «superintelligente» dopo che l’avremo costruita?Se lo scopo dell’attuale ricerca sull’Intelligenza Artificiale è quello di costruire delle macchine fornite di un’intelligenza generale paragonabile a quella umana, quanto tempo occorrerà a quelle macchine, una volta costruite, per superare e surclassare le nostre capacità intellettive? Poco, ci informa Bostrom, pochissimo. Una volta raggiunto un livello di intelligenza paragonabile al nostro, alle macchine basterà un piccolo passo per «decollare» esponenzialmente, dando origine a superintelligenze che per noi risulteranno rapidamente inarrivabili. A quel punto le nostre creature potrebbero scapparci di mano, non necessariamente per «malvagità», ma anche solo come effetto collaterale della loro attività. Potrebbero arrivare a distruggerci o addirittura a distruggere il mondo intero.Per questo – sostiene Bostrom – dobbiamo preoccuparcene ora. Per non rinunciare ai benefici che l’Intelligenza Artificiale potrà apportare, è necessario che la ricerca tecnologica si ponga adesso le domande che questo libro pone con enorme chiarezza e chiaroveggenza.",
+        "coverPath": "covers/book_1777805750292_google.jpg",
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777805750292.epub",
+        "tags": []
+    },
+    {
+        "id": "book_1777805753081",
+        "title": "Summary of The Big Nine Amy Webb - How the Tech Titans and Their Thinking Machines Could Warp Humanity",
+        "author": "Dmpublishers",
+        "description": "A call-to-arms about the broken nature of artificial intelligence, and the powerful corporations that are turning the human-machine relationship on its head.We like to think that we are in control of the future of \"artificial\" intelligence. The reality, though, is that we--the everyday people whose data powers AI--aren't actually in control of anything. When, for example, we speak with Alexa, we contribute that data to a system we can't see and have no input into--one largely free from regulation or oversight. The big nine corporations--Amazon, Google, Facebook, Tencent, Baidu, Alibaba, Microsoft, IBM and Apple--are the new gods of AI and are short-changing our futures to reap immediate financial gain. In this book, Amy Webb reveals the pervasive, invisible ways in which the foundations of AI--the people working on the system, their motivations, the technology itself--is broken. Within our lifetimes, AI will, by design, begin to behave unpredictably, thinking and acting in ways which defy human logic. The big nine corporations may be inadvertently building and enabling vast arrays of intelligent systems that don't share our motivations, desires, or hopes for the future of humanity.Much more than a passionate, human-centered call-to-arms, this book delivers a strategy for changing course, and provides a path for liberating us from algorithmic decision-makers and powerful corporations.",
+        "coverPath": "covers/book_1777805753081.jpg",
+        "pageCount": 400,
+        "epubPath": "ebooks/book_1777805753081.epub",
+        "tags": []
+    },
+    {
+        "id": "book_1777805758895",
+        "title": "Vita 3.0",
+        "author": "Max Tegmark",
+        "description": "In che modo l’intelligenza artificiale influirà su criminalità, giustizia, occupazione, società e sul senso stesso di essere umani? Come possiamo far crescere la nostra prosperità grazie all’automazione senza che le persone perdano reddito o uno scopo? Quali consigli dobbiamo dare ai bambini di oggi per la loro futura carriera lavorativa? Dobbiamo temere una corsa agli armamenti con armi letali autonome? Le macchine alla fine ci supereranno sostituendo gli umani nel mercato del lavoro? L’intelligenza artificiale aiuterà la vita a fiorire come mai prima d’ora o ci darà un potere più grande di quello che siamo in grado di gestire? Questo libro offre gli strumenti per partecipare alla riflessione sul tipo di futuro che vogliamo e che noi, come specie, potremmo creare. Non teme di affrontare l’intero spettro dei punti di vista o i temi più controversi: dalla superintelligenza al significato dell’esistenza, alla coscienza e ai limiti ultimi che la fisica impone alla vita nel cosmo.",
+        "coverPath": "covers/book_1777805758895.jpg",
+        "pageCount": 468,
+        "epubPath": "ebooks/book_1777805758895.epub",
+        "tags": []
+    },
+    {
+        "id": "book_1777805761607",
+        "title": "Wohpe",
+        "author": "Salvatore Sanfilippo",
+        "description": "Fine del XXI secolo. L'intelligenza artificiale forte è vietata da vent'anni, ma ora i cambiamenti climatici sono inarrestabili, la civiltà in pericolo. Asako e Michel, due esperti di intelligenza artificiale, fanno gli ultimi controlli prima dell'avvio del progetto Wohpe: l'enorme rete neurale a cui porre le domande decisive. Sarà la salvezza o la fine di tutto.",
+        "coverPath": "covers/book_1777805761607.jpg",
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777805761607.epub",
+        "tags": [
+            "svago"
+        ]
     }
 ]

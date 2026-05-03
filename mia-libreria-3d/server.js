@@ -15,6 +15,7 @@ const uploadDir = 'uploads/';
 const publicDir = path.join(process.cwd(), 'public');
 const coversDir = path.join(publicDir, 'covers');
 const booksJsonPath = path.join(publicDir, 'books.json');
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 // Creiamo le cartelle se non esistono
 if (!fsSync.existsSync(uploadDir)) fsSync.mkdirSync(uploadDir);
@@ -71,14 +72,15 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
     }
 }
 
-// 2. Ricerca su Google Books (Sistema a Punteggio sui primi 10 risultati)
+// 2. Ricerca su Google Books (Sistema a Punteggio sui primi 10 risultati con Retry)
 async function fetchGoogleBooksData(title, author) {
     let result = {
         description: "Trama non trovata su Google Books.",
         coverUrl: null,
         pageCount: 350,
         googleTitle: null,
-        googleAuthor: null
+        googleAuthor: null,
+        categories: []
     };
 
     try {
@@ -89,9 +91,31 @@ async function fetchGoogleBooksData(title, author) {
         
         const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(cleanQuery)}&langRestrict=it&printType=books&maxResults=10&key=AIzaSyDf-vxdHbYaoJJ0s65sR-9l_aIWoV2qgqA`;
         
-        const response = await axios.get(url, { timeout: 8000 });
+        console.log(`🌐 Sto contattando Google con questo URL: ${url}`);
 
-        if (response.data.items && response.data.items.length > 0) {
+        // --- SISTEMA DI RETRY (Fino a 3 tentativi) ---
+        let response = null;
+        let isSuccess = false;
+
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+                response = await axios.get(url, { timeout: 8000 });
+                isSuccess = true;
+                break; // Se ha successo, interrompe immediatamente il ciclo
+            } catch (error) {
+                // Se è un errore 503 e non siamo all'ultimo tentativo
+                if (error.response && error.response.status === 503 && attempt < 3) {
+                    console.log(`   ⚠️ Google limitato (503). Tentativo ${attempt}/3 fallito. Riprovo tra 3 secondi...`);
+                    await delay(3000); // Pausa di 3 secondi
+                } else {
+                    // Altrimenti (es. nessun internet, timeout o fine tentativi), lancia l'errore al catch esterno
+                    throw error;
+                }
+            }
+        }
+        // ----------------------------------------------
+
+        if (isSuccess && response && response.data.items && response.data.items.length > 0) {
             let bestVolume = null;
             let highestScore = -1;
 
@@ -195,7 +219,10 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         }
 
         console.log(`✔️  Dati iniziali: "${epubData.title}" di ${epubData.author}`);
-
+        
+        console.log(`⏳ Attesa iniziale di 2 secondi per non sovraccaricare le API di Google...`);
+        await delay(2000);
+        
         console.log(`🔍 Ricerca dati su Google Books...`);
         const googleData = await fetchGoogleBooksData(epubData.title, epubData.author);
 
@@ -246,7 +273,8 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
             description: finalDescription, 
             coverPath: finalCoverPath,
             pageCount: googleData.pageCount || 350,
-            epubPath: finalEpubPath
+            epubPath: finalEpubPath,
+            tags: []
         };
 
         console.log(`📝 Aggiornamento della libreria...`);
@@ -298,6 +326,41 @@ app.post('/api/chat', async (req, res) => {
             success: false, 
             message: "Errore durante la consultazione del libro o la comunicazione con Ollama." 
         });
+    }
+});
+
+// --- ROTTA PER AGGIUNGERE TAG PERSONALIZZATI ---
+app.post('/api/books/:id/tags', async (req, res) => {
+    const bookId = req.params.id;
+    const { tag } = req.body;
+
+    if (!tag || tag.trim() === '') {
+        return res.status(400).json({ success: false, message: 'Tag non valido.' });
+    }
+
+    try {
+        const fileData = await fs.readFile(booksJsonPath, 'utf-8');
+        let books = JSON.parse(fileData);
+        const bookIndex = books.findIndex(b => b.id === bookId);
+
+        if (bookIndex === -1) return res.status(404).json({ success: false, message: 'Libro non trovato.' });
+
+        // Inizializza l'array se non esiste
+        if (!books[bookIndex].tags) books[bookIndex].tags = [];
+
+        const cleanTag = tag.trim();
+        // Aggiungiamo il tag in cima, così diventa la categoria "Principale" per la mensola
+        const tagExists = books[bookIndex].tags.some(t => t.toLowerCase() === cleanTag.toLowerCase());
+        
+        if (!tagExists) {
+            books[bookIndex].tags.unshift(cleanTag); // unshift lo mette al primo posto
+            await fs.writeFile(booksJsonPath, JSON.stringify(books, null, 4));
+            return res.json({ success: true, message: 'Tag aggiunto!' });
+        } else {
+            return res.json({ success: true, message: 'Tag già presente.' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Errore interno del server.' });
     }
 });
 

@@ -10,7 +10,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color('#2c3e50'); 
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, -0.2, 3.5); 
+camera.position.set(0, 1.5, 3.5); 
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -73,6 +73,7 @@ const baseCoverMaterial = new THREE.MeshStandardMaterial({ color: baseCoverColor
 let booksArray = [];
 let currentIndex = 0;
 let isShowingBack = false;
+let targetCameraY = 1.5; // Altezza bersaglio della telecamera
 
 // --- 2. STILI CSS MODERNI E UI (Menu + Bottone Inferiore) ---
 const styleStyle = document.createElement('style');
@@ -146,7 +147,29 @@ document.head.appendChild(styleStyle);
 // --- COSTRUZIONE MENU SUPERIORE ---
 const topBar = document.createElement('div');
 topBar.className = 'top-bar';
+topBar.style.width = '95%'; // Allarghiamo un po' per farci stare tutto
+topBar.style.maxWidth = '1000px'; 
 document.body.appendChild(topBar);
+
+// --- COSTRUZIONE ETICHETTA CATEGORIA (In alto a sinistra) ---
+const categoryLabel = document.createElement('div');
+categoryLabel.className = 'glass-effect';
+categoryLabel.style.padding = '12px 20px';
+categoryLabel.style.borderRadius = '50px';
+categoryLabel.style.fontSize = '13px';
+categoryLabel.style.fontWeight = 'bold';
+categoryLabel.style.letterSpacing = '1px';
+categoryLabel.style.whiteSpace = 'nowrap';
+categoryLabel.style.display = 'none'; // Nascosta all'avvio
+topBar.appendChild(categoryLabel);
+
+const tagBtn = document.createElement('button');
+tagBtn.innerHTML = '✏️ Modifica';
+tagBtn.title = 'Sposta questo libro su una mensola diversa';
+tagBtn.className = 'glass-effect modern-btn';
+tagBtn.style.padding = '12px 15px';
+tagBtn.style.display = 'none'; // Nascosto all'avvio
+topBar.appendChild(tagBtn);
 
 const searchInput = document.createElement('input');
 searchInput.type = 'text';
@@ -167,12 +190,17 @@ fileInput.accept = '.epub';
 fileInput.multiple = true;
 topBar.appendChild(fileInput);
 
+
+
 // --- COSTRUZIONE BOTTONE INFERIORE ---
 const uiContainer = document.createElement('div');
 uiContainer.style.position = 'absolute';
 uiContainer.style.bottom = '40px';
 uiContainer.style.left = '50%';
 uiContainer.style.transform = 'translateX(-50%)';
+uiContainer.style.display = 'flex'; // Usiamo Flexbox per allinearli perfettamente
+uiContainer.style.gap = '15px';     // Spazio uniforme tra i bottoni
+uiContainer.style.alignItems = 'center';
 document.body.appendChild(uiContainer);
 
 const infoBtn = document.createElement('button');
@@ -184,7 +212,6 @@ uiContainer.appendChild(infoBtn);
 const chatBtn = document.createElement('button');
 chatBtn.innerHTML = '💬 Parla col Libro';
 chatBtn.className = 'glass-effect modern-btn';
-chatBtn.style.marginLeft = '15px'; // Lo stacchiamo un po' dal bottone della trama
 uiContainer.appendChild(chatBtn);
 
 // --- LOGICA DEL PANNELLO CHAT IA ---
@@ -311,6 +338,34 @@ chatInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendChatMessage();
 });
 
+
+tagBtn.onclick = async () => {
+    if (booksArray.length === 0) return;
+    const activeBook = booksArray[currentIndex];
+    
+    const newTag = prompt(`Crea una nuova mensola/categoria per "${activeBook.userData.title}":`);
+    if (!newTag || newTag.trim() === '') return;
+
+    try {
+        const response = await fetch(`/api/books/${activeBook.userData.id}/tags`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tag: newTag })
+        });
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('Categoria assegnata! La libreria verrà riorganizzata.');
+            // Ricarichiamo la pagina per ricostruire le mensole fisiche da zero!
+            location.reload();
+        } else {
+            alert(result.message);
+        }
+    } catch (e) {
+        console.error(e);
+    }
+};
+
 // --- COSTRUZIONE FRECCE LATERALI ---
 const leftArrow = document.createElement('button');
 leftArrow.innerHTML = '&#10094;'; // Simbolo freccia sinistra
@@ -350,6 +405,43 @@ function changeBook(direction) {
     }
 }
 
+function changeShelf(direction) {
+    if (booksArray.length === 0) return;
+    const currentCategory = booksArray[currentIndex].userData.category;
+    let targetIndex = -1;
+
+    if (direction === 1) { 
+        // VAI ALLA MENSOLA SOPRA: Cerca in avanti il primo libro di una categoria diversa
+        for (let i = currentIndex; i < booksArray.length; i++) {
+            if (booksArray[i].userData.category !== currentCategory) {
+                targetIndex = i;
+                break;
+            }
+        }
+    } else { 
+        // VAI ALLA MENSOLA SOTTO: Trova l'inizio della mensola precedente
+        let firstOfCurrent = currentIndex;
+        while (firstOfCurrent > 0 && booksArray[firstOfCurrent - 1].userData.category === currentCategory) {
+            firstOfCurrent--;
+        }
+        if (firstOfCurrent > 0) {
+            const prevCategory = booksArray[firstOfCurrent - 1].userData.category;
+            let firstOfPrev = firstOfCurrent - 1;
+            while (firstOfPrev > 0 && booksArray[firstOfPrev - 1].userData.category === prevCategory) {
+                firstOfPrev--;
+            }
+            targetIndex = firstOfPrev;
+        }
+    }
+
+    if (targetIndex !== -1) {
+        currentIndex = targetIndex;
+        isShowingBack = false;
+        infoBtn.innerText = 'Mostra Trama';
+        updateCarousel();
+    }
+}
+
 // Eventi click sulle frecce
 leftArrow.onclick = () => changeBook(-1);
 rightArrow.onclick = () => changeBook(1);
@@ -367,10 +459,19 @@ searchInput.addEventListener('input', (e) => {
     if (!query) return;
 
     // Cerca il primo libro che contiene il testo nel titolo o nell'autore
-    const foundIndex = booksArray.findIndex(book => 
-        book.userData.title.toLowerCase().includes(query) || 
-        book.userData.author.toLowerCase().includes(query)
-    );
+    const foundIndex = booksArray.findIndex(book => {
+        // Cerchiamo in titolo e autore
+        const matchTitle = book.userData.title.toLowerCase().includes(query);
+        const matchAuthor = book.userData.author.toLowerCase().includes(query);
+        
+        // Cerchiamo nei tag (assicurandoci che esistano prima di fare map/some)
+        let matchTag = false;
+        if (book.userData.tags && book.userData.tags.length > 0) {
+            matchTag = book.userData.tags.some(tag => tag.toLowerCase().includes(query));
+        }
+
+        return matchTitle || matchAuthor || matchTag;
+    });
 
     if (foundIndex !== -1 && foundIndex !== currentIndex) {
         currentIndex = foundIndex;
@@ -487,129 +588,175 @@ function createBackCoverTexture(description) {
     return new THREE.CanvasTexture(canvas);
 }
 
-// --- 4. CARICAMENTO E LOGICA CAROSELLO ---
 // --- 4. CARICAMENTO E LOGICA CAROSELLO (Con Modellazione Reale dello spessore) ---
 async function loadBooks() {
     try {
         const response = await fetch('/books.json');
         const booksData = await response.json();
 
-        booksData.forEach((bookData, index) => {
-            // --- DIMENSIONI REALI ---
-            // Larghezza e Altezza Standard (per garantire che le copertine si mappino perfettamente)
-            // Se li cambiassimo a caso come prima, le immagini della copertina si distorcerebbero.
-            const bookWidth = 2.0;
-            const bookHeight = 3.0;
-
-            // --- SPESSORE REALE BASATO SULLE PAGINE ---
-            // Recuperiamo il pageCount ( fallback a 350 se il dato manca nel JSON per vecchi libri)
-            const pages = bookData.pageCount || 350;
-            
-            // Formula matematica di modellazione fisica:
-            // Ipotizziamo uno spessore standard della carta editoriale (circa 0.1mm per foglio, 
-            // quindi 0.05mm per pagina visto che è stampata fronte/retro).
-            // Nelle nostre unità Three.js, un fattore di 0.001 per pagina funziona perfettamente:
-            // 100 pagine = 0.1 unità di spessore
-            // 350 pagine (standard) = 0.35 unità di spessore
-            // 1000 pagine (mattone) = 1.0 unità di spessore
-            const bookThickness = pages * 0.001; 
-            
-            console.log(`Creazione 3D: "${bookData.title}" -> Pagine: ${pages}, Spessore calcolato: ${bookThickness.toFixed(3)} unità.`);
-
-            // Creiamo la geometria esatta
-            const geometry = new THREE.BoxGeometry(bookWidth, bookHeight, bookThickness);
-            
-            const spineTexture = createSpineTexture(bookData.title, bookData.author);
-            const spineMaterial = new THREE.MeshStandardMaterial({ map: spineTexture, roughness: 0.7 });
-
-            let materials = [
-                pagesMaterial, spineMaterial, pagesMaterial, pagesMaterial, baseCoverMaterial, baseCoverMaterial
-            ];
-
-            if (bookData.coverPath) {
-                materials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load(`/${bookData.coverPath}`), roughness: 0.8 });
-            }
-
-            const bookMesh = new THREE.Mesh(geometry, materials);
-            bookMesh.castShadow = true; // IL LIBRO GETTA L'OMBRA
-            bookMesh.receiveShadow = true;
-
-            // Adattiamo il piano posteriore della trama alle nuove misure!
-            const planeGeo = new THREE.PlaneGeometry(bookWidth, bookHeight); 
-            const planeMat = new THREE.MeshStandardMaterial({ map: createBackCoverTexture(bookData.description), roughness: 0.8 });
-            const backPlane = new THREE.Mesh(planeGeo, planeMat);
-            
-            // Posizioniamo il retro esattamente dietro al cubo: metà dello spessore + un millimetro di sicurezza
-            backPlane.position.z = -(bookThickness / 2) - 0.001; 
-            backPlane.rotation.y = Math.PI; 
-            bookMesh.add(backPlane);
-
-            bookMesh.userData = { ...bookData, index: index , thickness: bookThickness };
-            libraryGroup.add(bookMesh);
-            booksArray.push(bookMesh);
+        // 1. Raggruppiamo i libri per Categoria (prendiamo il primo tag, o "Senza Categoria")
+        const categoriesMap = new Map();
+        booksData.forEach(book => {
+            const cat = (book.tags && book.tags.length > 0) ? book.tags[0] : 'Senza Categoria';
+            if (!categoriesMap.has(cat)) categoriesMap.set(cat, []);
+            categoriesMap.get(cat).push(book);
         });
 
-        // NOTA SULLA SPAZIATURA: La spaziatura laterale a 0.75 che abbiamo impostato precedentemente
-        // è sufficiente per contenere anche libri molto spessi (fino a 700-800 pagine) senza che si tocchino.
+        let shelfIndex = 0;
+        let globalBookIndex = 0;
+
+        // 2. Creiamo una mensola per ogni categoria
+        categoriesMap.forEach((booksInShelf, categoryName) => {
+            // Ogni mensola dista 4.2 unità sull'asse Y da quella sotto
+            const shelfY = -1.6 + (shelfIndex * 4.2);
+            
+            // Crea la geometria della mensola
+            const shelfMesh = new THREE.Mesh(shelfGeometry, shelfMaterial);
+            shelfMesh.position.set(0, shelfY, -0.5);
+            shelfMesh.receiveShadow = true;
+            scene.add(shelfMesh);
+
+            console.log(`Creata mensola "${categoryName}" ad altezza ${shelfY}`);
+
+            // 3. Posizioniamo i libri su questa specifica mensola
+            booksInShelf.forEach((bookData, indexInShelf) => {
+                const bookWidth = 2.0;
+                const bookHeight = 3.0;
+                const pages = bookData.pageCount || 350;
+                const bookThickness = pages * 0.001; 
+
+                const geometry = new THREE.BoxGeometry(bookWidth, bookHeight, bookThickness);
+                const spineTexture = createSpineTexture(bookData.title, bookData.author);
+                const spineMaterial = new THREE.MeshStandardMaterial({ map: spineTexture, roughness: 0.7 });
+
+                let materials = [pagesMaterial, spineMaterial, pagesMaterial, pagesMaterial, baseCoverMaterial, baseCoverMaterial];
+                if (bookData.coverPath) {
+                    materials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load(`/${bookData.coverPath}`), roughness: 0.8 });
+                }
+
+                const bookMesh = new THREE.Mesh(geometry, materials);
+                bookMesh.castShadow = true;
+                bookMesh.receiveShadow = true;
+
+                // Modifica anche il retro per stampare i tag personalizzati!
+                const planeGeo = new THREE.PlaneGeometry(bookWidth, bookHeight); 
+                const planeMat = new THREE.MeshStandardMaterial({ map: createBackCoverTexture(bookData.description, bookData.tags), roughness: 0.8 });
+                const backPlane = new THREE.Mesh(planeGeo, planeMat);
+                backPlane.position.z = -(bookThickness / 2) - 0.001; 
+                backPlane.rotation.y = Math.PI; 
+                bookMesh.add(backPlane);
+
+                // Salviamo le coordinate specifiche della mensola nel libro
+                const baseShelfY = shelfY + 1.6;
+                bookMesh.userData = { 
+                    ...bookData, 
+                    index: globalBookIndex, 
+                    category: categoryName,
+                    indexInShelf: indexInShelf,
+                    thickness: bookThickness,
+                    baseShelfY: baseShelfY,
+                    targetY: baseShelfY // Target Y di partenza
+                };
+
+                // Posizioniamo fisicamente il libro sull'asse Y della sua mensola
+                bookMesh.position.y = baseShelfY;
+
+                libraryGroup.add(bookMesh);
+                booksArray.push(bookMesh);
+                globalBookIndex++;
+            });
+            shelfIndex++;
+        });
+
+        // Troviamo il libro corrispondente al nostro currentIndex globale e organizziamo i ripiani
         updateCarousel();
     } catch (e) { console.error(e); }
 }
 
 function updateCarousel() {
-    // 1. Posizioniamo il libro centrale
-    if (booksArray[currentIndex]) {
-        const centerBook = booksArray[currentIndex];
-        centerBook.userData.targetX = 0;
-        centerBook.userData.targetZ = 0.5;
-        centerBook.userData.targetRotY = isShowingBack ? Math.PI : 0;
-    }
+    if (booksArray.length === 0) return;
+    
+    const activeBook = booksArray[currentIndex];
+    const activeCategory = activeBook.userData.category;
 
+    categoryLabel.style.display = 'block'; 
+    tagBtn.style.display = 'block'; // Mostriamo anche il bottoncino
+    categoryLabel.innerText = `📁 ${activeCategory.toUpperCase()}`;
+
+    // SPOSTA LA TELECAMERA sull'asse Y della mensola attiva
+    targetCameraY = activeBook.userData.baseShelfY;
+
+    // Filtriamo i libri che si trovano sulla STESSA mensola del libro attivo
+    const booksOnActiveShelf = booksArray.filter(b => b.userData.category === activeCategory);
+    
+    // Filtriamo i libri che NON sono su questa mensola
+    const booksOnOtherShelves = booksArray.filter(b => b.userData.category !== activeCategory);
+
+    // 1. GESTIONE DELLA MENSOLA ATTIVA (Apre il buco al centro)
     const centerGap = 1.6; 
     const margin = 0.08; 
 
-    // 2. Impiliamo i libri verso DESTRA
+    // Posizioniamo il libro centrale
+    activeBook.userData.targetX = 0;
+    activeBook.userData.targetZ = 0.5;
+    activeBook.userData.targetRotY = isShowingBack ? Math.PI : 0;
+
+    // Impiliamo i libri verso DESTRA sulla mensola attiva
     let currentXRight = centerGap;
-    for (let i = currentIndex + 1; i < booksArray.length; i++) {
-        let book = booksArray[i];
-        
+    for (let i = activeBook.userData.indexInShelf + 1; i < booksOnActiveShelf.length; i++) {
+        let book = booksOnActiveShelf[i];
         book.userData.targetX = currentXRight + (book.userData.thickness / 2);
         book.userData.targetZ = -1.5;
-        // Mantiene il dorso frontale
         book.userData.targetRotY = Math.PI / 2; 
-        
         currentXRight += book.userData.thickness + margin;
     }
 
-    // 3. Impiliamo i libri verso SINISTRA
+    // Impiliamo i libri verso SINISTRA sulla mensola attiva
     let currentXLeft = -centerGap;
-    for (let i = currentIndex - 1; i >= 0; i--) {
-        let book = booksArray[i];
-        
+    for (let i = activeBook.userData.indexInShelf - 1; i >= 0; i--) {
+        let book = booksOnActiveShelf[i];
         book.userData.targetX = currentXLeft - (book.userData.thickness / 2);
         book.userData.targetZ = -1.5;
-        
-        // LA CORREZIONE È QUI: Anche a sinistra la rotazione DEVE essere negativa!
-        // Se la metti positiva, ci mostrerà il lato destro del libro (le pagine).
         book.userData.targetRotY = Math.PI / 2; 
-        
         currentXLeft -= (book.userData.thickness + margin);
     }
+
+    // 2. GESTIONE DELLE ALTRE MENSOLE (Libri compatti e messi via)
+    // Raggruppiamo gli altri libri per categoria
+    const otherCategories = [...new Set(booksOnOtherShelves.map(b => b.userData.category))];
+    
+    otherCategories.forEach(cat => {
+        const shelfBooks = booksOnOtherShelves.filter(b => b.userData.category === cat);
+        // Calcoliamo la larghezza totale per centrarli
+        const totalWidth = shelfBooks.reduce((sum, b) => sum + b.userData.thickness + margin, 0);
+        
+        let startX = -(totalWidth / 2); // Partiamo da sinistra per centrarli sulla mensola
+        shelfBooks.forEach(book => {
+            book.userData.targetX = startX + (book.userData.thickness / 2);
+            book.userData.targetZ = -1.5;
+            book.userData.targetRotY = Math.PI / 2;
+            startX += book.userData.thickness + margin;
+        });
+    });
 }
 
+// --- 5. INTERAZIONI UNIFICATE (Click, Swipe, Trackpad) ---
 // --- 5. INTERAZIONI UNIFICATE (Click, Swipe, Trackpad) ---
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 // Variabili per riconoscere lo swipe (trascinamento)
 let pointerStartX = 0;
+let pointerStartY = 0; // Tracciamo anche la Y
 let pointerEndX = 0;
+let pointerEndY = 0;   // Tracciamo anche la Y
 let isDragging = false;
 
 window.addEventListener('pointerdown', (event) => {
-    // Ignora le interazioni se l'utente sta cliccando la UI (bottoni, barra di ricerca)
     if (event.target.tagName === 'BUTTON' || event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL') return;
     
     pointerStartX = event.clientX;
+    pointerStartY = event.clientY;
     isDragging = true;
 });
 
@@ -617,20 +764,24 @@ window.addEventListener('pointerup', (event) => {
     if (!isDragging) return;
     isDragging = false;
     pointerEndX = event.clientX;
+    pointerEndY = event.clientY;
     
-    // Calcoliamo di quanti pixel si è spostato il mouse/dito
+    // Calcoliamo lo spostamento su entrambi gli assi
     const deltaX = pointerStartX - pointerEndX;
+    const deltaY = pointerStartY - pointerEndY;
 
-    // Se si è mosso di più di 50 pixel, è chiaramente uno SWIPE (trascinamento)
-    if (Math.abs(deltaX) > 50) {
-        if (deltaX > 0) {
-            changeBook(1); // Swipe verso sinistra -> scorre in avanti
-        } else {
-            changeBook(-1); // Swipe verso destra -> scorre indietro
-        }
+    // 1. SWIPE ORIZZONTALE (Cambio Libro)
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0) changeBook(1); 
+        else changeBook(-1);           
     } 
-    // Altrimenti, se non si è mosso (o si è mosso pochissimo), è un CLICK su un libro
-    else {
+    // 2. SWIPE VERTICALE (Cambio Mensola)
+    else if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 50) {
+        if (deltaY > 0) changeShelf(-1); // Swipe in Su -> Guarda la mensola sotto
+        else changeShelf(1);             // Swipe in Giù -> Guarda la mensola sopra
+    } 
+    // 2. È UN CLICK PURO? (Nessuno spostamento reale, o piccolissimo tremolio del dito)
+    else if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         raycaster.setFromCamera(mouse, camera);
@@ -647,36 +798,26 @@ window.addEventListener('pointerup', (event) => {
                 isShowingBack = false;
                 infoBtn.innerText = 'Mostra Trama';
                 updateCarousel();
-            }else {
-                // LA MAGIA: Se clicchi il libro già al centro... APRIAMOLO!
+            } else {
+                // APERTURA DEL LIBRO
                 const activeBook = booksArray[currentIndex];
-                
-                // Animazione: Portiamo il libro dritto in faccia alla telecamera
-                activeBook.userData.targetZ = 2.8; // Molto vicino alla telecamera (che è a Z=3.5)
-                activeBook.userData.targetRotY = 0; // Piatto e dritto
+                activeBook.userData.targetZ = 2.8; 
+                activeBook.userData.targetRotY = 0; 
                 
                 if (!activeBook.userData.hasHinge) {
                     const coverGeo = new THREE.PlaneGeometry(2.0, 3.0);
-                    const coverMat = activeBook.material[4]; // Copiamo la texture della copertina attuale
-
-                    // Creiamo un gruppo che farà da "cerniera" posizionato sul lato sinistro del libro
+                    const coverMat = activeBook.material[4]; 
                     const hinge = new THREE.Group();
                     hinge.position.set(-1.0, 0, activeBook.userData.thickness / 2 + 0.002);
-
-                    // Creiamo il foglio della copertina e lo spostiamo a destra per bilanciare la cerniera
                     const movingCover = new THREE.Mesh(coverGeo, coverMat);
                     movingCover.position.set(1.0, 0, 0);
                     hinge.add(movingCover);
-
                     activeBook.add(hinge);
                     activeBook.userData.hinge = hinge;
                     activeBook.userData.hasHinge = true;
-
-                    // Cancelliamo la copertina stampata sul "mattone" e mettiamo una pagina bianca!
                     activeBook.material[4] = new THREE.MeshStandardMaterial({ color: 0xf5f5dc, roughness: 0.9 });
                 }
 
-                // Nascondiamo l'interfaccia 3D
                 document.querySelector('.top-bar').style.opacity = '0';
                 uiContainer.style.opacity = '0';
                 leftArrow.style.opacity = '0';
@@ -684,59 +825,53 @@ window.addEventListener('pointerup', (event) => {
                 
                 activeBook.userData.hinge.userData = { targetRotY: -Math.PI * 0.85 };
 
-                // Aspettiamo mezza frazione di secondo che l'animazione 3D parta, poi avviamo il lettore 2D
                 setTimeout(() => {
                     window.openReader(activeBook.userData.epubPath, activeBook.userData.id);
                 }, 400); 
             }
         }
     }
+    // NOTA: Se è uno swipe puramente verticale (deltaY > deltaX), il codice ora non farà assolutamente nulla!
 });
 
 // Aggiungiamo il supporto alla ROTELLINA DEL MOUSE e al TRACKPAD
-let scrollTimeout = null; // Ci serve per non far schizzare i libri a mille all'ora
+let scrollTimeout = null; 
 window.addEventListener('wheel', (event) => {
-    if (scrollTimeout) return; // Se stiamo già scorrendo, ignora l'input
+    if (scrollTimeout) return;
 
-    // event.deltaY cattura la rotellina classica, event.deltaX cattura lo swipe orizzontale del trackpad
-    if (Math.abs(event.deltaX) > 20 || Math.abs(event.deltaY) > 20) {
-        if (event.deltaX > 0 || event.deltaY > 0) {
-            changeBook(1); // Scorre avanti
-        } else {
-            changeBook(-1); // Scorre indietro
-        }
-        
-        // Imposta una "pausa" di 300 millisecondi prima di poter scorrere di nuovo
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 20) {
+        if (event.deltaX > 0) changeBook(1); 
+        else changeBook(-1); 
         scrollTimeout = setTimeout(() => { scrollTimeout = null; }, 300);
+    } 
+    else if (Math.abs(event.deltaY) > Math.abs(event.deltaX) && Math.abs(event.deltaY) > 20) {
+        if (event.deltaY > 0) changeShelf(-1); // Rotellina giù -> Guarda mensola sotto
+        else changeShelf(1);                   // Rotellina su -> Guarda mensola sopra
+        scrollTimeout = setTimeout(() => { scrollTimeout = null; }, 500); // Pausa più lunga per non far schizzare le mensole
     }
 });
 
 // --- 8. NAVIGAZIONE CON TASTIERA (Frecce Direzionali) ---
 window.addEventListener('keydown', (event) => {
-    // 1. Evitiamo di cambiare libro se l'utente sta scrivendo nella barra di ricerca
     if (document.activeElement.tagName === 'INPUT') return;
-
-    // 2. Evitiamo di spostare i libri 3D se il lettore 2D è aperto
     const readerOverlay = document.getElementById('reader-overlay');
     if (readerOverlay && readerOverlay.style.display === 'block') return;
 
-    // 3. Gestiamo le frecce!
     if (event.key === 'ArrowRight') {
-        changeBook(1); // Scorre avanti
+        changeBook(1); 
     } else if (event.key === 'ArrowLeft') {
-        changeBook(-1); // Scorre indietro
+        changeBook(-1); 
+    } else if (event.key === 'ArrowUp') {
+        changeShelf(1); // Freccia su -> Sali di un piano
+    } else if (event.key === 'ArrowDown') {
+        changeShelf(-1); // Freccia giù -> Scendi di un piano
     } 
-    // BONUS: Se preme Invio o Spazio, apre il libro centrale o mostra la trama!
     else if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault(); // Evita scroll strani con la barra spaziatrice
-        
-        // Simuliamo un click al centro dello schermo per aprire il libro o voltarlo
+        event.preventDefault(); 
         if (booksArray.length > 0) {
-            // Se non stiamo mostrando il retro, premi spazio/invio per vedere la trama
             if (!isShowingBack) {
                 infoBtn.click();
             } else {
-                // Altrimenti, un secondo invio/spazio apre il lettore!
                 const activeBook = booksArray[currentIndex];
                 if (activeBook && activeBook.userData.epubPath) {
                     window.openReader(activeBook.userData.epubPath, activeBook.userData.id);
@@ -804,9 +939,16 @@ if (helpModal) {
 function animate() {
     requestAnimationFrame(animate);
     
+    // Movimento fluido della telecamera in verticale verso la mensola attiva
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetCameraY, 0.05);
+    // Spostiamo anche la luce per mantenere le ombre perfette!
+    directionalLight.position.y = camera.position.y + 10;
+    
     booksArray.forEach(book => {
         if (book.userData.targetX !== undefined) {
             book.position.x = THREE.MathUtils.lerp(book.position.x, book.userData.targetX, 0.1);
+            // NUOVO: interpolazione asse Y (utile se i libri "saltano" di piano, anche se ora partono già dal loro piano)
+            book.position.y = THREE.MathUtils.lerp(book.position.y, book.userData.targetY, 0.1);
             book.position.z = THREE.MathUtils.lerp(book.position.z, book.userData.targetZ, 0.1);
             book.rotation.y = THREE.MathUtils.lerp(book.rotation.y, book.userData.targetRotY, 0.1);
         }
