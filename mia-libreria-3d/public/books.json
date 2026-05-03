@@ -151,7 +151,9 @@
         "coverPath": "covers/book_1777805747394.jpg",
         "pageCount": 297,
         "epubPath": "ebooks/book_1777805747394.epub",
-        "tags": []
+        "tags": [
+            "sviluppo personale"
+        ]
     },
     {
         "id": "book_1777805750292",
@@ -199,6 +201,126 @@
         "epubPath": "ebooks/book_1777805761607.epub",
         "tags": [
             "svago"
+        ]
+    },
+    {
+        "id": "book_1777810431216",
+        "title": "Deep work: Concentrati al massimo (Italian Edition)",
+        "author": "Cal Newport",
+        "description": "Nessuna trama disponibile per questo libro.",
+        "coverPath": "covers/book_1777810431216.jpg",
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777810431216.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777810437228",
+        "title": "Detto, fatto! L'arte di fare bene le cose",
+        "author": "David Allen",
+        "description": "Nessuna trama disponibile per questo libro.",
+        "coverPath": "covers/book_1777810437228.jpg",
+        "pageCount": 288,
+        "epubPath": "ebooks/book_1777810437228.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777810441297",
+        "title": "Dritto al sodo",
+        "author": "Greg McKeown",
+        "description": "Ti senti messo alle strette e l'ansia ti divora? Lavori troppo e male? Sei bombardato dalle informazioni e fagocitato da scadenze e impegni? Non si tratta di imparare a fare di più in meno tempo, ma piuttosto di fare diversamente. La cosa giusta, al momento giusto, nel modo giusto. Individuare e perseguire l'essenziale per riguadagnare il controllo. Scegliere per non subire le scelte degli altri. Se ogni cosa è importante, si perde di vista il poco che davvero conta. Perseguire l'essenziale è un metodo, una disciplina mentale ed emotiva, una filosofia di vita irrinunciabile, che deve diventare la regola, non l'eccezione. È tramontata l'era del tuttologo frustrato: sono poche le cose che contano, impara a coglierle al volo. Vai dritto al sodo.",
+        "coverPath": "covers/book_1777810441297.jpg",
+        "pageCount": 239,
+        "epubPath": "ebooks/book_1777810441297.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777810448168",
+        "title": "Flow",
+        "author": "Mihály Csíkszentmihályi",
+        "description": "Flow è un classico fondamentale della psicologia contemporanea. Pubblicato per la prima volta nel 1990 (e in Italia da lungo tempo assente dal mercato), oggi è sempre più riscoperto, citato e studiato come caposaldo della psicologia positiva. Le persone raggiungono la massima felicità quando sono in uno stato di “flow”, cioè di totale concentrazione e assorbimento in un’attività. Una sensazione simile alla trance agonistica. Forse per questo, negli anni, il concetto di flow ha avuto tanto successo in ambito sportivo e nel coaching, diventando così popolare al giorno d’oggi. Con la consapevolezza e le giuste conoscenze, l’esperienza ottimale può essere ricercata e controllata, diventando uno strumento per sbloccare risorse che consentono di dare il meglio di sé. Ma vivere singoli episodi di questo tipo è solo un primo passo: se si riesce a legare la propria esistenza a una finalità potente, allora la vita stessa può divenire un unico lungo flow in cui tutte le esperienze sono interconnesse e ordinate. Questo, dice Csíkszentmihályi, è lo stato di felicità più alto che possiamo sperimentare.",
+        "coverPath": "covers/book_1777810448168.jpg",
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777810448168.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777810456873",
+        "title": "Il metodo Ikigai. I segreti della filosofia giapponese per una vita lunga e felice",
+        "author": "Héctor Garcia, Francesc Miralles",
+        "description": "Nessuna trama disponibile per questo libro.",
+        "coverPath": "covers/book_1777810456873.jpg",
+        "pageCount": 228,
+        "epubPath": "ebooks/book_1777810456873.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777810460147",
+        "title": "Il potere di Adesso (Psicologia e crescita personale) (Italian Edition)",
+        "author": "Eckhart Tolle",
+        "description": "Nessuna trama disponibile per questo libro.",
+        "coverPath": "covers/book_1777810460147.jpg",
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777810460147.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777810469298",
+        "title": "Le sette regole per avere successo. Nuova edizione del bestseller \"The 7 Habits of Highly Effective People\"",
+        "author": "Stephen R. Covey",
+        "description": "The 7 Habits of Highly Effective People\" di Stephen Covey non è un manuale ma un percorso, un approccio integrato il cui proposito essenziale è imparare a gestire la propria vita in modo veramente efficace: ovvero come ottenere risultati, in linea con i propri obiettivi. Il volume costituisce un \"metodo\" che, se correttamente applicato, permette di aumentare la capacità di raggiungere obiettivi personali e professionali, ma anche di sviluppare migliori relazioni private e di lavoro.",
+        "coverPath": "covers/book_1777810469298.jpg",
+        "pageCount": 476,
+        "epubPath": "ebooks/book_1777810469298.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777810475599",
+        "title": "Make Time",
+        "author": "Jake Knapp",
+        "description": "\"A charming manifesto&#8212;as well as an intrepid do-it-yourself guide to building smart habits that stick. If you want to achieve more (without going nuts), read this book.\"&#8212;Charles Duhigg, bestselling author of The Power of Habit and Smarter Faster Better From the New York Times bestselling authors of Sprint, a simple 4-step system for improving focus, finding greater joy in your work, and getting more out of every day.Nobody ever looked at an empty calendar and said, \"The best way to spend this time is by cramming it full of meetings!\" or got to work in the morning and thought, Today I'll spend hours on Facebook! Yet that's exactly what we do. Why?In a world where information refreshes endlessly and the workday feels like a race to react to other people's priorities faster, frazzled and distracted has become our default position. But what if the exhaustion of constant busyness wasn't mandatory? What if you...",
+        "coverPath": "covers/book_1777810475599.jpg",
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777810475599.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777810484302",
+        "title": "Mindset: The New Psychology of Success by Carol Dweck...Summarized by J.J. Holt",
+        "author": "J.J. Holt",
+        "description": "This is a summary of \"Mindset: The New Psychology of Success by Carol Dweck\"...Summarized by J.J. Holt",
+        "coverPath": "covers/book_1777810484302.jpg",
+        "pageCount": 28,
+        "epubPath": "ebooks/book_1777810484302.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777810493468",
+        "title": "Piccole abitudini per grandi cambiamenti (Italian Edition)",
+        "author": "James Clear",
+        "description": "Mental coach, formatori, guru motivazionali: tanti dicono che nella vita è fondamentale porsi obiettivi ambiziosi, decidere dove si vuole arrivare e fare di tutto per arrivarci. Ma è davvero questa la chiave del successo? Perché allora è così difficile fare quello che continuamente diciamo di voler fare? Per quale motivo non riusciamo a dimagrire, ricominciamo a fumare, perdiamo ore incollati a uno smartphone? Perché non costruiamo davvero relazioni più salutari, carriere più soddisfacenti? James Clear, uno degli esperti di crescita personale più innovativi e seguiti in America, non ha dubbi: stiamo semplicemente sbagliando bersaglio. L’ossessione per gli obiettivi, invece di aiutarci a migliorare, rischia di diventare un’ulteriore fonte di stress, e perfino di farci fallire. Noi non siamo i nostri obiettivi: siamo la somma delle nostre abitudini. Per questo, secondo Clear, è proprio dalle piccole abitudini di ogni giorno che dobbiamo partire per dare alla nostra vita una nuova direzione. Il vero cambiamento non nasce da una singola grande svolta, ma dalla combinazione di tanti miglioramenti quasi impercettibili: un piccolo passo alla volta, un progresso quotidiano dell’uno per cento. Questo manuale brillante e dettagliato ci accompagna, passo dopo passo, sulla strada del cambiamento sostenibile, attraverso un metodo chiaro e facile da mettere in pratica per creare buone abitudini, per liberarci da quelle cattive, e per rimanere felicemente fedeli alle nostre scelte. Perché soltanto concentrandoci su ciò che abbiamo il potere di cambiare – ciò che ogni giorno decidiamo di fare o non fare – potremo ottenere una trasformazione profonda e duratura.",
+        "coverPath": "covers/book_1777810493468.jpg",
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777810493468.epub",
+        "tags": [
+            "sviluppo personale"
         ]
     }
 ]
