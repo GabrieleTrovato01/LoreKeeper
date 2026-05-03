@@ -398,6 +398,38 @@ app.put('/api/categories', async (req, res) => {
     }
 });
 
+// --- ROTTA PER SPOSTARE PIU' LIBRI INSIEME (BULK) ---
+app.put('/api/books/bulk-tags', async (req, res) => {
+    const { bookIds, newTag } = req.body;
+
+    try {
+        const fileData = await fs.readFile(booksJsonPath, 'utf-8');
+        let books = JSON.parse(fileData);
+        let updatedCount = 0;
+
+        books.forEach(book => {
+            if (bookIds.includes(book.id)) {
+                if (!book.tags) book.tags = [];
+                // Rimuoviamo il tag se per caso ce l'aveva già in seconda posizione
+                book.tags = book.tags.filter(t => t.toLowerCase() !== newTag.toLowerCase());
+                // Inseriamo la nuova categoria in prima posizione
+                book.tags.unshift(newTag.trim());
+                updatedCount++;
+            }
+        });
+
+        if (updatedCount > 0) {
+            await fs.writeFile(booksJsonPath, JSON.stringify(books, null, 4));
+            res.json({ success: true, message: `Spostati ${updatedCount} libri.` });
+        } else {
+            res.json({ success: false, message: 'Nessun libro aggiornato.' });
+        }
+    } catch (error) {
+        console.error("Errore nell'aggiornamento massivo:", error);
+        res.status(500).json({ success: false, message: 'Errore interno del server.' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`🚀 Backend in ascolto su http://localhost:${port}`);
 });

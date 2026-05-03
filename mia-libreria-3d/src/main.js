@@ -1,4 +1,5 @@
 import { thickness } from 'three/src/nodes/core/PropertyNode.js';
+import { openCategoryManager } from './category-manager.js';
 import './style.css';
 import * as THREE from 'three';
 
@@ -241,31 +242,13 @@ assignCatBtn.onclick = async () => {
 };
 
 // --- LOGICA DEL BOTTONE GESTISCI CATEGORIA (Intera Mensola) ---
-manageCatBtn.onclick = async () => {
+// --- LOGICA DEL BOTTONE GESTISCI CATEGORIA (Intera Mensola) ---
+manageCatBtn.onclick = () => {
     if (booksArray.length === 0) return;
     const activeCategory = booksArray[currentIndex].userData.category;
-
-    if (activeCategory === 'Senza Categoria') {
-        alert('Non puoi modificare la mensola predefinita di sistema.');
-        return;
-    }
-
-    const choice = prompt(`Gestione mensola: [ ${activeCategory.toUpperCase()} ]\n\nCosa vuoi fare?\nScrivi "R" per Rinominare\nScrivi "E" per Eliminare`).toUpperCase();
     
-    if (choice === 'R') {
-        const newName = prompt(`Scegli il nuovo nome per la categoria "${activeCategory}":`);
-        if (!newName || newName.trim() === '') return;
-        
-        await updateCategoryOnServer(activeCategory, newName.trim(), 'rename');
-        
-    } else if (choice === 'E') {
-        const confirmDelete = confirm(`Sei sicuro di voler eliminare la mensola "${activeCategory}"?\nI libri torneranno nella sezione "Senza Categoria".`);
-        if (confirmDelete) {
-            await updateCategoryOnServer(activeCategory, null, 'delete');
-        }
-    } else {
-        alert('Comando annullato o non riconosciuto.');
-    }
+    // Passiamo la palla al nostro nuovo file UI!
+    openCategoryManager(activeCategory, booksArray);
 };
 
 async function updateCategoryOnServer(oldName, newName, action) {
@@ -777,6 +760,7 @@ let pointerEndY = 0;   // Tracciamo anche la Y
 let isDragging = false;
 
 window.addEventListener('pointerdown', (event) => {
+    if (document.getElementById('category-manager-overlay')) return;
     if (event.target.tagName === 'BUTTON' || event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL') return;
     
     pointerStartX = event.clientX;
@@ -785,6 +769,7 @@ window.addEventListener('pointerdown', (event) => {
 });
 
 window.addEventListener('pointerup', (event) => {
+    if (document.getElementById('category-manager-overlay')) return;
     if (!isDragging) return;
     isDragging = false;
     pointerEndX = event.clientX;
@@ -861,6 +846,7 @@ window.addEventListener('pointerup', (event) => {
 // Aggiungiamo il supporto alla ROTELLINA DEL MOUSE e al TRACKPAD
 let scrollTimeout = null; 
 window.addEventListener('wheel', (event) => {
+    if (document.getElementById('category-manager-overlay')) return;
     if (scrollTimeout) return;
 
     if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 20) {
@@ -880,6 +866,8 @@ window.addEventListener('keydown', (event) => {
     if (document.activeElement.tagName === 'INPUT') return;
     const readerOverlay = document.getElementById('reader-overlay');
     if (readerOverlay && readerOverlay.style.display === 'block') return;
+
+    if (document.getElementById('category-manager-overlay')) return;
 
     if (event.key === 'ArrowRight') {
         changeBook(1); 
