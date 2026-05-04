@@ -1,5 +1,6 @@
 import { thickness } from 'three/src/nodes/core/PropertyNode.js';
 import { openCategoryManager } from './category-manager.js';
+import { LibraryLoader } from './loader-optimizer.js';
 import './style.css';
 import * as THREE from 'three';
 
@@ -61,6 +62,8 @@ shelf.position.set(0, -1.6, -0.5);
 shelf.receiveShadow = true;
 scene.add(shelf);
 // ---------------------------------
+
+const libLoader = new LibraryLoader(textureLoader);
 
 const libraryGroup = new THREE.Group();
 scene.add(libraryGroup);
@@ -601,7 +604,7 @@ async function loadBooks() {
         const response = await fetch('/books.json');
         const booksData = await response.json();
 
-        // 1. Raggruppiamo i libri per Categoria (prendiamo il primo tag, o "Senza Categoria")
+        // 1. Raggruppiamo i libri per Categoria
         const categoriesMap = new Map();
         booksData.forEach(book => {
             const cat = (book.tags && book.tags.length > 0) ? book.tags[0] : 'Senza Categoria';
@@ -609,15 +612,65 @@ async function loadBooks() {
             categoriesMap.get(cat).push(book);
         });
 
+        // 2. ORDINE DELLE MENSOLE (PIANO TERRA)
+        // Vogliamo che "Senza Categoria" sia creata per PRIMA, così otterrà la coordinata Y più bassa (shelfIndex 0).
+        // Le altre categorie verranno impilate sopra in ordine alfabetico.
+        const sortedCategories = Array.from(categoriesMap.keys()).sort((a, b) => {
+            if (a === 'Senza Categoria') return -1; // Sposta "Senza Categoria" all'INIZIO della lista
+            if (b === 'Senza Categoria') return 1;
+            return a.localeCompare(b); // Ordina le altre alfabeticamente
+        });
+
         let shelfIndex = 0;
         let globalBookIndex = 0;
+        const shelvesToLoad = [];
+        let startingIndexForCarousel = 0; // Memorizzeremo qui da quale libro partire
 
-        // 2. Creiamo una mensola per ogni categoria
-        categoriesMap.forEach((booksInShelf, categoryName) => {
-            // Ogni mensola dista 4.2 unità sull'asse Y da quella sotto
+        // Helper per caricare le texture in modo asincrono con Promise
+        // Sostituiamo il TextureLoader classico con ImageBitmapLoader
+        const bitmapLoader = new THREE.ImageBitmapLoader();
+        bitmapLoader.setOptions({ imageOrientation: 'flipY' }); 
+
+        const loadTextureAsync = (url) => {
+            return new Promise((resolve) => {
+                bitmapLoader.load(
+                    url, 
+                    (imageBitmap) => {
+                        const texture = new THREE.Texture(imageBitmap);
+                        
+                        // 🚀 OTTIMIZZAZIONI ESTREME PER LA SCHEDA VIDEO:
+                        
+                        // 1. Spegniamo i MipMap (evita che la GPU debba ricalcolare 10 copie dell'immagine, azzerando il lag)
+                        texture.generateMipmaps = false;
+                        
+                        // 2. Usiamo il filtro lineare: mantiene i testi delle copertine leggibili senza calcoli extra
+                        texture.minFilter = THREE.LinearFilter;
+                        texture.magFilter = THREE.LinearFilter;
+                        
+                        texture.needsUpdate = true;
+                        resolve(texture);
+                    }, 
+                    undefined, 
+                    () => {
+                        console.warn(`Impossibile caricare texture: ${url}`);
+                        resolve(null);
+                    }
+                );
+            });
+        };
+
+        // 3. Creiamo le mensole e posizioniamo i placeholder 3D in un lampo
+        sortedCategories.forEach(categoryName => {
+            const booksInShelf = categoriesMap.get(categoryName);
+            
+            // Salviamo l'indice del primo libro della mensola di partenza (Senza Categoria)
+            if (categoryName === 'Senza Categoria' && booksInShelf.length > 0) {
+                startingIndexForCarousel = globalBookIndex;
+            }
+
+            // Essendo la prima del ciclo, "Senza Categoria" avrà shelfIndex = 0 e quindi l'altezza minima (-1.6)
             const shelfY = -1.6 + (shelfIndex * 4.2);
             
-            // Crea la geometria della mensola
             const shelfMesh = new THREE.Mesh(shelfGeometry, shelfMaterial);
             shelfMesh.position.set(0, shelfY, -0.5);
             shelfMesh.receiveShadow = true;
@@ -625,7 +678,9 @@ async function loadBooks() {
 
             console.log(`Creata mensola "${categoryName}" ad altezza ${shelfY}`);
 
-            // 3. Posizioniamo i libri su questa specifica mensola
+            const currentShelfMeshes = [];
+
+            // Posizioniamo i libri sulla mensola attuale
             booksInShelf.forEach((bookData, indexInShelf) => {
                 const bookWidth = 2.0;
                 const bookHeight = 3.0;
@@ -636,16 +691,16 @@ async function loadBooks() {
                 const spineTexture = createSpineTexture(bookData.title, bookData.author);
                 const spineMaterial = new THREE.MeshStandardMaterial({ map: spineTexture, roughness: 0.7 });
 
-                let materials = [pagesMaterial, spineMaterial, pagesMaterial, pagesMaterial, baseCoverMaterial, baseCoverMaterial];
-                if (bookData.coverPath) {
-                    materials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load(`/${bookData.coverPath}`), roughness: 0.8 });
-                }
+                // Materiale placeholder scuro provvisorio per la copertina
+                const frontCoverMaterial = baseCoverMaterial.clone();
+
+                let materials = [pagesMaterial, spineMaterial, pagesMaterial, pagesMaterial, frontCoverMaterial, baseCoverMaterial];
 
                 const bookMesh = new THREE.Mesh(geometry, materials);
                 bookMesh.castShadow = true;
                 bookMesh.receiveShadow = true;
 
-                // Modifica anche il retro per stampare i tag personalizzati!
+                // Modifica anche il retro per stampare i tag personalizzati e la trama
                 const planeGeo = new THREE.PlaneGeometry(bookWidth, bookHeight); 
                 const planeMat = new THREE.MeshStandardMaterial({ map: createBackCoverTexture(bookData.description, bookData.tags), roughness: 0.8 });
                 const backPlane = new THREE.Mesh(planeGeo, planeMat);
@@ -653,7 +708,6 @@ async function loadBooks() {
                 backPlane.rotation.y = Math.PI; 
                 bookMesh.add(backPlane);
 
-                // Salviamo le coordinate specifiche della mensola nel libro
                 const baseShelfY = shelfY + 1.6;
                 bookMesh.userData = { 
                     ...bookData, 
@@ -662,21 +716,89 @@ async function loadBooks() {
                     indexInShelf: indexInShelf,
                     thickness: bookThickness,
                     baseShelfY: baseShelfY,
-                    targetY: baseShelfY // Target Y di partenza
+                    targetY: baseShelfY 
                 };
 
-                // Posizioniamo fisicamente il libro sull'asse Y della sua mensola
                 bookMesh.position.y = baseShelfY;
 
                 libraryGroup.add(bookMesh);
                 booksArray.push(bookMesh);
+                currentShelfMeshes.push(bookMesh); 
                 globalBookIndex++;
             });
+
+            // Salviamo la coda per i download delle immagini in background
+            shelvesToLoad.push({
+                categoryName: categoryName,
+                meshes: currentShelfMeshes
+            });
+
             shelfIndex++;
         });
 
-        // Troviamo il libro corrispondente al nostro currentIndex globale e organizziamo i ripiani
+        // 4. Impostiamo il libro iniziale sulla mensola più in basso PRIMA di aggiornare la scena
+        if (booksArray.length > 0) {
+            currentIndex = startingIndexForCarousel;
+        }
+        
+        // Costruiamo e mostriamo immediatamente l'ambiente 3D (così l'utente non aspetta)
         updateCarousel();
+
+        // 5. CARICAMENTO SEQUENZIALE E ANTI-LAG DELLE COPERTINE
+        const activeCategory = booksArray.length > 0 ? booksArray[currentIndex].userData.category : null;
+        const activeShelf = shelvesToLoad.find(s => s.categoryName === activeCategory);
+        const otherShelves = shelvesToLoad.filter(s => s.categoryName !== activeCategory);
+
+        // A. Carica la mensola attiva velocemente (per farla vedere subito all'utente)
+        const loadActiveShelfFast = async (shelf) => {
+            if (!shelf) return;
+            const promises = shelf.meshes.map(async (mesh) => {
+                if (mesh.userData.coverPath) {
+                    const tex = await loadTextureAsync(`/${mesh.userData.coverPath}`);
+                    if (tex) {
+                        mesh.material[4].map = tex;
+                        mesh.material[4].color.setHex(0xffffff); // Ripristina i colori vividi
+                        mesh.material[4].needsUpdate = true; 
+                    }
+                }
+            });
+            await Promise.all(promises);
+        };
+
+        // B. Carica le altre mensole UNO ALLA VOLTA, dal basso verso l'alto
+        const loadShelfCoversOneByOne = async (shelf) => {
+            if (!shelf) return;
+            for (const mesh of shelf.meshes) {
+                if (mesh.userData.coverPath) {
+                    const tex = await loadTextureAsync(`/${mesh.userData.coverPath}`);
+                    if (tex) {
+                        mesh.material[4].map = tex;
+                        mesh.material[4].color.setHex(0xffffff); // Ripristina i colori vividi
+                        mesh.material[4].needsUpdate = true; 
+                        
+                        // Il trucco magico: Aspettiamo il prossimo frame prima di caricare il libro successivo.
+                        // Questo evita di intasare la scheda video e azzera i lag di scorrimento verso l'alto!
+                        await new Promise(resolve => requestAnimationFrame(resolve));
+                    }
+                }
+            }
+        };
+
+        // Esecuzione invisibile in background
+        (async () => {
+            if (activeShelf) {
+                await loadActiveShelfFast(activeShelf);
+                console.log(`✅ Texture mensola attiva (${activeCategory}) caricate.`);
+            }
+            
+            // "otherShelves" è già ordinato dal basso verso l'alto (grazie a sortedCategories)
+            // Li processiamo uno ad uno silenziosamente mentre l'utente naviga
+            for (const shelf of otherShelves) {
+                await loadShelfCoversOneByOne(shelf);
+            }
+            console.log(`🎉 Tutte le texture sono state caricate in background senza lag!`);
+        })();
+
     } catch (e) { console.error(e); }
 }
 

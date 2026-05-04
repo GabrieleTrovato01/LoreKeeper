@@ -5,6 +5,7 @@ import fs from 'fs/promises';
 import fsSync from 'fs';
 import { EPub } from 'epub2';
 import axios from 'axios';
+import sharp from 'sharp';
 import { askBookRAG } from './rag-service.js'; // Importiamo il nostro nuovo Bibliotecario
 
 const app = express();
@@ -50,16 +51,26 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
             coverPath: null
         };
 
+        // Dentro parseEpub, sostituisci il blocco "if (coverId) { ... }" con questo:
+
         const coverId = epub.metadata.cover;
         if (coverId) {
             try {
                 const [imgData, mimeType] = await epub.getImageAsync(coverId);
                 if (imgData) {
-                    const extension = mimeType === 'image/png' ? '.png' : '.jpg';
-                    const finalCoverName = `${coverFileName}${extension}`;
+                    // Convertiamo e ottimizziamo TUTTO in JPG, ignorando il formato originale
+                    const finalCoverName = `${coverFileName}.jpg`; 
                     const fullCoverPath = path.join(coversDir, finalCoverName);
                     
-                    await fs.writeFile(fullCoverPath, imgData);
+                    // Magia di Sharp: ridimensiona e ottimizza
+                    await sharp(imgData)
+                        .resize(512, 768, { 
+                            fit: 'cover', // Ritaglia i bordi in eccesso per riempire il rettangolo perfettamente
+                            position: 'center'
+                        })
+                        .jpeg({ quality: 50, progressive: true }) // Qualità 80% è il compromesso aureo
+                        .toFile(fullCoverPath);
+                    
                     metadata.coverPath = `covers/${finalCoverName}`; 
                 }
             } catch (imgError) {
@@ -168,9 +179,9 @@ async function downloadCoverImage(url, fileName) {
         const response = await axios({ 
             url, 
             method: 'GET', 
-            responseType: 'arraybuffer',
+            responseType: 'arraybuffer', // Axios ci restituisce i dati grezzi
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
                 'Accept': 'image/jpeg, image/png, image/*'
             },
             timeout: 8000
@@ -179,7 +190,16 @@ async function downloadCoverImage(url, fileName) {
         const finalCoverName = `${fileName}_google.jpg`; 
         const fullCoverPath = path.join(coversDir, finalCoverName);
         
-        await fs.writeFile(fullCoverPath, response.data);
+        // Magia di Sharp anche per i download
+        await sharp(response.data)
+            .resize(512, 768, { 
+                fit: 'cover', 
+                position: 'center',
+                withoutEnlargement: true // Se Google ci dà un'immagine piccolissima, non la sgrana forzando l'ingrandimento
+            })
+            .jpeg({ quality: 80, progressive: true })
+            .toFile(fullCoverPath);
+            
         return `covers/${finalCoverName}`; 
     } catch (error) {
         console.error("⚠️ Errore nel download della copertina da Google Books:", error.message);
