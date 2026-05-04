@@ -1,456 +1,566 @@
 [
     {
-        "id": "book_1777909398604",
-        "title": "A Mind For Numbers",
-        "author": "Barbara Oakley, PhD",
-        "description": "The companion book to the wildly popular massive open online course \"Learning How to Learn\"Whether you are a student struggling to fulfill a math or science requirement, or you are embarking on a career change that requires a new skill set, A Mind for Numbers offers the tools you need to get a better grasp of that intimidating material. Engineering professor Barbara Oakley knows firsthand how it feels to struggle with math. She flunked her way through high school math and science courses, before enlisting in the army immediately after graduation. When she saw how her lack of mathematical and technical savvy severely limited her options&#8212;both to rise in the military and to explore other careers&#8212;she returned to school with a newfound determination to re-tool her brain to master the very subjects that had given her so much trouble throughout her entire life.  In A Mind for Numbers, Dr. Oakley lets us in on the secrets to learning...",
-        "coverPath": "covers/book_1777909398604.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909398604.epub",
-        "tags": [
-            "apprendimento continuo"
-        ]
-    },
-    {
-        "id": "book_1777909407518",
-        "title": "Grit (HBR Emotional Intelligence Series)",
-        "author": "Harvard Business Review, Angela L. Duckworth, Misty Copeland, Shannon Huffman Polson, Tomas Chamorro-Premuzic",
-        "description": "In this must-read book for anyone striving to succeed, pioneering psychologist Angela Duckworth shows parents, students, educators, athletes, and business people&#8212;both seasoned and new&#8212;that the secret to outstanding achievement is not talent but a special blend of passion and persistence she calls \"grit.\"Drawing on her own powerful story as the daughter of a scientist who frequently noted her lack of \"genius,\" Duckworth, now a celebrated researcher and professor, describes her early eye-opening stints in teaching, business consulting, and neuroscience, which led to the hypothesis that what really drives success is not \"genius\" but a unique combination of passion and long-term perseverance. In Grit, she takes readers into the field to visit cadets struggling through their first days at West Point, teachers working in some of the toughest schools, and young finalists in the National Spelling Bee. She also mines fascinating insights from history and...",
-        "coverPath": "covers/book_1777909407518.jpg",
-        "pageCount": 75,
-        "epubPath": "ebooks/book_1777909407518.epub",
-        "tags": [
-            "apprendimento continuo"
-        ]
-    },
-    {
-        "id": "book_1777909413941",
-        "title": "How We Learn",
-        "author": "Benedict Carey",
-        "description": "This book will help you to learn Spanish - or the Spanish guitar - faster.This book will give an athlete the edge to turn Silver into Gold.This book will give any child the chance to perform better in exams. Full stop.How We Learn is a landmark book that shakes up everything we thought we knew about how the brain absorbs and retains information. Filled with powerful - and often thrillingly counter-intuitive - wisdom, stories and practical tips, it gets to the very heart of the learning process; and gives us the keys to reach our very fullest potential in every walk of life.",
-        "coverPath": "covers/book_1777909413941.jpg",
-        "pageCount": 292,
-        "epubPath": "ebooks/book_1777909413941.epub",
-        "tags": [
-            "apprendimento continuo"
-        ]
-    },
-    {
-        "id": "book_1777909419970",
-        "title": "Il Metodo Ultralearning",
-        "author": "Scott H. Young",
-        "description": "Nessuna trama disponibile per questo libro.",
-        "coverPath": "covers/book_1777909419970.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909419970.epub",
-        "tags": [
-            "apprendimento continuo"
-        ]
-    },
-    {
-        "id": "book_1777909428714",
-        "title": "L'arte di ricordare tutto",
-        "author": "Joshua Foer",
-        "description": "Quaranta giorni. È il tempo che ciascuno di noi spreca in media ogni anno per rimediare a ciò che dimentica: per andare a recuperare il cellulare lasciato chissà dove, per cercare le chiavi di casa o per rintracciare informazioni importanti. Joshua Foer rientrava a pieno titolo in questa media, ma dopo un anno di allenamento si è ritrovato alla finale del Campionato statunitense della memoria. Dunque la memoria si può davvero migliorare, chiunque può riuscire a imparare 1528 numeri a caso in un'ora e ricordarseli tutti, come il pluricampione del mondo Ben Pridmore.Ripercorrendo la storia della mnemotecnica dall'antica Grecia ai giorni nostri e illustrando metodi concreti grazie ai quali possiamo tenere a mente le informazioni che ci interessano, Joshua Foer ci dimostra che «in ognuno di noi si nasconde un piccolo Rain Man». Che la memoria è un dono che tutti possediamo ma di cui spessissimo ignoriamo le potenzialità.«Che cosa ha significato per l'individuo e per la società» si chiede Foer «il passaggio da una cultura fondata sulla memoria interna a una cultura basata sulle memorie immagazzinate al di fuori del cervello? Tutto questo per noi è stato senz'altro un guadagno, ma con che cosa l'abbiamo barattato? Come affrontiamo il fatto di aver perso la memoria?» A queste e a molte altre domande cerca di rispondere il saggio di Joshua Foer, che ha suscitato un grande interesse nella stampa e nel pubblico degli Stati Uniti.",
-        "coverPath": "covers/book_1777909428714.jpg",
-        "pageCount": 242,
-        "epubPath": "ebooks/book_1777909428714.epub",
-        "tags": [
-            "apprendimento continuo"
-        ]
-    },
-    {
-        "id": "book_1777909437898",
-        "title": "Learn Better",
-        "author": "Ulrich Boser",
-        "description": "For centuries, learning emphasized memorizing information: You were supposed to study facts, dates, and details, and burn them into your consciousness. But this approach to learning is outdated and contrary to how our brains really work. In Learn Better, writer and education researcher Ulrich Boser maps out the new science of learning, demonstrating how we can gain expertise in dramatically better ways.In this entertaining and engrossing book, Boser argues that learning is a skill, showing how techniques like self-questioning and thinking about thinking can create much deeper levels of understanding. Among the important findings and practical tips, Boser tells fascinating stories, like how Jackson Pollock came to his revolutionary drip painting method&#8212;and why an ancient counting device helps people gain superhuman math skills.This powerful book will revolutionize the way that you acquire mastery, with far-reaching implications for both you and society. But...",
-        "coverPath": "covers/book_1777909437898.jpg",
-        "pageCount": 306,
-        "epubPath": "ebooks/book_1777909437898.epub",
-        "tags": [
-            "apprendimento continuo"
-        ]
-    },
-    {
-        "id": "book_1777909441241",
-        "title": "Make It Stick",
-        "author": "Peter C. Brown, Henry L. Roediger III, Mark A. McDaniel",
-        "description": "To most of us, learning something \"the hard way\" implies wasted time and effort. Good teaching, we believe, should be creatively tailored to the different learning styles of students and should use strategies that make learning easier. Make It Stick turns fashionable ideas like these on their head. Drawing on recent discoveries in cognitive psychology and other disciplines, the authors offer concrete techniques for becoming more productive learners. Memory plays a central role in our ability to carry out complex cognitive tasks, such as applying knowledge to problems never before encountered and drawing inferences from facts already known. New insights into how memory is encoded, consolidated, and later retrieved have led to a better understanding of how we learn. Grappling with the impediments that make learning challenging leads both to more complex mastery and better retention of what was learned. Many common study habits and practice routines turn out to be counterproductive. Underlining and highlighting, rereading, cramming, and single-minded repetition of new skills create the illusion of mastery, but gains fade quickly. More complex and durable learning come from self-testing, introducing certain difficulties in practice, waiting to re-study new material until a little forgetting has set in, and interleaving the practice of one skill or topic with another. Speaking most urgently to students, teachers, trainers, and athletes, Make It Stick will appeal to all those interested in the challenge of lifelong learning and self-improvement.",
-        "coverPath": "covers/book_1777909441241.jpg",
-        "pageCount": 330,
-        "epubPath": "ebooks/book_1777909441241.epub",
-        "tags": [
-            "apprendimento continuo"
-        ]
-    },
-    {
-        "id": "book_1777909444034",
-        "title": "Numero 1 si diventa",
-        "author": "Robert Pool",
-        "description": "Anders Ericsson ha passato trent'anni a studiare i geni, le stelle dello sport e i prodigi della musica. E in questo libro racconta la sua sorprendente scoperta: il «dono innato» del talento non è altro che un mito, perché ogni abilità, per quanto speciale e unica, viene appresa grazie all'allenamento. La sola caratteristica che contraddistingue i campioni infatti è il saper sviluppare mente e corpo grazie allo sforzo e alla forza di volontà. Caratteristica insita in ognuno di noi. Ciò che fa la differenza non è solo la quantità di tempo che dedichiamo a un'attività, ma soprattutto la qualità. E, se tutti abbiamo in noi i semi dell'eccellenza, bisogna imparare a farli crescere, allenando prima il cervello, poi i muscoli. Dallo sport alla musica, allo studio, un metodo per migliorare le proprie prestazioni in ogni ambito, che sfata luoghi comuni e suggerisce nuove, innovative tecniche. Lasciatevi quindi guidare da Ericsson e rimarrete stupiti da ciò che si può arrivare a fare, perché le sorprendenti storie raccontate in questo libro sono la prova che ognuno di noi è l'artefice del proprio talento.",
-        "coverPath": "covers/book_1777909444034.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909444034.epub",
-        "tags": [
-            "apprendimento continuo"
-        ]
-    },
-    {
-        "id": "book_1777909452772",
-        "title": "SUMMARY - the Art of Learning: an Inner Journey to Optimal Performance by Josh Waitzkin",
-        "author": "Shortcut Edition",
-        "description": "In his riveting new book, The Art of Learning, Waitzkin tells his remarkable story of personal achievement and shares the principles of learning and performance that have propelled him to the top--twice.Josh Waitzkin knows what it means to be at the top of his game. A public figure since winning his first National Chess Championship at the age of nine, Waitzkin was catapulted into a media whirlwind as a teenager when his father's book Searching for Bobby Fischer was made into a major motion picture. After dominating the scholastic chess world for ten years, Waitzkin expanded his horizons, taking on the martial art Tai Chi Chuan and ultimately earning the title of World Champion. How was he able to reach the pinnacle of two disciplines that on the surface seem so different? \"I've come to realize that what I am best at is not Tai Chi, and it is not chess,\" he says. \"What I am best at is the art of learning.\" With a narrative that combines heart-stopping martial arts wars and tense chess face-offs with life lessons that speak to all of us, The Art of Learning takes readers through Waitzkin's unique journey to excellence. He explains in clear detail how a well-thought-out, principled approach to learning is what separates success from failure. Waitzkin believes that achievement, even at the championship level, is a function of a lifestyle that fuels a creative, resilient growth process. Rather than focusing on climactic wins, Waitzkin reveals the inner workings of his everyday method, from systematically triggering intuitive breakthroughs, to honing techniques into states of remarkable potency, to mastering the art of performance psychology. Through his own example, Waitzkin explains how to embrace defeat and make mistakes work for you. Does your opponent make you angry? Waitzkin describes how to channel emotions into creative fuel. As he explains it, obstacles are not obstacles but challenges to overcome, to spur the growth process by turning weaknesses into strengths. He illustrates the exact routines that he has used in all of his competitions, whether mental or physical, so that you too can achieve your peak performance zone in any competitive or professional circumstance. In stories ranging from his early years taking on chess hustlers as a seven year old in New York City's Washington Square Park, to dealing with the pressures of having a film made about his life, to International Chess Championships in India, Hungary, and Brazil, to gripping battles against powerhouse fighters in Taiwan in the Push Hands World Championships, The Art of Learning encapsulates an extraordinary competitor's life lessons in a page-turning narrative.",
-        "coverPath": "covers/book_1777909452772.jpg",
-        "pageCount": 31,
-        "epubPath": "ebooks/book_1777909452772.epub",
-        "tags": [
-            "apprendimento continuo"
-        ]
-    },
-    {
-        "id": "book_1777909455648",
-        "title": "The Talent Code",
-        "author": "Daniel Coyle",
-        "description": "What is the secret of talent? How do we unlock it? This groundbreaking work provides readers with tools they can use to maximize potential in themselves and others. Whether you’re coaching soccer or teaching a child to play the piano, writing a novel or trying to improve your golf swing, this revolutionary book shows you how to grow talent by tapping into a newly discovered brain mechanism. Drawing on cutting-edge neurology and firsthand research gathered on journeys to nine of the world’s talent hotbeds—from the baseball fields of the Caribbean to a classical-music academy in upstate New York—Coyle identifies the three key elements that will allow you to develop your gifts and optimize your performance in sports, art, music, math, or just about anything. • Deep Practice Everyone knows that practice is a key to success. What everyone doesn’t know is that specific kinds of practice can increase skill up to ten times faster than conventional practice. • Ignition We all need a little motivation to get started. But what separates truly high achievers from the rest of the pack? A higher level of commitment—call it passion—born out of our deepest unconscious desires and triggered by certain primal cues. Understanding how these signals work can help you ignite passion and catalyze skill development. • Master Coaching What are the secrets of the world’s most effective teachers, trainers, and coaches? Discover the four virtues that enable these “talent whisperers” to fuel passion, inspire deep practice, and bring out the best in their students. These three elements work together within your brain to form myelin, a microscopic neural substance that adds vast amounts of speed and accuracy to your movements and thoughts. Scientists have discovered that myelin might just be the holy grail: the foundation of all forms of greatness, from Michelangelo’s to Michael Jordan’s. The good news about myelin is that it isn’t fixed at birth; to the contrary, it grows, and like anything that grows, it can be cultivated and nourished. Combining revelatory analysis with illuminating examples of regular people who have achieved greatness, this book will not only change the way you think about talent, but equip you to reach your own highest potential.",
-        "coverPath": "covers/book_1777909455648.jpg",
-        "pageCount": 258,
-        "epubPath": "ebooks/book_1777909455648.epub",
-        "tags": [
-            "apprendimento continuo"
-        ]
-    },
-    {
-        "id": "book_1777909494243",
-        "title": "Crypto",
-        "author": "Dan Brown",
-        "description": "Washington. La trentottenne Susan Fletcher, brillantissima mente matematica e responsabile della divisione di crittologia della National Security Agency, viene convocata d'urgenza nell'ufficio del comandante Strathmore. Qualcuno ha realizzato un programma capace di \"ingannare\" il più sofisticato strumento informatico di spionaggio al mondo, un supercomputer che può decodificare qualunque testo cifrato a una velocità strabiliante. Pochissimi conoscono l'esistenza di questa macchina, ideata per contrastare le nuove minacce alla sicurezza nell'era di Internet e in grado di controllare la posta elettronica di chiunque. La stessa NSA, nata per proteggere le comunicazione del governo americano e intercettare quelle delle potenze straniere, opera in semiclandestinità, al di fuori del controllo pubblico. Susan non si stupisce quando viene a sapere che \"Fortezza Digitale\", così è stato battezzato il programma, è frutto delle ricerche di un genio dell'informatica: il giapponese Ensei Tankado, handicappato dalla nascita per gli effetti del disastro atomico di Hiroshima, che dopo essere stato chiamato negli Stati Uniti a lavorare per l'NSA ha sbattuto la porta in faccia ai suoi capi quando si è accorto che il supercomputer rischiava di trasformarsi in un nuovo Grande Fratello. I suoi intenti sono nobili, ma la sua decisione di boicottare l'operato dell'NSA, mettendo il programma in rete e permettendo a chiunque di scaricarlo, rischia di creare l'anarchia e di assicurare libertà d'azione a spie e criminali.",
-        "coverPath": "covers/book_1777909494243.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909494243.epub",
-        "tags": [
-            "Svago"
-        ]
-    },
-    {
-        "id": "book_1777909503150",
-        "title": "Fahrenheit 451 di Ray Bradbury (Analisi del libro)",
-        "author": "Anne-Sophie De Clercq",
-        "description": "Che cosa dobbiamo ricordare di Fahrenheit 451, il romanzo per eccellenza della fantascienza americana? Scoprite tutto quello che c'è da sapere su quest'opera in una relazione completa e dettagliata. In questo opuscolo troverete: - Un riassunto completo - Una presentazione dei personaggi principali come Guy Montag, Mildred Montag e il Capitano Beatly - Un'analisi delle caratteristiche specifiche dell'opera: un anti-romanzo distopico, i temi del controllo politico, della censura e dell'autodafé, il potere dei media e la scomparsa dei libri. Un'analisi di riferimento per comprendere rapidamente il significato dell'opera.",
-        "coverPath": "covers/book_1777909503150.jpg",
-        "pageCount": 19,
-        "epubPath": "ebooks/book_1777909503150.epub",
-        "tags": [
-            "Svago"
-        ]
-    },
-    {
-        "id": "book_1777909506020",
-        "title": "Dottor Futuro",
-        "author": "Philip K. Dick",
-        "description": "SAN FRANCISCO, 2012. Jim Parsons è un medico di talento, estremamente competente nell'utilizzare la raffinata tecnologia del XXI secolo. In seguito a un bizzarro incidente automobilistico, si ritrova catapultato a centinaia di anni nel futuro, in un tempo che al primo impatto gli sembra meraviglioso. Presto però scopre che in quel mondo la sua missione - curare le malattie e salvare vite - è illegale: si tratta, infatti, di una società globalizzata in cui la popolazione è mantenuta costante e, solo se un individuo muore, si può avere la nascita di un nuovo bambino, il cui patrimonio genetico viene continuamente migliorato, generazione dopo generazione. In quella civiltà così fervidamente votata alla morte, Parsons scopre però che ci sono altre persone che condividono il suo desiderio di prolungare la vita umana. Per loro, le capacità terapeutiche del dottore sono l'unica via per fondare un futuro diverso... La più terribile tra le distopie - una civiltà intera che abbraccia il culto della morte e dell'eugenetica - e i paradossi dei viaggi nel tempo, due temi classici della narrativa fantascientifica, rivisitati dalla caleidoscopica immaginazione di Philip K. Dick.",
-        "coverPath": "covers/book_1777909506020_google.jpg",
-        "pageCount": 160,
-        "epubPath": "ebooks/book_1777909506020.epub",
-        "tags": [
-            "Svago"
-        ]
-    },
-    {
-        "id": "book_1777909513661",
-        "title": "La forza del male Stephen King",
-        "author": "Autore Sconosciuto",
-        "description": "Nessuna trama disponibile per questo libro.",
-        "coverPath": "covers/book_1777909513661.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909513661.epub",
-        "tags": [
-            "Svago"
-        ]
-    },
-    {
-        "id": "book_1777909522523",
-        "title": "Wohpe",
-        "author": "Salvatore Sanfilippo",
-        "description": "Fine del XXI secolo. L'intelligenza artificiale forte è vietata da vent'anni, ma ora i cambiamenti climatici sono inarrestabili, la civiltà in pericolo. Asako e Michel, due esperti di intelligenza artificiale, fanno gli ultimi controlli prima dell'avvio del progetto Wohpe: l'enorme rete neurale a cui porre le domande decisive. Sarà la salvezza o la fine di tutto.",
-        "coverPath": "covers/book_1777909522523.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909522523.epub",
-        "tags": [
-            "Svago"
-        ]
-    },
-    {
-        "id": "book_1777909569696",
-        "title": "Deep work: Concentrati al massimo (Italian Edition)",
-        "author": "Cal Newport",
-        "description": "Nessuna trama disponibile per questo libro.",
-        "coverPath": "covers/book_1777909569696.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909569696.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909572501",
-        "title": "Detto, fatto! L'arte di fare bene le cose",
-        "author": "David Allen",
-        "description": "Nessuna trama disponibile per questo libro.",
-        "coverPath": "covers/book_1777909572501.jpg",
-        "pageCount": 288,
-        "epubPath": "ebooks/book_1777909572501.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909575265",
-        "title": "Dritto al sodo (De Agostini)",
-        "author": "Greg McKeown",
-        "description": "Nessuna trama disponibile per questo libro.",
-        "coverPath": "covers/book_1777909575265.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909575265.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909584500",
-        "title": "Flow",
-        "author": "Mihály Csíkszentmihályi",
-        "description": "Flow è un classico fondamentale della psicologia contemporanea. Pubblicato per la prima volta nel 1990 (e in Italia da lungo tempo assente dal mercato), oggi è sempre più riscoperto, citato e studiato come caposaldo della psicologia positiva. Le persone raggiungono la massima felicità quando sono in uno stato di “flow”, cioè di totale concentrazione e assorbimento in un’attività. Una sensazione simile alla trance agonistica. Forse per questo, negli anni, il concetto di flow ha avuto tanto successo in ambito sportivo e nel coaching, diventando così popolare al giorno d’oggi. Con la consapevolezza e le giuste conoscenze, l’esperienza ottimale può essere ricercata e controllata, diventando uno strumento per sbloccare risorse che consentono di dare il meglio di sé. Ma vivere singoli episodi di questo tipo è solo un primo passo: se si riesce a legare la propria esistenza a una finalità potente, allora la vita stessa può divenire un unico lungo flow in cui tutte le esperienze sono interconnesse e ordinate. Questo, dice Csíkszentmihályi, è lo stato di felicità più alto che possiamo sperimentare.",
-        "coverPath": "covers/book_1777909584500.jpg",
-        "pageCount": 470,
-        "epubPath": "ebooks/book_1777909584500.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909590646",
-        "title": "Il metodo Ikigai. I segreti della filosofia giapponese per una vita lunga e felice",
-        "author": "Héctor Garcia, Francesc Miralles",
-        "description": "Nessuna trama disponibile per questo libro.",
-        "coverPath": "covers/book_1777909590646.jpg",
-        "pageCount": 228,
-        "epubPath": "ebooks/book_1777909590646.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909597145",
-        "title": "Il potere di Adesso: Una guida all'illuminazione spirituale",
-        "author": "Eckhart Tolle",
-        "description": "Adesso, nel presente, i problemi non esistono perché scopriamo che siamo perfetti e integri. Un viaggio stimolante e straordinario alla scoperta del potere di adesso, per scoprire che possiamo trovare la via d'uscita al dolore lasciandoci andare al presente, senza più restare ancorati al passato o proiettati verso le preoccupazioni sul futuro. Per intraprendere il viaggio ne \"Il Potere di Adesso\" abbiamo bisogno di lasciare da parte la nostra mente ed il falso sé che questa ha creato: l'ego. Sebbene il viaggio sia pieno di sfide, Eckhart Tolle ci guida con un linguaggio semplice. Per molti di noi, lungo la via, vi sono nuove scoperte da fare: noi non siamo la nostra mente. Possiamo trovare l'uscita dal dolore psicologico. L'autentico potere umano si trova arrendendosi all'Adesso. Scopriamo anche che il corpo è in effetti una delle chiavi per entrare in uno stato di pace interiore, così come lo sono il silenzio e lo spazio intorno a noi. Infatti l'accesso è disponibile ovunque. I punti di accesso, o portali, possono tutti essere usati per portarci nell'Adesso dove i problemi non esistono. Liberati dalle catene della mente e caricati di energia positiva...la vita è adesso. Con i consigli di Eckhart Tolle potrai riscoprire la tua vera essenza e vivere la vita che hai sempre desiderato. Ti sei mai chiesto se vivi a pieno la tua vita? Tuffati tra le pagine di questo libro e scoprirai che durante il naturale processo umano del nascere-vivere-morire, molti di noi saltano la seconda tappa... quella cioè che attribuirebbe un senso alle altre due. Sogni violati, speranze infrante, ambizioni sfumate... Mattone dopo mattone, viene meno un pezzo di quel castello che sin da piccolo avevi costruito nella tua mente e, inconsapevolmente, ti prepari a buttar giù quel che ancora regge. Accade spesso, accade a tutti. Accade perché non riusciamo a liberarci dalla mente, quella stessa mente che continua a tormentarci tra i ricordi di un passato che ci ha ferito e le ansie per un futuro che ci auguriamo non faccia altrettanto. Intanto le lancette scorrono e noi dimentichiamo che la vita è adesso. Se ti riconosci in queste sensazioni, questo è il libro che fa per te. Il potere di Adesso è un viaggio che inizia dall’esperienza personale dello stesso autore, passato da un’esistenza vissuta tra perenni stati d’ansia e depressione suicida, all’illuminazione che lo portò a diventare una persona nuova, consapevole di sé e finalmente capace di dominare la propria vita. Ogni pagina ti aiuterà a riflettere su quanto spesso le cose che reputiamo veramente importanti dalla vita, siano anche le cose su cui non riusciamo a far valere la nostra volontà, su cui non riusciamo ad avere il controllo... in poche parole, sono le cose sulle quali la mente non riesce ad esercitare alcun potere. Il vero potere puoi trovarlo solo abbandonandoti all’adesso: nel presente ognuno di noi non ha ferite, non ha timori. Nel presente ognuno è perfetto perché capace di dominare la mente e relegarla nella sola funzione di strumento atto a pensare. Non cercare te stesso nella mente: la tua essenza è nell’adesso che ti consente di vivere un rapporto senza filtri tra te e il prossimo, tra te e la natura, tra te e Dio. E proprio in questo rapporto puro con il tutto capirai che nella vita l’unica via per uscire dal dolore è la consapevolezza. Dunque, sii consapevole di te stesso e ricordati che hai il potere di scegliere.",
-        "coverPath": "covers/book_1777909597145.jpg",
-        "pageCount": 300,
-        "epubPath": "ebooks/book_1777909597145.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909604069",
-        "title": "La teoria di lasciare andare. The Let Them Theory",
-        "author": "Mel Robbins",
-        "description": "Lascia andare: e se la chiave per la felicità, il successo e l’amore fosse semplice come queste due parole? Se ti senti bloccato, sopraffatto o frustrato, il problema non sei tu. Il problema è il potere che dai agli altri. Bastano due semplici parole per liberarti dalle ansie e dalle preoccupazioni: lascia andare. Lascia perdere i giudizi, i condizionamenti o i comportamenti spiacevoli altrui: è più facile di quel che sembra. Scopri come vivere una vita più serena grazie a questa guida brillante e accessibile, ricca di storie di vita vissuta, ma anche di richiami ai migliori studi di psicologia, neuroscienze e antropologia e di pillole di saggezza attinte dai grandi pensatori antichi e moderni. La teoria di lasciare andare cambierà per sempre il tuo modo di concepire i rapporti con gli altri e ti darà gli strumenti per riprendere in mano le redini della tua esistenza: per rimettere in scala le priorità e ottenere ciò che desideri davvero, per rendere più appagante la tua vita professionale e affettiva, o magari per iniziare un nuovo capitolo e aprirti a nuove sfide. Il libro che sta cambiando la vita di milioni di persone in tutto il mondo. 2 milioni di copie vendute in un mese negli USA: un record storico per la non fiction «Mel Robbins mi ha fatto dire: “Ok, questo credo sia davvero il punto di svolta!”» «Avevo sentito tante cose positive su questo libro... E in effetti ha cambiato la mia prospettiva sulla vita quotidiana!» «Una filosofia semplice ma potente.» Mel Robbins È un’autrice di bestseller del «New York Times» e un’esperta di fama mondiale in materia di mindset, motivazione e cambiamento comportamentale, le cui opere sono state tradotte in oltre 60 lingue. Con milioni di libri venduti, sette titoli al primo posto su Audible e miliardi di visualizzazioni video, l’impatto di Mel è realmente globale. Come conduttrice di The Mel Robbins Podcast, uno dei podcast più apprezzati al mondo, ogni giorno Mel fa sentire più forti gli ascoltatori di 194 paesi. La sua media company, 143 Studios, produce contenuti stimolanti e pluripremiati, eventi trasformativi e programmi di formazione originali per clienti come Starbucks, JPMorgan-Chase, LinkedIn, Headspace e Ulta Beauty. Nota per la sua capacità di semplificare argomenti complessi in azioni pratiche quotidiane, Mel Robbins propone con La teoria di lasciare andare la sua opera più potente e profonda.",
-        "coverPath": "covers/book_1777909604069.jpg",
-        "pageCount": 297,
-        "epubPath": "ebooks/book_1777909604069.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909610487",
-        "title": "Le sette regole per avere successo (The 7 habits of highly effective people)",
-        "author": "Stephen R. Covey",
-        "description": "The 7 Habits of Highly Effective People\" di Stephen Covey non è un manuale ma un percorso, un approccio integrato il cui proposito essenziale è imparare a gestire la propria vita in modo veramente efficace: ovvero come ottenere risultati, in linea con i propri obiettivi. Il volume costituisce un \"metodo\" che, se correttamente applicato, permette di aumentare la capacità di raggiungere obiettivi personali e professionali, ma anche di sviluppare migliori relazioni private e di lavoro.",
-        "coverPath": "covers/book_1777909610487.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909610487.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909619917",
-        "title": "Make Time",
-        "author": "Jake Knapp",
-        "description": "\"A charming manifesto&#8212;as well as an intrepid do-it-yourself guide to building smart habits that stick. If you want to achieve more (without going nuts), read this book.\"&#8212;Charles Duhigg, bestselling author of The Power of Habit and Smarter Faster Better From the New York Times bestselling authors of Sprint, a simple 4-step system for improving focus, finding greater joy in your work, and getting more out of every day.Nobody ever looked at an empty calendar and said, \"The best way to spend this time is by cramming it full of meetings!\" or got to work in the morning and thought, Today I'll spend hours on Facebook! Yet that's exactly what we do. Why?In a world where information refreshes endlessly and the workday feels like a race to react to other people's priorities faster, frazzled and distracted has become our default position. But what if the exhaustion of constant busyness wasn't mandatory? What if you...",
-        "coverPath": "covers/book_1777909619917.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909619917.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909630389",
-        "title": "Mindset: The New Psychology of Success by Carol Dweck...Summarized by J.J. Holt",
-        "author": "J.J. Holt",
-        "description": "This is a summary of \"Mindset: The New Psychology of Success by Carol Dweck\"...Summarized by J.J. Holt",
-        "coverPath": "covers/book_1777909630389.jpg",
-        "pageCount": 28,
-        "epubPath": "ebooks/book_1777909630389.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909640187",
-        "title": "Atomic habits. Piccole abitudini per grandi cambiamenti",
-        "author": "James Clear",
-        "description": "Mental coach, formatori, guru motivazionali: tanti dicono che nella vita è fondamentale porsi obiettivi ambiziosi, decidere dove si vuole arrivare e fare di tutto per arrivarci. Ma è davvero questa la chiave del successo? Perché allora è così difficile fare quello che continuamente diciamo di voler fare? Per quale motivo non riusciamo a dimagrire, ricominciamo a fumare, perdiamo ore incollati a uno smartphone? Perché non costruiamo davvero relazioni più salutari, carriere più soddisfacenti? James Clear, uno degli esperti di crescita personale più innovativi e seguiti in America, non ha dubbi: stiamo semplicemente sbagliando bersaglio. L’ossessione per gli obiettivi, invece di aiutarci a migliorare, rischia di diventare un’ulteriore fonte di stress, e perfino di farci fallire. Noi non siamo i nostri obiettivi: siamo la somma delle nostre abitudini. Per questo, secondo Clear, è proprio dalle piccole abitudini di ogni giorno che dobbiamo partire per dare alla nostra vita una nuova direzione. Il vero cambiamento non nasce da una singola grande svolta, ma dalla combinazione di tanti miglioramenti quasi impercettibili: un piccolo passo alla volta, un progresso quotidiano dell’uno per cento. Questo manuale brillante e dettagliato ci accompagna, passo dopo passo, sulla strada del cambiamento sostenibile, attraverso un metodo chiaro e facile da mettere in pratica per creare buone abitudini, per liberarci da quelle cattive, e per rimanere felicemente fedeli alle nostre scelte. Perché soltanto concentrandoci su ciò che abbiamo il potere di cambiare – ciò che ogni giorno decidiamo di fare o non fare – potremo ottenere una trasformazione profonda e duratura.",
-        "coverPath": "covers/book_1777909640187.jpg",
-        "pageCount": 295,
-        "epubPath": "ebooks/book_1777909640187.epub",
-        "tags": [
-            "sviluppo personale"
-        ]
-    },
-    {
-        "id": "book_1777909686889",
+        "id": "book_1777930811827",
         "title": "AI Superpowers",
         "author": "Kai-Fu Lee",
-        "description": "Nessuna trama disponibile per questo libro.",
-        "coverPath": "covers/book_1777909686889.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909686889.epub",
+        "description": "THE NEW YORK TIMES, USA TODAY, AND WALL STREET JOURNAL BESTSELLER \"Kai-Fu Lee believes China will be the next tech-innovation superpower and in AI Superpowers: China, Silicon Valley, and the New World Order, he explains why. Taiwan-born Lee is perfectly positioned for the task.\"—New York MagazineIn this thought-provoking book, Lee argues powerfully that because of the unprecedented developments in artificial intelligence, dramatic changes shaping the future of work will be happening much sooner than many of us expected. Indeed, as the US-Sino AI competition begins to heat up, Lee urges the US and China to both accept and to embrace the great responsibilities that come with significant technological power.Most experts already say that AI will have a devastating impact on blue-collar jobs. But in this analysis of the coming AI revolution, Lee predicts that Chinese and American AI will have a strong impact on white-collar jobs as well, leading to widespread job displacement. Is universal basic income the solution? In Lee’s opinion, probably not. But he provides a clear description of which jobs will be affected and how soon, which jobs can be enhanced with AI, and most importantly, how we can provide solutions to some of the most profound changes defining the new world order.In AI Superpowers, Dr. Lee provides a clear-eyed look at the new world order, revealing: The Four Waves of AI: An essential framework for understanding how Internet, Business, Perception, and Autonomous AI will transform our world.China vs. Silicon Valley: An insider’s look at why China’s tenacious entrepreneurs and massive data troves give it a powerful edge in the age of implementation.The Real AI Crisis: A sobering analysis of how AI will create widespread job displacement for both blue-collar and white-collar workers, fueling global and domestic inequality.A Blueprint for Coexistence: A hopeful vision for a future where we leverage AI-generated wealth to embrace our shared humanity, compassion, and creativity.",
+        "coverPath": "covers/book_1777930811827.jpg",
+        "pageCount": 450,
+        "epubPath": "ebooks/book_1777930811827.epub",
         "tags": [
             "tecnologia e innovazione"
         ]
     },
     {
-        "id": "book_1777909701381",
+        "id": "book_1777930812331",
         "title": "Codici & segreti. La storia affascinante dei messaggi cifrati dall'antico Egitto a Internet",
         "author": "Simon Singh",
         "description": "Fin dall'antichità l'uomo ha pensato di creare codici segreti, sistemi di segni capaci di nascondere a occhi indiscreti un importante messaggio e rivelarlo solo ai destinatari. Al mondo misterioso dei codici è dedicato il libro di Simon Singh, che racconta con passione una serie di storie esemplari: quella di Maria Stuarda e del codice segreto che la condusse al patibolo; la macchina Enigma, usata dai tedeschi durante la seconda guerra mondiale, il cui codice fu violato da Alan Turing; la decifrazione della Lineare B, la scrittura della civiltà micenea; la natura e la scoperta del codice genetico; l'elaborazione dei codici elettronici; la possibilità di inventare una crittografia a prova di decifrazione.",
-        "coverPath": null,
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909701381.epub",
+        "coverPath": "covers/book_1777930812331_google.jpg",
+        "pageCount": 580,
+        "epubPath": "ebooks/book_1777930812331.epub",
         "tags": [
             "tecnologia e innovazione"
         ]
     },
     {
-        "id": "book_1777909711418",
+        "id": "book_1777930812897",
         "title": "Come funziona Google",
-        "author": "Eric Schmidt, Jonathan Rosenberg",
+        "author": "Eric Schmidt & Jonathan Rosenberg",
         "description": "Eric Schmidt, Executive Chairman ed ex CEO di Google, e Jonathan \nRosenberg, già Senior VP per i Prodotti, entrarono in Google più di \ndieci anni fa, come manager di esperienza nel settore tecnologico.A \nquel tempo, la società era già nota per “fare le cose in modo diverso”, \nriflettendo i principi visionari – e spesso in controtendenza – dei \nfondatori Larry Page e Sergey Brin; così non ci misero molto a capire \nche per avere successo avrebbero dovuto imparare da capo tutto quello \nche pensavano di sapere sul management e sul business.Oggi Google è \nun’icona globale che sposta continuamente in avanti i confini \ndell’innovazione in molteplici campi e Come funziona Google è un testo \nbrillante e coinvolgente con le lezioni che Eric e Jonathan hanno \nappreso mentre contribuivano a costruire la società.Gli autori \nspiegano come la tecnologia ha spostato la bilancia del potere dalle \nimprese ai consumatori e che il solo modo per avere successo in questo \nambiente in continuo mutamento è creare prodotti superiori e attirare \nuna nuova razza di collaboratori poliedrici, i “creativi smart”.Affrontando\n temi quali cultura aziendale, strategia, decision making, comunicazione\n e innovazione, essi illustrano le loro massime di gestione con numerosi\n aneddoti interni dalla storia di Google, molti dei quali vengono \nraccontati qui per la prima volta.",
-        "coverPath": "covers/book_1777909711418.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909711418.epub",
+        "coverPath": "covers/book_1777930812897.jpg",
+        "pageCount": 430,
+        "epubPath": "ebooks/book_1777930812897.epub",
         "tags": [
             "tecnologia e innovazione"
         ]
     },
     {
-        "id": "book_1777909720383",
-        "title": "Elon Musk. Hybris maxima",
+        "id": "book_1777930813072",
+        "title": "Elon Musk",
         "author": "Faiz Siddiqui",
-        "description": "Nessuna trama disponibile per questo libro.",
-        "coverPath": "covers/book_1777909720383.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909720383.epub",
+        "description": "«MOLTI DEI SUCCESSI DI MUSK HANNO ORIGINE DALLA SUA HYBRIS, LA SUA SFRENATA AMBIZIONE, CHE È IL SUO SUPERPOTERE E LA SUA DEBOLEZZA PIÙ GRANDE.» Genio visionario o pericoloso creatore di caos? Qual è il passato e quali sono le esperienze che hanno forgiato Elon Musk? Dove porterà la sua tangibile e crescente influenza? Faiz Siddiqui offre la migliore ricostruzione della sua trasformazione, disseziona il suo modo di esercitare il potere e rivela ciò che era prevedibile fin dall'inizio. Ieri visionario altruista, salvatore dell'umanità impegnato in imprese ambiziose come liberarci dalla dipendenza dai combustibili fossili o colonizzare Marte, oggi Elon Musk si è spinto oltre l'industria automobilistica e quella aerospaziale per sfidare direttamente le politiche che plasmano gli Stati Uniti e non solo. Questo lo ha portato al centro di alcuni dei settori più complessi - dalla produzione industriale alla politica, dalla difesa alla tecnologia - mentre il suo comportamento sempre più imprevedibile solleva dubbi sulla sua stabilità e sulla sua capacità di giudizio. Chi è davvero Elon Musk e cosa farà del potere che ha acquisito? Faiz Siddiqui, quotato giornalista del Washington Post, ne analizza l'ascesa e la deriva psicologica, facendone un ritratto appassionante e a tratti sconvolgente. Musk guida le sue aziende da una posizione di forza, abbattendo regole e burocrazia senza troppi scrupoli. Molti di coloro che hanno orbitato attorno a lui, affascinati dalla sua visione utopica, hanno visto le loro carriere spezzarsi o le loro vite stravolgersi. Grazie a un'astuta strategia politica, però, non è più solo il destino delle sue aziende o il futuro dei suoi collaboratori a dipendere dalle sue decisioni: il suo approccio spregiudicato agli affari si sta riversando direttamente sulle fondamenta istituzionali degli Stati Uniti e sui delicati equilibri mondiali. Come suggerisce l'autore: «Il solo modo per capire quali saranno le sue prossime mosse è guardare a come ha sempre usato il potere che aveva».",
+        "coverPath": "covers/book_1777930813072.jpg",
+        "pageCount": 578,
+        "epubPath": "ebooks/book_1777930813072.epub",
         "tags": [
             "tecnologia e innovazione"
         ]
     },
     {
-        "id": "book_1777909726670",
-        "title": "Hello World",
-        "author": "Hannah Fry",
-        "description": "Nessuna trama disponibile per questo libro.",
-        "coverPath": "covers/book_1777909726670.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909726670.epub",
-        "tags": [
-            "tecnologia e innovazione"
-        ]
-    },
-    {
-        "id": "book_1777909737345",
-        "title": "Homo deus. Breve storia del futuro",
+        "id": "book_1777930813377",
+        "title": "Homo Deus",
         "author": "Yuval Noah Harari",
         "description": "Nella seconda metà del XX secolo l'umanità è riuscita in un'impresa che per migliaia di anni è parsa impossibile: tenere sotto controllo carestie, pestilenze e guerre. Oggi è più probabile che l'uomo medio muoia per un'abbuffata da McDonald's piuttosto che per la siccità, il virus Ebola o un attacco di al-Qaida. Nel XXI secolo, in un mondo ormai libero dalle epidemie, economicamente prospero e in pace, coltiviamo con strumenti sempre più potenti l'ambizione antica di elevarci al rango di divinità, di trasformare \"Homo sapiens\" in \"Homo Deus\". E allora cosa accadrà quando robotica, intelligenza artificiale e ingegneria genetica saranno messe al servizio della ricerca dell'immortalità e della felicità eterna? Harari racconta sogni e incubi che daranno forma al XXI secolo in una sintesi audace e lucidissima di storia, filosofia, scienza e tecnologia, e ci mette in guardia: il genere umano rischia di rendere sé stesso superfluo. Saremo in grado di proteggere questo fragile pianeta e l'umanità stessa dai nostri nuovi poteri divini?",
-        "coverPath": "covers/book_1777909737345.jpg",
-        "pageCount": 672,
-        "epubPath": "ebooks/book_1777909737345.epub",
+        "coverPath": "covers/book_1777930813377.jpg",
+        "pageCount": 715,
+        "epubPath": "ebooks/book_1777930813377.epub",
         "tags": [
             "tecnologia e innovazione"
         ]
     },
     {
-        "id": "book_1777909744192",
-        "title": "La nuova rivoluzione delle macchine. Lavoro e prosperità nell'era della tecnologia trionfante",
-        "author": "Erik Brynjolfsson, Andrew McAfee",
+        "id": "book_1777930813606",
+        "title": "La nuova rivoluzione delle macchine",
+        "author": "Erik Brynjolfsson & Andrew McAfee",
         "description": "La prima rivoluzione industriale ha dato luogo alla più rapida e ripida crescita (di popolazione, di reddito, di produttività) della storia. In due secoli ha cambiato il volto del pianeta e la vita degli uomini, portando ricchezza e nuove possibilità, ma anche sfruttamento, inquinamento, impoverimento e distruzione di molti stili di vita tradizionali. In uno dei libri più esplosivi del 2014, in cima a tutte le classifiche di vendita americane e adorato e discusso da tutti i più importanti accademici e imprenditori, i due economisti del MIT Eric Brynjjolfsson e Andrew McAfee sostengono che è arrivato il momento per una nuova rivoluzione – questa volta non per meccanizzare il lavoro manuale, ma quello mentale. Mentre le macchine che si guidano da sole di Google macinano migliaia di chilometri per le strade della California e in ogni tasca c’è quello che dieci anni fa sarebbe stato un supercomputer, si comincia a intravedere dove può portare la convergenza digitale di hardware sempre più veloci e meno costosi e software sempre più sofisticati e adattabili: a un mondo in cui, semplicemente, molti lavori di concetto non esisteranno più, perché saranno svolti dai computer; in cui avremo accesso a un’abbondanza mai vista prima di tecnologie che ci aiuteranno in ogni ambito della nostra vita; in cui molto del nostro modello economico, e modo di vivere, sarà antico, superato, distrutto. Lavorando a partire da decenni di ricerca originale, Brynjolfsson e McAfee mostrano come siamo ormai arrivati al punto di svolta, e soprattutto offrono molte idee per affrontare questo cambiamento epocale, senza rimanere schiacciati dalla sua velocità e ampiezza.",
-        "coverPath": "covers/book_1777909744192.jpg",
-        "pageCount": 316,
-        "epubPath": "ebooks/book_1777909744192.epub",
+        "coverPath": "covers/book_1777930813606.jpg",
+        "pageCount": 439,
+        "epubPath": "ebooks/book_1777930813606.epub",
         "tags": [
             "tecnologia e innovazione"
         ]
     },
     {
-        "id": "book_1777909753955",
+        "id": "book_1777930813873",
         "title": "La singolarità è più vicina",
         "author": "Ray Kurzweil",
-        "description": "A vent'anni dalla pubblicazione de La singolarità è vicina, Ray Kurzweil torna ad anticiparci il futuro. Nel frattempo, molte delle sue previsioni si sono avverate con l'intelligenza artificiale e le biotecnologie ormai parte della nostra vita. In questo nuovo visionario libro, Kurzweil racconta i passi avanti fatti verso la singolarità, prevede che le AI raggiungeranno il livello umano entro il 2029 e che nel prossimo futuro l'umanità cambierà in maniera radicale. Si parla di intervenire sulla materia a livello atomico attraverso nanobot, di rallentare l'invecchiamento ed estendere la vita oltre il limite di 120 anni, di potenziare la mente collegando i nostri cervelli a computer in cloud, di utilizzare gli sviluppi esponenziali della tecnologia per la creazione di energie rinnovabili e per ridurre povertà e violenza. Non mancano però le riflessioni sui potenziali rischi, come l'impatto dell'AI sull'occupazione, la sicurezza delle auto autonome e la tecnologia afterlife, che mira a far rivivere virtualmente persone decedute attraverso una combinazione di dati e DNA. Culmine di sei decenni di ricerca, La singolarità è più vicina è il coronamento del contributo di Ray Kurzweil alla rivoluzione che l'umanità sta per affrontare.",
-        "coverPath": "covers/book_1777909753955.jpg",
-        "pageCount": 230,
-        "epubPath": "ebooks/book_1777909753955.epub",
+        "description": "A vent'anni dalla pubblicazione de La singolarità è vicina, Ray Kurzweil torna ad anticiparci il futuro. Nel frattempo, molte delle sue previsioni si sono avverate con l'intelligenza artificiale e le biotecnologie ormai parte della nostra vita.\nIn questo nuovo visionario libro, Kurzweil racconta i passi avanti fatti verso la singolarità, prevede che le AI raggiungeranno il livello umano entro il 2029 e che nel prossimo futuro l'umanità cambierà in maniera radicale. Si parla di intervenire sulla materia a livello atomico attraverso nanobot, di rallentare l'invecchiamento ed estendere la vita oltre il limite di 120 anni, di potenziare la mente collegando i nostri cervelli a computer in cloud, di utilizzare gli sviluppi esponenziali della tecnologia per la creazione di energie rinnovabili e per ridurre povertà e violenza. Non mancano però le riflessioni sui potenziali rischi, come l'impatto dell'AI sull'occupazione, la sicurezza delle auto autonome e la tecnologia afterlife, che mira a far rivivere virtualmente persone decedute attraverso una combinazione di dati e DNA.\nCulmine di sei decenni di ricerca, La singolarità è più vicina è il coronamento del contributo di Ray Kurzweil alla rivoluzione che l'umanità sta per affrontare.",
+        "coverPath": "covers/book_1777930813873.jpg",
+        "pageCount": 766,
+        "epubPath": "ebooks/book_1777930813873.epub",
         "tags": [
             "tecnologia e innovazione"
         ]
     },
     {
-        "id": "book_1777909757792",
-        "title": "Superintelligenza. Tendenze, pericoli, strategie",
-        "author": "Nick Bostrom",
+        "id": "book_1777930814478",
+        "title": "La teoria di lasciare andare. The Let Them Theory",
+        "author": "Mel Robbins",
+        "description": "Lascia andare: e se la chiave per la felicità, il successo e l’amore fosse semplice come queste due parole?\nSe ti senti bloccato, sopraffatto o frustrato, il problema non sei tu. Il problema è il potere che dai agli altri. Bastano due semplici parole per liberarti dalle ansie e dalle preoccupazioni: lascia andare. Lascia perdere i giudizi, i condizionamenti o i comportamenti spiacevoli altrui: è più facile di quel che sembra.\nScopri come vivere una vita più serena grazie a questa guida brillante e accessibile, ricca di storie di vita vissuta, ma anche di richiami ai migliori studi di psicologia, neuroscienze e antropologia e di pillole di saggezza attinte dai grandi pensatori antichi e moderni. La teoria di lasciare andare cambierà per sempre il tuo modo di concepire i rapporti con gli altri e ti darà gli strumenti per riprendere in mano le redini della tua esistenza: per rimettere in scala le priorità e ottenere ciò che desideri davvero, per rendere più appagante la tua vita professionale e affettiva, o magari per iniziare un nuovo capitolo e aprirti a nuove sfide.Il libro che sta cambiando la vita di milioni di persone in tutto il mondo.\n2 milioni di copie vendute in un mese negli USA: un record storico per la non fiction\n«Mel Robbins mi ha fatto dire: “Ok, questo credo sia davvero il punto di svolta!”»\n«Avevo sentito tante cose positive su questo libro… E in effetti ha cambiato la mia prospettiva sulla vita quotidiana!»\n«Una filosofia semplice ma potente.»Mel RobbinsÈ un’autrice di bestseller del «New York Times» e un’esperta di fama mondiale in materia di mindset, motivazione e cambiamento comportamentale, le cui opere sono state tradotte in oltre 60 lingue. Con milioni di libri venduti, sette titoli al primo posto su Audible e miliardi di visualizzazioni video, l’impatto di Mel è realmente globale. Come conduttrice di The Mel Robbins Podcast, uno dei podcast più apprezzati al mondo, ogni giorno Mel fa sentire più forti gli ascoltatori di 194 paesi. La sua media company, 143 Studios, produce contenuti stimolanti e pluripremiati, eventi trasformativi e programmi di formazione originali per clienti come Starbucks, JPMorgan-Chase, LinkedIn, Headspace e Ulta Beauty. Nota per la sua capacità di semplificare argomenti complessi in azioni pratiche quotidiane, Mel Robbins propone con La teoria di lasciare andare la sua opera più potente e profonda.",
+        "coverPath": "covers/book_1777930814478.jpg",
+        "pageCount": 363,
+        "epubPath": "ebooks/book_1777930814478.epub",
+        "tags": [
+            "tecnologia e innovazione"
+        ]
+    },
+    {
+        "id": "book_1777930814796",
+        "title": "Bostrom Nick - 2014 - Superintelligenza: Tendenze, pericoli, strategie",
+        "author": "Bostrom Nick",
         "description": "«Lo consiglio vivamente. »Bill Gates «Da leggere assolutamente... Dobbiamo essere estremamente cauti con l’Intelligenza Artificiale. Potenzialmente, è più pericolosa del nucleare. »Elon Musk««Non c’è alcun dubbio sulla forza degli argomenti di Bostrom. Il problema pone una sfida formidabile ai migliori talenti matematici della prossima generazione. È in gioco la sopravvivenza della civiltà umana. »Financial Times«Questa superba analisi, condotta da uno dei più chiari pensatori del mondo, affronta una delle più grandi sfide dell’umanità: se l’Intelligenza Artificiale sovrumana diventa il più grande evento della storia umana, allora come potremo garantire che non diventi anche l’ultimo?»Max TegmarkNel gennaio 2015 Nick Bostrom è stato cofirmatario, assieme tra gli altri a Stephen Hawking, di una celebre lettera aperta che metteva in guardia sui potenziali pericoli dell’Intelligenza Artificiale. Non ha firmato quell’appello per passatismo, né tantomeno per luddismo, bensì in virtù di un lineare ragionamento filosofico. L’Intelligenza Artificiale è una delle più grandi promesse dell’umanità; grazie ai suoi sviluppi, attuali e futuri, saremo probabilmente in grado di fare cose che oggi sarebbero impensabili, vivremo meglio, e magari più a lungo e più felici. E tuttavia c’è una nube minacciosa sopra il cielo dell’Intelligenza Artificiale, e con questo libro Nick Bostrom è stato il primo a vederla e ad analizzarla, lanciando un allarme che ha avuto un’eco vastissima in tutto il mondo. Siamo proprio certi che riusciremo a governare senza problemi una macchina «superintelligente» dopo che l’avremo costruita?Se lo scopo dell’attuale ricerca sull’Intelligenza Artificiale è quello di costruire delle macchine fornite di un’intelligenza generale paragonabile a quella umana, quanto tempo occorrerà a quelle macchine, una volta costruite, per superare e surclassare le nostre capacità intellettive? Poco, ci informa Bostrom, pochissimo. Una volta raggiunto un livello di intelligenza paragonabile al nostro, alle macchine basterà un piccolo passo per «decollare» esponenzialmente, dando origine a superintelligenze che per noi risulteranno rapidamente inarrivabili. A quel punto le nostre creature potrebbero scapparci di mano, non necessariamente per «malvagità», ma anche solo come effetto collaterale della loro attività. Potrebbero arrivare a distruggerci o addirittura a distruggere il mondo intero.Per questo – sostiene Bostrom – dobbiamo preoccuparcene ora. Per non rinunciare ai benefici che l’Intelligenza Artificiale potrà apportare, è necessario che la ricerca tecnologica si ponga adesso le domande che questo libro pone con enorme chiarezza e chiaroveggenza.",
-        "coverPath": "covers/book_1777909757792_google.jpg",
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777909757792.epub",
+        "coverPath": "covers/book_1777930814796_google.jpg",
+        "pageCount": 897,
+        "epubPath": "ebooks/book_1777930814796.epub",
         "tags": [
             "tecnologia e innovazione"
         ]
     },
     {
-        "id": "book_1777909764705",
-        "title": "Summary of The Big Nine Amy Webb - How the Tech Titans and Their Thinking Machines Could Warp Humanity",
-        "author": "Dmpublishers",
+        "id": "book_1777930815217",
+        "title": "The Big Nine: How the Tech Titans and Their Thinking Machines Could Warp Humanity",
+        "author": "Amy Webb",
         "description": "A call-to-arms about the broken nature of artificial intelligence, and the powerful corporations that are turning the human-machine relationship on its head.We like to think that we are in control of the future of \"artificial\" intelligence. The reality, though, is that we--the everyday people whose data powers AI--aren't actually in control of anything. When, for example, we speak with Alexa, we contribute that data to a system we can't see and have no input into--one largely free from regulation or oversight. The big nine corporations--Amazon, Google, Facebook, Tencent, Baidu, Alibaba, Microsoft, IBM and Apple--are the new gods of AI and are short-changing our futures to reap immediate financial gain. In this book, Amy Webb reveals the pervasive, invisible ways in which the foundations of AI--the people working on the system, their motivations, the technology itself--is broken. Within our lifetimes, AI will, by design, begin to behave unpredictably, thinking and acting in ways which defy human logic. The big nine corporations may be inadvertently building and enabling vast arrays of intelligent systems that don't share our motivations, desires, or hopes for the future of humanity.Much more than a passionate, human-centered call-to-arms, this book delivers a strategy for changing course, and provides a path for liberating us from algorithmic decision-makers and powerful corporations.",
-        "coverPath": "covers/book_1777909764705.jpg",
-        "pageCount": 40,
-        "epubPath": "ebooks/book_1777909764705.epub",
+        "coverPath": "covers/book_1777930815217.jpg",
+        "pageCount": 494,
+        "epubPath": "ebooks/book_1777930815217.epub",
         "tags": [
             "tecnologia e innovazione"
         ]
     },
     {
-        "id": "book_1777909771141",
+        "id": "book_1777930815431",
         "title": "Vita 3.0",
         "author": "Max Tegmark",
-        "description": "In che modo l’intelligenza artificiale influirà su criminalità, giustizia, occupazione, società e sul senso stesso di essere umani? Come possiamo far crescere la nostra prosperità grazie all’automazione senza che le persone perdano reddito o uno scopo? Quali consigli dobbiamo dare ai bambini di oggi per la loro futura carriera lavorativa? Dobbiamo temere una corsa agli armamenti con armi letali autonome? Le macchine alla fine ci supereranno sostituendo gli umani nel mercato del lavoro? L’intelligenza artificiale aiuterà la vita a fiorire come mai prima d’ora o ci darà un potere più grande di quello che siamo in grado di gestire? Questo libro offre gli strumenti per partecipare alla riflessione sul tipo di futuro che vogliamo e che noi, come specie, potremmo creare. Non teme di affrontare l’intero spettro dei punti di vista o i temi più controversi: dalla superintelligenza al significato dell’esistenza, alla coscienza e ai limiti ultimi che la fisica impone alla vita nel cosmo.",
-        "coverPath": "covers/book_1777909771141.jpg",
-        "pageCount": 468,
-        "epubPath": "ebooks/book_1777909771141.epub",
+        "description": "In che modo l’intelligenza artificiale influirà su criminalità, giustizia, occupazione, società e sul senso stesso di essere umani? Come possiamo far crescere la nostra prosperità grazie all’automazione senza che le persone perdano reddito o uno scopo? Quali consigli dobbiamo dare ai bambini di oggi per la loro futura carriera lavorativa? Dobbiamo temere una corsa agli armamenti con armi letali autonome? Le macchine alla fine ci supereranno sostituendo gli umani nel mercato del lavoro? L’intelligenza artificiale aiuterà la vita a fiorire come mai prima d’ora o ci darà un potere più grande di quello che siamo in grado di gestire?\nQuesto libro offre gli strumenti per partecipare alla riflessione sul tipo di futuro che vogliamo e che noi, come specie, potremmo creare. Non teme di affrontare l’intero spettro dei punti di vista o i temi più controversi: dalla superintelligenza al significato dell’esistenza, alla coscienza e ai limiti ultimi che la fisica impone alla vita nel cosmo.",
+        "coverPath": "covers/book_1777930815431.jpg",
+        "pageCount": 602,
+        "epubPath": "ebooks/book_1777930815431.epub",
         "tags": [
             "tecnologia e innovazione"
         ]
     },
     {
-        "id": "book_1777927220958",
+        "id": "book_1777930843619",
+        "title": "Deep work: Concentrati al massimo (Italian Edition)",
+        "author": "Cal Newport",
+        "description": "Trama non trovata.",
+        "coverPath": "covers/book_1777930843619.jpg",
+        "pageCount": 353,
+        "epubPath": "ebooks/book_1777930843619.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777930843990",
+        "title": "L'arte di vedere le cose intorno a noi",
+        "author": "Rob Walker",
+        "description": "Tutti noi abbiamo la sensazione di essere sempre distratti, di fretta, bombardati da troppi stimoli per prestare veramente attenzione a qualcosa. Rob Walker ci insegna a riscoprire L’arte di vedere le cose intorno a noi: attingendo alle idee di geniali “maestri dell’attenzione” come John Berger, Georges Perec e Marina Abramović, ma anche a una serie di inaspettate fonti di ispirazione che vanno dalla letteratura al design, dalla street art alla musica, Walker ha costruito un percorso di 131 esercizi originali e stimolanti da fare nel tragitto tra casa e lavoro, passeggiando per strada, o anche solo guardando fuori da una finestra o stando sdraiati sul divano. Perché basta pochissimo per trasformare le nostre percezioni. Come ha detto Susan Sontag: “È tutto un fatto di attenzione. L’attenzione è vitalità. Ci connette con gli altri. Ci rende curiosi. Restate curiosi”.\n\n«Il primo passo verso una vita più interessante e più creativa è migliorare la nostra capacità di attenzione. Rob Walker offre una guida imprescindibile per chiunque voglia esplorare il mondo che ci circonda: ci ho trovato un sacco di idee da rubare!» - Austin Kleon autore del bestseller Ruba come un artista\n\n«L’attenzione è una risorsa preziosa, che spesso sprechiamo in modo stupido. Ma è anche un muscolo che possiamo allenare.» - Seth Godin",
+        "coverPath": "covers/book_1777930843990.jpg",
+        "pageCount": 499,
+        "epubPath": "ebooks/book_1777930843990.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777930844248",
+        "title": "Dritto al sodo (De Agostini)",
+        "author": "Greg McKeown",
+        "description": "Trama non trovata.",
+        "coverPath": "covers/book_1777930844248.jpg",
+        "pageCount": 275,
+        "epubPath": "ebooks/book_1777930844248.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777930844549",
+        "title": "Flow",
+        "author": "Mihaly Csikszentmihalyi",
+        "description": "Flow è un classico fondamentale della psicologia contemporanea. Pubblicato per la prima volta nel 1990 (e in Italia da lungo tempo assente dal mercato), oggi è sempre più riscoperto, citato e studiato come caposaldo della psicologia positiva. Le persone raggiungono la massima felicità quando sono in uno stato di “flow”, cioè di totale concentrazione e assorbimento in un’attività. Una sensazione simile alla trance agonistica. Forse per questo, negli anni, il concetto di flow ha avuto tanto successo in ambito sportivo e nel coaching, diventando così popolare al giorno d’oggi. Con la consapevolezza e le giuste conoscenze, l’esperienza ottimale può essere ricercata e controllata, diventando uno strumento per sbloccare risorse che consentono di dare il meglio di sé. Ma vivere singoli episodi di questo tipo è solo un primo passo: se si riesce a legare la propria esistenza a una finalità potente, allora la vita stessa può divenire un unico lungo flow in cui tutte le esperienze sono interconnesse e ordinate. Questo, dice Csíkszentmihályi, è lo stato di felicità più alto che possiamo sperimentare.",
+        "coverPath": "covers/book_1777930844549.jpg",
+        "pageCount": 612,
+        "epubPath": "ebooks/book_1777930844549.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777930844877",
+        "title": "Il metodo Ikigai",
+        "author": "Hector Garcia & Francesc Miralles",
+        "description": "Sull'isola giapponese di Okinawa si contano oltre ventiquattro centenari ogni centomila abitanti, un valore significativamente più alto della media mondiale. Desiderosi di individuare le ragioni di questa straordinaria eccezione, Héctor García e Francesc Miralles hanno condotto anni di studi sul luogo, fermandosi in particolare a Ogimi, il cosiddetto \"villaggio dei centenari\", e verificando che, tra i fattori fondamentali di questa incredibile longevità, vi sono una vita semplice all'aria aperta (resa possibile dal clima mite), un'alimentazione sana ed essenziale, una dedizione a coltivare l'amicizia e i rapporti umani. Ma il risultato più sorprendente delle ricerche è stato scoprire una sorta di ingrediente segreto: l'ikigai, appunto, ossia la propria ragion d'essere, il motivo che ci spinge ad alzarci dal letto ogni giorno, la felicità di dedicarci quotidianamente a ciò che amiamo. Tutti custodiamo nel profondo il nostro ikigai, qualcuno lo ha già individuato, qualcun altro ancora no. Ecco perché lo scopo di questo libro rivoluzionario, che ha conquistato anche Marie Kondo e che è stato tradotto in trentasei lingue, è proprio aiutarci a metterlo a fuoco: un manuale semplice, nello stesso tempo pratico e poetico, per scoprire i segreti di longevità della filosofia giapponese e per imparare ad applicarli alla nostra vita.",
+        "coverPath": "covers/book_1777930844877.jpg",
+        "pageCount": 135,
+        "epubPath": "ebooks/book_1777930844877.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777930845066",
+        "title": "Il Potere di Adesso. Una guida all'illuminazione spirituale. Nuova Edizione",
+        "author": "Eckhart Tolle",
+        "description": "Il Potere di Adesso: trasforma la tua vita vivendo nel presente. Con semplicità e chiarezza, Eckhart Tolle guida a potenziare la capacità di essere nel momento presente per trasformare ogni evento della vita in una grande opportunità di crescita e cambiamento.\n\nEckhart Tolle, il maestro spirituale più seguito al mondo, racconta come accedere a livelli superiori di conoscenza per lasciar andare il dolore e creare una vita di benessere e abbondanza. Un libro dai contenuti di valore, ricco di consigli pratici e potenti che aiutano a trovare e ritrovare la strada per essere felici.\n\nHai mai notato quanto della tua vita sia spesa a rimuginare sul passato o a preoccuparti del futuro? Il Potere di Adesso di Eckhart Tolle è un libro che ti invita a spezzare questa catena mentale e a scoprire la libertà che nasce dal vivere pienamente nel presente.\n\nTolle, con un linguaggio accessibile ma profondo, spiega come la nostra mente crei sofferenza identificandosi con ricordi dolorosi o proiezioni ansiose. La chiave per la pace interiore? Riconoscere che il vero potere sta nell’adesso, l’unico momento in cui possiamo agire, sentire ed essere autenticamente noi stessi.\n\nLiberati dal passato, supera l’ansia del futuro: la rivoluzione del qui e ora.\nAttraverso domande riflessive ed esempi pratici, l’autore guida il lettore a:\n\n- Distaccarsi dai pensieri ossessivi (il \"narratore interiore\" che critica e giudica).\n- Accettare il momento presente, anche nelle difficoltà, trasformando il dolore in consapevolezza.\n- Collegarsi all’essenza oltre l’ego, trovando una serenità indipendente dalle circostanze esterne.\n\nNon è un libro da leggere e mettere da parte: è una chiamata all’azione silenziosa, un invito a sperimentare direttamente la quiete che sorge quando smettiamo di lottare contro ciò che è.\n\nUn libro che non cambia solo ciò che pensi, ma come vivi. Sei pronto a provarlo?\nLeggere Il Potere di Adesso può aiutarti a:\n\n- Ridurre ansia e stress: impara a osservare i pensieri senza farti travolgere.\n- Migliorare le relazioni: vivere nel presente ti rende più autentico e presente con gli altri.\n- Superare i traumi del passato: smetti di rivivere un dolore che non esiste più.\n- Trovare gioia nelle piccole cose: scopri la bellezza del \"qui e ora\".\n- Sviluppare resilienza emotiva: le sfide diventano opportunità di crescita.\n- Accedere a una pace interiore duratura: la consapevolezza diventa il tuo spazio sicuro.",
+        "coverPath": "covers/book_1777930845066.jpg",
+        "pageCount": 267,
+        "epubPath": "ebooks/book_1777930845066.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777930845522",
+        "title": "Le 7 regole per avere successo",
+        "author": "Stephen R. Covey",
+        "description": "The 7 Habits of Highly Effective People\" di Stephen Covey non è un manuale ma un percorso, un approccio integrato il cui proposito essenziale è imparare a gestire la propria vita in modo veramente efficace: ovvero come ottenere risultati, in linea con i propri obiettivi. Il volume costituisce un \"metodo\" che, se correttamente applicato, permette di aumentare la capacità di raggiungere obiettivi personali e professionali, ma anche di sviluppare migliori relazioni private e di lavoro.",
+        "coverPath": "covers/book_1777930845522.jpg",
+        "pageCount": 517,
+        "epubPath": "ebooks/book_1777930845522.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777930845715",
+        "title": "Make Time",
+        "author": "Jake Knapp & John Zeratsky",
+        "description": "\"A charming manifesto&#8212;as well as an intrepid do-it-yourself guide to building smart habits that stick. If you want to achieve more (without going nuts), read this book.\"&#8212;Charles Duhigg, bestselling author of The Power of Habit and Smarter Faster Better From the New York Times bestselling authors of Sprint, a simple 4-step system for improving focus, finding greater joy in your work, and getting more out of every day.Nobody ever looked at an empty calendar and said, \"The best way to spend this time is by cramming it full of meetings!\" or got to work in the morning and thought, Today I'll spend hours on Facebook! Yet that's exactly what we do. Why?In a world where information refreshes endlessly and the workday feels like a race to react to other people's priorities faster, frazzled and distracted has become our default position. But what if the exhaustion of constant busyness wasn't mandatory? What if you...",
+        "coverPath": "covers/book_1777930845715.jpg",
+        "pageCount": 224,
+        "epubPath": "ebooks/book_1777930845715.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777930845966",
+        "title": "SUMMARY - Mindset: The New Psychology of Success by Carol S. Dweck",
+        "author": "Shortcut Edition",
+        "description": "* Our summary is short, simple and pragmatic. It allows you to have the essential ideas of a big book in less than 30 minutes.\n\n*As you read this summary, you will discover that intelligence is not fixed and that it can evolve at any age, thanks to the positive development of your state of mind.\n\n*You will also discover : that a positive state of mind, open to new things, is good for your health and personal development; that a good state of mind is necessary in all areas, without exception; that intelligence is a quality that can be worked on and improved; that it is possible to go far with a taste for effort, motivation and the desire to learn as a starting potential.\n\n*Many people think that intelligence is a skill whose degree is written in the genes. This is not true. Unfortunately, this belief strongly influences the use that is made of one&#39;s intellectual abilities. In other words, a person who believes that he or she is intellectually limited can persist in this belief all his or her life. The purpose of this book is to guide readers through a process of &#34;cleaning&#34; the intrinsic obstacles to intellectual and spiritual development in a sustainable way. In each area (work, love, family, etc.), Carol Dweck gives food for thought and solutions to put into practice.\n\n*Buy now the summary of this book for the modest price of a cup of coffee!",
+        "coverPath": "covers/book_1777930845966.jpg",
+        "pageCount": 375,
+        "epubPath": "ebooks/book_1777930845966.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777930846173",
+        "title": "Atomic habits. Piccole abitudini per grandi cambiamenti",
+        "author": "James Clear",
+        "description": "Mental coach, formatori, guru motivazionali: tanti dicono che nella vita è fondamentale porsi obiettivi ambiziosi, decidere dove si vuole arrivare e fare di tutto per arrivarci. Ma è davvero questa la chiave del successo? Perché allora è così difficile fare quello che continuamente diciamo di voler fare? Per quale motivo non riusciamo a dimagrire, ricominciamo a fumare, perdiamo ore incollati a uno smartphone? Perché non costruiamo davvero relazioni più salutari, carriere più soddisfacenti? James Clear, uno degli esperti di crescita personale più innovativi e seguiti in America, non ha dubbi: stiamo semplicemente sbagliando bersaglio. L’ossessione per gli obiettivi, invece di aiutarci a migliorare, rischia di diventare un’ulteriore fonte di stress, e perfino di farci fallire. Noi non siamo i nostri obiettivi: siamo la somma delle nostre abitudini. Per questo, secondo Clear, è proprio dalle piccole abitudini di ogni giorno che dobbiamo partire per dare alla nostra vita una nuova direzione. Il vero cambiamento non nasce da una singola grande svolta, ma dalla combinazione di tanti miglioramenti quasi impercettibili: un piccolo passo alla volta, un progresso quotidiano dell’uno per cento. Questo manuale brillante e dettagliato ci accompagna, passo dopo passo, sulla strada del cambiamento sostenibile, attraverso un metodo chiaro e facile da mettere in pratica per creare buone abitudini, per liberarci da quelle cattive, e per rimanere felicemente fedeli alle nostre scelte. Perché soltanto concentrandoci su ciò che abbiamo il potere di cambiare – ciò che ogni giorno decidiamo di fare o non fare – potremo ottenere una trasformazione profonda e duratura.",
+        "coverPath": "covers/book_1777930846173.jpg",
+        "pageCount": 349,
+        "epubPath": "ebooks/book_1777930846173.epub",
+        "tags": [
+            "sviluppo personale"
+        ]
+    },
+    {
+        "id": "book_1777930880680",
+        "title": "Crypto",
+        "author": "Dan Brown",
+        "description": "Washington. La trentottenne Susan Fletcher, brillantissima mente matematica e responsabile della divisione di crittologia della National Security Agency, viene convocata d'urgenza nell'ufficio del comandante Strathmore. Qualcuno ha realizzato un programma capace di \"ingannare\" il più sofisticato strumento informatico di spionaggio al mondo, un supercomputer che può decodificare qualunque testo cifrato a una velocità strabiliante. Pochissimi conoscono l'esistenza di questa macchina, ideata per contrastare le nuove minacce alla sicurezza nell'era di Internet e in grado di controllare la posta elettronica di chiunque. La stessa NSA, nata per proteggere le comunicazione del governo americano e intercettare quelle delle potenze straniere, opera in semiclandestinità, al di fuori del controllo pubblico. Susan non si stupisce quando viene a sapere che \"Fortezza Digitale\", così è stato battezzato il programma, è frutto delle ricerche di un genio dell'informatica: il giapponese Ensei Tankado, handicappato dalla nascita per gli effetti del disastro atomico di Hiroshima, che dopo essere stato chiamato negli Stati Uniti a lavorare per l'NSA ha sbattuto la porta in faccia ai suoi capi quando si è accorto che il supercomputer rischiava di trasformarsi in un nuovo Grande Fratello. I suoi intenti sono nobili, ma la sua decisione di boicottare l'operato dell'NSA, mettendo il programma in rete e permettendo a chiunque di scaricarlo, rischia di creare l'anarchia e di assicurare libertà d'azione a spie e criminali.",
+        "coverPath": "covers/book_1777930880680.jpg",
+        "pageCount": 449,
+        "epubPath": "ebooks/book_1777930880680.epub",
+        "tags": [
+            "Svago"
+        ]
+    },
+    {
+        "id": "book_1777930881050",
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "description": "The hauntingly prophetic classic novel.Over 1 million copies sold in the UK.Guy Montag is a fireman. His job is to burn books, which are forbidden, being the source of all discord and unhappiness. Even so, Montag is unhappy; there is discord in his marriage. Are books hidden in his house? The Mechanical Hound of the Fire Department, armed with a lethal hypodermic, escorted by helicopters, is ready to track down those dissidents who defy society to preserve and read books.The classic novel of a post-literate future, Fahrenheit 451 stands alongside Orwell’s 1984 and Huxley’s Brave New World as a prophetic account of Western civilization’s enslavement by the media, drugs and conformity.Bradbury’s powerful and poetic prose combines with uncanny insight into the potential of technology to create a novel which, forty years on from first publication, still has the power to dazzle and shock.Reviews‘Fahrenheit 451 is the most skilfully drawn of all science fiction’s conformist hells’Kingsley Amis‘Bradbury’s is a very great and unusual talent’Christopher Isherwood‘Ray Bradbury has a powerful and mysterious imagination which would undoubtedly earn the respect of Edgar Allen Poe’GuardianAbout the authorOne of the greatest science fiction and fantasy writers of all time, Ray Bradbury was born in Waukegan, Illinois, in 1920. He moved with his family to Los Angeles in 1934. Since his first story appeared in Weird Tales when he was twenty years old, he published some 500 short stories, novels, plays, scripts and poems. Among his many famous works are Fahrenheit 451, The Illustrated Man and The Martian Chronicles. Ray Bradbury died in 2012 at the age of 91.",
+        "coverPath": "covers/book_1777930881050.jpg",
+        "pageCount": 376,
+        "epubPath": "ebooks/book_1777930881050.epub",
+        "tags": [
+            "Svago"
+        ]
+    },
+    {
+        "id": "book_1777930881306",
+        "title": "Dottor Futuro",
+        "author": "Philip K. Dick",
+        "description": "SAN FRANCISCO, 2012. Jim Parsons è un medico di talento, estremamente competente nell'utilizzare la raffinata tecnologia del XXI secolo. In seguito a un bizzarro incidente automobilistico, si ritrova catapultato a centinaia di anni nel futuro, in un tempo che al primo impatto gli sembra meraviglioso. Presto però scopre che in quel mondo la sua missione - curare le malattie e salvare vite - è illegale: si tratta, infatti, di una società globalizzata in cui la popolazione è mantenuta costante e, solo se un individuo muore, si può avere la nascita di un nuovo bambino, il cui patrimonio genetico viene continuamente migliorato, generazione dopo generazione. In quella civiltà così fervidamente votata alla morte, Parsons scopre però che ci sono altre persone che condividono il suo desiderio di prolungare la vita umana. Per loro, le capacità terapeutiche del dottore sono l'unica via per fondare un futuro diverso... La più terribile tra le distopie - una civiltà intera che abbraccia il culto della morte e dell'eugenetica - e i paradossi dei viaggi nel tempo, due temi classici della narrativa fantascientifica, rivisitati dalla caleidoscopica immaginazione di Philip K. Dick.",
+        "coverPath": "covers/book_1777930881306_google.jpg",
+        "pageCount": 204,
+        "epubPath": "ebooks/book_1777930881306.epub",
+        "tags": [
+            "Svago"
+        ]
+    },
+    {
+        "id": "book_1777930881739",
+        "title": "La forza del male",
+        "author": "Stephen King",
+        "description": "DAL GENIO VISIONARIO DI STEPHEN KING UN ECCEZIONALE ESPERIMENTO LETTERARIO. DUE ROMANZI LEGATI INDISSOLUBILMENTE IN UN UNICO IMPERDIBILE VOLUME.  Pubblicati per la prima volta in Italia nel 1997, I vendicatori e Desperation sono due romanzi complementari, uniti dallo stesso, mostruoso protagonista: Tak, la forza oscura, una creatura diabolica e informe, in grado di scatenare un apocalittico scontro fra bene e male. È quello che accade a Wentworth, nell'Ohio, quando un'esplosione di inaudita malvagità e violenza si abbatte sulla piccola comunità, sovvertendo l'ordine delle cose. Solo una casa sembra indenne alla furia che sta devastando il quartiere, una casa in cui una donna e suo nipote lottano disperatamente contro l'entità che si sta impossessando di loro... Ed è anche quello che succede a Desperation, una tetra cittadina mineraria nel deserto del Nevada, dove alcuni inconsapevoli viaggiatori approdano senza sapere che una presenza demoniaca ha contagiato il sottosuolo e si è impadronita del corpo del poliziotto Collie Entragian. Per i vecchi fan del Re e per i nuovi adepti, due terrificanti storie parallele da scoprire o rileggere: horror allo stato puro.",
+        "coverPath": "covers/book_1777930881739.jpg",
+        "pageCount": 1321,
+        "epubPath": "ebooks/book_1777930881739.epub",
+        "tags": [
+            "Svago"
+        ]
+    },
+    {
+        "id": "book_1777930882130",
+        "title": "Wohpe",
+        "author": "Salvatore Sanfilippo",
+        "description": "Fine del XXI secolo. L'intelligenza artificiale forte è vietata da vent'anni, ma ora i cambiamenti climatici sono inarrestabili, la civiltà in pericolo. Asako e Michel, due esperti di intelligenza artificiale, fanno gli ultimi controlli prima dell'avvio del progetto Wohpe: l'enorme rete neurale a cui porre le domande decisive. Sarà la salvezza o la fine di tutto.",
+        "coverPath": "covers/book_1777930882130.jpg",
+        "pageCount": 312,
+        "epubPath": "ebooks/book_1777930882130.epub",
+        "tags": [
+            "Svago"
+        ]
+    },
+    {
+        "id": "book_1777930907728",
+        "title": "12 Regole per la Vita: Un antidoto al caos. Nuova edizione",
+        "author": "Dr. Jordan B. Peterson",
+        "description": "Quali sono le cose fondamentali da sapere? Rispondendo a questa domanda nasce la lista di 12 regole per la vita. Il famoso psicologo clinico Jordan B. Peterson ha influenzato la moderna comprensione della personalità, diventando un notissimo pensatore grazie alle sue conferenze su argomenti che spaziano dalla Bibbia alle relazioni affettive e alla mitologia e che attirano decine di milioni di spettatori. Il suo messaggio forte e chiaro sul valore della responsabilità individuale e l'antica saggezza ha fatto vibrare il mondo intero. Nel libro propone dodici princìpi pratici fondamentali su come vivere una vita ricca di significato. Attingendo a vividi esempi tratti dalla pratica clinica e dalla sua vita privata, oltre che agli insegnamenti dei miti e delle storie più antiche dell'umanità, \"12 Regole per la vita\" offre un antidoto al caos dell'esistenza: verità eterne applicate a problemi attuali. Fondamento del pensiero dell'autore è l'idea che il mondo sia un palcoscenico su cui recitano due soli attori, il caos e l'ordine, e che la vera felicità per gli esseri umani sia racchiusa nell'equilibrio fra questi due elementi perché è in esso che si trovano il significato della vita e del dolore e, di conseguenza, è lì che può avvenire il cambiamento. Riuscirci non è semplice ma seguendo queste dodici regole diventa possibile: Stai bello dritto, con le spalle all'indietro, Trattati come una persona che hai la responsabilità di aiutare, Scegli amici che vogliono il meglio per te, Paragonati al tuo Io del passato e non a qualcun altro del presente, Non permettere ai tuoi figli di fare cose per cui poi li amerai meno, Tieni in perfetto ordine la casa prima di criticare il mondo, Punta al significato (non all'interesse personale), Di' la verità, o almeno non mentire, Pensa sempre che il tuo interlocutore sappia qualcosa che tu ignori, Sii preciso quando parli, Non disturbare i ragazzi mentre fanno skateboard, Se per strada trovi un gatto, coccolalo.",
+        "coverPath": "covers/book_1777930907728.jpg",
+        "pageCount": 660,
+        "epubPath": "ebooks/book_1777930907728.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930908035",
+        "title": "I quattro accordi",
+        "author": "Miguel Ruiz",
+        "description": "Gli esseri umani vivono in un perenne stato di sogno. Sognano quando il cervello dorme, ma anche quando è sveglio. Hanno saputo creare un grande sogno esteriore, il 'sogno della società', costituito da innumerevoli sogni personali, familiari e di comunità. Questo sogno esteriore possiede una grande quantità di regole che ci sono state inculcate fin dalla nascita. Abbiamo così imparato come comportarci in una data società, cosa credere, cosa è bene e cosa è male, bello o brutto, giusto o sbagliato.Non abbiamo scelto queste credenze e queste regole; ci siamo nati e le abbiamo apprese secondo un processo di 'addomesticamento' in cui le informazioni sono passate dal sogno esteriore a quello interiore, andando a formare il nostro personale sistema di credenze. A questo punto non c'è più bisogno di 'istruttori' esterni, giacché diventiamo noi stessi i nostri giudici. Tutto ciò che crediamo su noi stessi e sul mondo rientra in quel sogno interiore, che tuttavia ci è giunto dall'esterno e che ci impedisce di vederci per come siamo veramente.In questo illuminante volume, don Miguel Ruiz ci rivela la fonte delle credenze autolimitanti che ci privano della gioia e che creano inutili sofferenze. Basato sull'antica saggezza tolteca, I quattro accordi offre una valido codice di condotta che può rapidamente trasformare la nostra vita in una nuova esperienza di libertà, di vera felicità e di amore.I libri di don Miguel Ruiz hanno venduto 9 milioni di copie e sono stati tradotti in 34 paesi. 'Se avete letto I quattro accordi, sapete che ogni volta che qualcuno parla di voi parla di se stesso, e io penso che sia la pura verità'.- Bill Clinton 'Il libro di don Miguel Ruiz è una mappa verso l'illuminazione e la libertà'.- Deepak Chopra 'Ruiz distilla l'essenza della saggezza tolteca; esprime con chiarezza e impeccabilità cosa significa vivere da guerrieri di pace nel mondo moderno'.- Dan Millman",
+        "coverPath": "covers/book_1777930908035.jpg",
+        "pageCount": 98,
+        "epubPath": "ebooks/book_1777930908035.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930908227",
+        "title": "L'arte di conoscere se stessi. Pensieri",
+        "author": "Marco Aurelio",
+        "description": "Cura e traduzione di Mario Scaffidi AbbateEdizione integraleI Pensieri di Marco Aurelio (detti anche Ricordi, Colloqui con se stesso, Ammonizioni) sono un’opera fondamentale per chi voglia accostarsi alla saggezza degli antichi. Una saggezza che non elimina il conflitto fra l’essere e il voler essere, fra i princìpi filosofici e gl’impulsi naturali, fra la teoria e la pratica. L’imperatore fu un uomo tormentato, in contrasto con quella logica stoica che si sforzava di seguire ma che non riuscì a calare pienamente e stabilmente nel suo mondo interiore. I suoi pensieri, infatti, hanno quasi sempre due facce, come una medaglia: un dritto e un rovescio. Così, per esempio, crede nella provvidenza ma non esclude del tutto il caos o l’atomismo, confida negli dèi ma si domanda perché, «se esistono», «non hanno fatto sì che almeno i migliori potessero sopravvivere dopo la morte invece di scomparire definitivamente». Dubbi, dunque, non certezze. Ma al di là delle contraddizioni e del pessimismo che si colgono qua e là, spiccano nell’opera due concetti fondamentali e molto significativi: «La vita è opinione», cioè un gioco dialettico di cui soltanto il saggio è in grado di scoprire il trucco, squarciando il velo dell’illusione, e «L’uomo non è responsabile delle sue azioni, perché tutto avviene in armonia con le leggi della natura»: una affermazione che, in contrasto con quanto detto in precedenza, costituisce la chiusa e la sintesi dell’opera.«Prendimi e gettami dove vuoi: dovunque manterrò il mio demone sereno, pago di essere e di agire secondo la sua propria natura. Non c’è cosa capace di turbare la mia anima, di avvilirla, umiliarla, calpestarla e spaventarla. O pensi di poter trovare qualcosa che valga tutto ciò?»Marco Aurelionacque a Roma nel 121 d.C. Adottato da Antonino Pio, gli succedette nel 161. Associatosi al trono il fratello Lucio Vero e successivamente il figlio Commodo, si trovò impegnato, suo malgrado, in una serie di guerre continue: contro i Parti, i Germani e i Marcomanni. In politica interna combatté il potere assolutistico dei suoi predecessori, risanò l’economia e promulgò leggi benevole verso gli schiavi. Avversò i cristiani. Morì a Vindobona nel 180.",
+        "coverPath": "covers/book_1777930908227_google.jpg",
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777930908227.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930908558",
+        "title": "L'era della dopamina",
+        "author": "Anna Lembke",
+        "description": "Oggi tutto è a portata di clic: nella storia dell’umanità non è mai stato così facile avere accesso alla soddisfazione dei nostri desideri, che si parli di sesso, intrattenimento, shopping, news o cibo spazzatura, attività accomunate da un facile e ingente rilascio di dopamina, il neurotrasmettitore che veicola il piacere. L’altra faccia di questa medaglia è la dipendenza, che alla lunga sostituisce le sensazioni di piacere con dolore e insoddisfazione, senza però rompere il circolo vizioso della ricerca di ricompense. In questo libro Anna Lembke, psichiatra esperta nel trattamento delle dipendenze, con uno stile che rende accessibili e affascinanti i frutti dei più recenti studi scientifici sull’argomento e grazie a una vasta raccolta di casi reali raccolti durante la sua attività di terapeuta, esplora le insidie della moderna società digitalizzata e spiega come ritrovare l’equilibrio.",
+        "coverPath": "covers/book_1777930908558.jpg",
+        "pageCount": 339,
+        "epubPath": "ebooks/book_1777930908558.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930908871",
+        "title": "Osare in grande Come il coraggio della vulnerabilita Bren Brown",
+        "author": "Autore Sconosciuto",
+        "description": "Trama non trovata.",
+        "coverPath": null,
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777930908871.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930909110",
         "title": "Pensieri lenti e veloci (Saggi) (Italian Edition)",
         "author": "Daniel Kahneman",
         "description": "Ogni giorno prendiamo decisioni, e molte di queste si basano su convinzioni riguardo la probabilità di eventi incerti: il risultato di un'elezione politica, l'andamento della borsa, la colpevolezza di un imputato, il meteo della giornata. Ma che cosa determina simili convinzioni? Come fanno le persone a valutare la probabilità di un evento incerto? La ricerca neuropsicologica ha dimostrato che si affidano a un numero limitato di principi euristici, riducendo così le complesse attività di valutazione delle probabilità a operazioni di giudizio più semplici. In generale, queste euristiche sono piuttosto utili, ma talvolta possono indurre a gravi errori. Decidere nell'incertezza affronta le diverse euristiche di giudizio e i bias che producono, calandole non solo negli esperimenti dei laboratori ma anche nelle più comuni situazioni sociali, sanitarie e politiche. Tra eccessiva sicurezza, percezione del rischio e inferenze, gli autori dei trentacinque saggi qui raccolti spiegano non solo come il nostro cervello si inganna, ma anche come correggere e migliorare i nostri giudizi in condizioni di incertezza. Frutto di molti anni di studio e della revisione di numerose ricerche internazionali a opera di un consistente team di scienziati, questa raccolta, pubblicata per la prima volta nel 1974, è una pietra miliare nella storia delle neuroscienze, un libro imprescindibile che ha segnato l'inizio di quel connubio tra psicologia ed economia che è valso a Kahneman il Premio Nobel. Un campo di indagine che riguarda come nessun altro le vite quotidiane di tutti noi.",
-        "coverPath": "covers/book_1777927220958.jpg",
-        "pageCount": 230,
-        "epubPath": "ebooks/book_1777927220958.epub",
-        "tags": []
+        "coverPath": "covers/book_1777930909110.jpg",
+        "pageCount": 913,
+        "epubPath": "ebooks/book_1777930909110.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930909434",
+        "title": "Awaken the Giant Within",
+        "author": "Tony Robbins",
+        "description": "Wake up and take control of your life! From the bestselling author of Inner Strength, Unlimited Power, and MONEY Master the Game, Anthony Robbins, the nation's leader in the science of peak performance, shows you his most effective strategies and techniques for mastering your emotions, your body, your relationships, your finances, and your life.The acknowledged expert in the psychology of change, Anthony Robbins provides a step-by-step program teaching the fundamental lessons of self-mastery that will enable you to discover your true purpose, take control of your life, and harness the forces that shape your destiny.",
+        "coverPath": "covers/book_1777930909434.jpg",
+        "pageCount": 233,
+        "epubPath": "ebooks/book_1777930909434.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930909612",
+        "title": "The Daily Stoic: 366 Meditations on Wisdom, Perseverance, and the Art of Living",
+        "author": "Turbo-Learning",
+        "description": "A Comprehensive Study Guide of The Daily Stoic\r\n\r\nRyan Holiday's The Daily Stoic is a book that contains 366 Stoic meditations, one for every day of the year. \r\nWhatever you're going through, there's wisdom from the Stoics that can help. Despite the age of philosophy, \"the works of the Stoics have always been fresh and current,\" because Stoicism is still quite necessary today.  \r\nHoliday says it was \"the world's doers who discovered that for their challenging lives it provides much-needed strength and stamina.\" \r\nThe purpose of this book is to \"restore Stoicism as a tool in the pursuit of self-mastery, perseverance, and wisdom to its rightful place.\"  \r\nIf you want to live the good life, this book provides regular doses of motivation and wisdom. \r\n\r\n\r\nHere is a Preview of What You Will Get:\r\n\r\n\r\n⁃\tA Detailed Introduction \r\n⁃\tA Comprehensive Chapter by Chapter Study Guide\r\n⁃\tEtc\r\n\r\nGet a copy of this study guide and learn about the book.",
+        "coverPath": "covers/book_1777930909612.jpg",
+        "pageCount": 352,
+        "epubPath": "ebooks/book_1777930909612.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930910037",
+        "title": "The Obstacle Is the Way",
+        "author": "Ryan Holiday",
+        "description": "\"The impediment to action advances action. What stands in the way becomes the way.\" &#8212; Marcus Aurelius  We are stuck, stymied, frustrated. But it needn't be this way. There is a formula for success that's been followed by the icons of history&#8212;from John D. Rockefeller to Amelia Earhart to Ulysses S. Grant to Steve Jobs&#8212;a formula that let them turn obstacles into opportunities. Faced with impossible situations, they found the astounding triumphs we all seek.  These men and women were not exceptionally brilliant, lucky, or gifted. Their success came from timeless philosophical principles laid down by a Roman emperor who struggled to articulate a method for excellence in any and all situations.  This book reveals that formula for the first time&#8212;and shows us how we can turn our own adversity into advantage.",
+        "coverPath": "covers/book_1777930910037.jpg",
+        "pageCount": 210,
+        "epubPath": "ebooks/book_1777930910037.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930910266",
+        "title": "Un'anima sconfinata",
+        "author": "Michael A. Singer",
+        "description": "Come sarebbe vivere al di là dei limiti e dei vincoli che ci imponiamo? Cosa possiamo fare quotidianamente per scoprire la pace interiore e la serenità? Un'anima sconfinata risponde a queste domande in modo semplice e profondo: che questo sia il tuo primo viaggio nello spazio interiore o che tu sia un esploratore navigato dell'interiorità, il presente libro trasformerà la tua relazione con te stesso e con il mondo attorno a te.Per prima cosa sarai guidato a scoprire il rapporto con i tuoi stessi pensieri ed emozioni, e aiutato a svelare la fonte della tua energia interiore. Quindi imparerai a liberarti da tutti quei pensieri, emozioni e schemi energetici che ostacolano la tua consapevolezza. Infine, con estrema chiarezza, Un'anima sconfinata ti spalancherà la porta a un'esistenza vissuta nella totale libertà del tuo vero essere interiore.",
+        "coverPath": "covers/book_1777930910266.jpg",
+        "pageCount": 252,
+        "epubPath": "ebooks/book_1777930910266.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930910471",
+        "title": "Uno psicologo nei lager",
+        "author": "Viktor E. Frankl",
+        "description": "Solo i \"consumatori\" della cultura - scrisse Gabriel Marcel nella prefazione all'edizione francese - potrebbero scambiare questo libro per un'ulteriore e ormai tardiva testimonianza sui campi di concentramento. C'è molto di più: avendo vissuto personalmente l'estrema abiezione dei Lager, l'autore insegna che se vivere è sofferenza, sopravvivere è trovare il senso di questa sofferenza. È questa l'esperienza che lo condusse alla scoperta della logoterapia, il trattamento psicoterapeutico che l'ha reso famoso in tutto il mondo. Frankl, credente e ottimista, che a sedici anni interessò Freud, il quale ne pubblicò un saggio sul Giornale internazionale di psicanalisi, con olfatto sano annusa il senso della vita anche là dove lo si nega, e invita a vincere nell'oggi, insieme con il relativismo ideologico assolutista, che è stato il \"male del secolo XX\", ogni cieco determinismo scientifico-naturale, difendendo la libertà umana in una splendida fenomenologia dell'amore. Di una felicità narrativa quasi insospettabile in uno psichiatra, il libro è stato tradotto in tutto il mondo (oltre 10 milioni di copie vendute) ed è stato dichiarato per quattro volte libro dell'anno dalle università degli Stati Uniti.",
+        "coverPath": "covers/book_1777930910471.jpg",
+        "pageCount": 162,
+        "epubPath": "ebooks/book_1777930910471.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
+        ]
+    },
+    {
+        "id": "book_1777930928972",
+        "title": "A Mind For Numbers",
+        "author": "Barbara Oakley, PhD",
+        "description": "The companion book to the wildly popular massive open online course \"Learning How to Learn\"Whether you are a student struggling to fulfill a math or science requirement, or you are embarking on a career change that requires a new skill set, A Mind for Numbers offers the tools you need to get a better grasp of that intimidating material. Engineering professor Barbara Oakley knows firsthand how it feels to struggle with math. She flunked her way through high school math and science courses, before enlisting in the army immediately after graduation. When she saw how her lack of mathematical and technical savvy severely limited her options&#8212;both to rise in the military and to explore other careers&#8212;she returned to school with a newfound determination to re-tool her brain to master the very subjects that had given her so much trouble throughout her entire life.  In A Mind for Numbers, Dr. Oakley lets us in on the secrets to learning...",
+        "coverPath": "covers/book_1777930928972.jpg",
+        "pageCount": 402,
+        "epubPath": "ebooks/book_1777930928972.epub",
+        "tags": [
+            "apprendimento continuo"
+        ]
+    },
+    {
+        "id": "book_1777930929454",
+        "title": "Grit",
+        "author": "Angela Duckworth",
+        "description": "In this must-read book for anyone striving to succeed, pioneering psychologist Angela Duckworth shows parents, students, educators, athletes, and business people&#8212;both seasoned and new&#8212;that the secret to outstanding achievement is not talent but a special blend of passion and persistence she calls \"grit.\"Drawing on her own powerful story as the daughter of a scientist who frequently noted her lack of \"genius,\" Duckworth, now a celebrated researcher and professor, describes her early eye-opening stints in teaching, business consulting, and neuroscience, which led to the hypothesis that what really drives success is not \"genius\" but a unique combination of passion and long-term perseverance. In Grit, she takes readers into the field to visit cadets struggling through their first days at West Point, teachers working in some of the toughest schools, and young finalists in the National Spelling Bee. She also mines fascinating insights from history and...",
+        "coverPath": "covers/book_1777930929454.jpg",
+        "pageCount": 489,
+        "epubPath": "ebooks/book_1777930929454.epub",
+        "tags": [
+            "apprendimento continuo"
+        ]
+    },
+    {
+        "id": "book_1777930929717",
+        "title": "How We Learn",
+        "author": "Benedict Carey",
+        "description": "This book will help you to learn Spanish - or the Spanish guitar - faster.This book will give an athlete the edge to turn Silver into Gold.This book will give any child the chance to perform better in exams. Full stop.How We Learn is a landmark book that shakes up everything we thought we knew about how the brain absorbs and retains information. Filled with powerful - and often thrillingly counter-intuitive - wisdom, stories and practical tips, it gets to the very heart of the learning process; and gives us the keys to reach our very fullest potential in every walk of life.",
+        "coverPath": "covers/book_1777930929717.jpg",
+        "pageCount": 380,
+        "epubPath": "ebooks/book_1777930929717.epub",
+        "tags": [
+            "apprendimento continuo"
+        ]
+    },
+    {
+        "id": "book_1777930929993",
+        "title": "Il Metodo Ultralearning",
+        "author": "Scott H. Young",
+        "description": "LA MEMORIA È UN TALENTO CHE PUOI COLTIVARE, IMPARARE È QUESTIONE DI METODO: DIVENTA UN ULTRALEARNER CON IL PROGRAMMA DI SCOTT YOUNG!Fino a qualche anno fa una laurea universitaria rappresentava una garanzia per una brillante carriera. Oggi basta a malapena per mettere un piede nel mondo del lavoro. Le realtà professionali hanno subito un’accelerazione incredibile, la tecnologia ha rivoluzionato l’accesso all’informazione. Ma noi, invece di essere più efficienti, siamo sempre meno concentrati. Come si può restare al passo senza spendere tempo e soldi in corsi e aggiornamenti?L’autore che ha completato il quadriennio del MIT in soli 12 mesi senza frequentare e ha imparato 4 lingue in un anno svela finalmente il suo metodo: per diventare padrone del proprio tempo, abbattere la competizione e accelerare la carriera!I 9 PRINCIPI DEL METODO ULTRALEARNING:&#xa0;1 Meta-apprendimento • 2 Concentrazione&#xa0; • 3 Esperienza diretta • 4 Esercizio mirato •&#xa0; 5 Recupero • 6 Feedback&#xa0; • 7 Memorizzazione&#xa0; • 8 Intuito •&#xa0; 9 Sperimentazione&#xa0;Purtroppo quello che impariamo a scuola, all’università o nei corsi online spesso non è sufficiente per raggiungere il successo che desideriamo. Allora come possiamo padroneggiare materie difficili e impegnative senza dover frequentare anni e anni di lezioni? E poi sfruttarle brillantemente nel lavoro e nella vita di tutti i giorni? Scott H. Young ha studiato le prestazioni di premi Nobel e campioni di scacchi, di filosofi e leader, incorporando le scoperte più recenti sul funzionamento della memoria. Da questa ricerca nasce il Metodo Ultralearning: 9 principi fondamentali per un approccio rivoluzionario all’allenamento della mente e alla gestione del tempo. Per imparare e padroneggiare qualunque materia o competenza in tempo record – dal cinese alla fisica quantistica, dalla linguistica computazionale alla cultura generale di Chi vuol essere milionario?",
+        "coverPath": "covers/book_1777930929993.jpg",
+        "pageCount": 346,
+        "epubPath": "ebooks/book_1777930929993.epub",
+        "tags": [
+            "apprendimento continuo"
+        ]
+    },
+    {
+        "id": "book_1777930930290",
+        "title": "L'arte di ricordare tutto",
+        "author": "Joshua Foer",
+        "description": "Quaranta giorni. È il tempo che ciascuno di noi spreca in media ogni anno per rimediare a ciò che dimentica: per andare a recuperare il cellulare lasciato chissà dove, per cercare le chiavi di casa o per rintracciare informazioni importanti. Joshua Foer rientrava a pieno titolo in questa media, ma dopo un anno di allenamento si è ritrovato alla finale del Campionato statunitense della memoria. Dunque la memoria si può davvero migliorare, chiunque può riuscire a imparare 1528 numeri a caso in un'ora e ricordarseli tutti, come il pluricampione del mondo Ben Pridmore.Ripercorrendo la storia della mnemotecnica dall'antica Grecia ai giorni nostri e illustrando metodi concreti grazie ai quali possiamo tenere a mente le informazioni che ci interessano, Joshua Foer ci dimostra che «in ognuno di noi si nasconde un piccolo Rain Man». Che la memoria è un dono che tutti possediamo ma di cui spessissimo ignoriamo le potenzialità.«Che cosa ha significato per l'individuo e per la società» si chiede Foer «il passaggio da una cultura fondata sulla memoria interna a una cultura basata sulle memorie immagazzinate al di fuori del cervello? Tutto questo per noi è stato senz'altro un guadagno, ma con che cosa l'abbiamo barattato? Come affrontiamo il fatto di aver perso la memoria?» A queste e a molte altre domande cerca di rispondere il saggio di Joshua Foer, che ha suscitato un grande interesse nella stampa e nel pubblico degli Stati Uniti.",
+        "coverPath": "covers/book_1777930930290.jpg",
+        "pageCount": 420,
+        "epubPath": "ebooks/book_1777930930290.epub",
+        "tags": [
+            "apprendimento continuo"
+        ]
+    },
+    {
+        "id": "book_1777930930578",
+        "title": "Learn Better",
+        "author": "Ulrich Boser",
+        "description": "For centuries, learning emphasized memorizing information: You were supposed to study facts, dates, and details, and burn them into your consciousness. But this approach to learning is outdated and contrary to how our brains really work. In Learn Better, writer and education researcher Ulrich Boser maps out the new science of learning, demonstrating how we can gain expertise in dramatically better ways.In this entertaining and engrossing book, Boser argues that learning is a skill, showing how techniques like self-questioning and thinking about thinking can create much deeper levels of understanding. Among the important findings and practical tips, Boser tells fascinating stories, like how Jackson Pollock came to his revolutionary drip painting method&#8212;and why an ancient counting device helps people gain superhuman math skills.This powerful book will revolutionize the way that you acquire mastery, with far-reaching implications for both you and society. But...",
+        "coverPath": "covers/book_1777930930578.jpg",
+        "pageCount": 466,
+        "epubPath": "ebooks/book_1777930930578.epub",
+        "tags": [
+            "apprendimento continuo"
+        ]
+    },
+    {
+        "id": "book_1777930930764",
+        "title": "Study Guide: Make It Stick by Peter C. Brown, Henry L. Roediger III, Mark A. McDaniel (SuperSummary)",
+        "author": "SuperSummary",
+        "description": "Analyzing literature can be hard — we make it easy! This in-depth study guide offers summaries & analyses for all 8 chapters of Make It Stick by Peter C. Brown, Henry L. Roediger III, Mark A. McDaniel. Get more out of your reading experience and build confidence with study guides proven to: raise students’ grades, save teachers time, and spark dynamic book discussions. SuperSummary Study Guides are written by experienced educators and literary scholars with advanced degrees in relevant fields. Here's what's inside:\n\nChapter-by-chapter summaries— Refresh your memory of key events and big ideas\nComprehensive literary analysis — Unlock underlying meaning\nExamination of key figures in the text — Follow character arcs from tragedy to triumph\nDiscussion of themes, symbols & motifs — Connect the dots among recurring ideas\nImportant quotes with explanations — Appreciate the meaning behind the words\nEssay & discussion topics — Discover writing prompts and conversation starters\n\nWho uses SuperSummary Study Guides:\nStudents: Boost critical thinking skills — and grade averages — while decreasing stress\nEducators: Save hours of prep time and create engaging lessons and assignments\nBook club members: Gain confidence in discussing literary analysis and lead more thoughtful book chats\nAll readers: Better understand (and enjoy) the books you read\n\nWhy customers love SuperSummary Study Guides:\n96% of students report earning a higher grade thanks to our study guides\n98% of educators tell us that SuperSummary study guides save them time\n99% of book club members credit our guides with improving club discussions\n94% of readers say they find everything they need in SuperSummary study guides\n\nWhat SuperSummary customers say:\n“I was taking a very fast paced class. I had to read 5 novels within 5 weeks so the chapter summaries really helped. I ended up getting an A-B on every paper I wrote! I recommend SuperSummary to all my college friends.” — Annabell C., College Student\n\n“I use SuperSummary to supplement my own lesson planning designs. I particularly like the discussion questions/essay questions offered, as well as the summary of events and then interpretation/meaning of a section.” — Adrienne B., Middle School Teacher\n\n“I started a book club and wanted some reference material. SuperSummary helped me lead a productive discussion, get ideas for questions and gain a deeper understanding of the material.” — Laura D., Book Club Member\n\n“I needed a quick clarification of my own understanding of a novel before discussing it with my students. SuperSummary guides are easy to maneuver — everything is labeled and well-organized. — Stella I., High School Teacher\n\n“Subscribing to SuperSummary was the only way to save my grade. SuperSummary helped me get a high grade on my test and complete my summer assignment.” — Dudley L, High School Student",
+        "coverPath": "covers/book_1777930930764.jpg",
+        "pageCount": 438,
+        "epubPath": "ebooks/book_1777930930764.epub",
+        "tags": [
+            "apprendimento continuo"
+        ]
+    },
+    {
+        "id": "book_1777930930951",
+        "title": "Numero 1 si diventa",
+        "author": "Robert Pool",
+        "description": "Anders Ericsson ha passato trent'anni a studiare i geni, le stelle dello sport e i prodigi della musica. E in questo libro racconta la sua sorprendente scoperta: il «dono innato» del talento non è altro che un mito, perché ogni abilità, per quanto speciale e unica, viene appresa grazie all'allenamento. La sola caratteristica che contraddistingue i campioni infatti è il saper sviluppare mente e corpo grazie allo sforzo e alla forza di volontà. Caratteristica insita in ognuno di noi. Ciò che fa la differenza non è solo la quantità di tempo che dedichiamo a un'attività, ma soprattutto la qualità. E, se tutti abbiamo in noi i semi dell'eccellenza, bisogna imparare a farli crescere, allenando prima il cervello, poi i muscoli. Dallo sport alla musica, allo studio, un metodo per migliorare le proprie prestazioni in ogni ambito, che sfata luoghi comuni e suggerisce nuove, innovative tecniche. Lasciatevi quindi guidare da Ericsson e rimarrete stupiti da ciò che si può arrivare a fare, perché le sorprendenti storie raccontate in questo libro sono la prova che ognuno di noi è l'artefice del proprio talento.",
+        "coverPath": "covers/book_1777930930951.jpg",
+        "pageCount": 455,
+        "epubPath": "ebooks/book_1777930930951.epub",
+        "tags": [
+            "apprendimento continuo"
+        ]
+    },
+    {
+        "id": "book_1777930931207",
+        "title": "SUMMARY -  The Art of Learning: An Inner Journey to Optimal Performance by Josh Waitzkin",
+        "author": "Shortcut Edition",
+        "description": "In his riveting new book, The Art of Learning, Waitzkin tells his remarkable story of personal achievement and shares the principles of learning and performance that have propelled him to the top--twice.Josh Waitzkin knows what it means to be at the top of his game. A public figure since winning his first National Chess Championship at the age of nine, Waitzkin was catapulted into a media whirlwind as a teenager when his father's book Searching for Bobby Fischer was made into a major motion picture. After dominating the scholastic chess world for ten years, Waitzkin expanded his horizons, taking on the martial art Tai Chi Chuan and ultimately earning the title of World Champion. How was he able to reach the pinnacle of two disciplines that on the surface seem so different? \"I've come to realize that what I am best at is not Tai Chi, and it is not chess,\" he says. \"What I am best at is the art of learning.\" With a narrative that combines heart-stopping martial arts wars and tense chess face-offs with life lessons that speak to all of us, The Art of Learning takes readers through Waitzkin's unique journey to excellence. He explains in clear detail how a well-thought-out, principled approach to learning is what separates success from failure. Waitzkin believes that achievement, even at the championship level, is a function of a lifestyle that fuels a creative, resilient growth process. Rather than focusing on climactic wins, Waitzkin reveals the inner workings of his everyday method, from systematically triggering intuitive breakthroughs, to honing techniques into states of remarkable potency, to mastering the art of performance psychology. Through his own example, Waitzkin explains how to embrace defeat and make mistakes work for you. Does your opponent make you angry? Waitzkin describes how to channel emotions into creative fuel. As he explains it, obstacles are not obstacles but challenges to overcome, to spur the growth process by turning weaknesses into strengths. He illustrates the exact routines that he has used in all of his competitions, whether mental or physical, so that you too can achieve your peak performance zone in any competitive or professional circumstance. In stories ranging from his early years taking on chess hustlers as a seven year old in New York City's Washington Square Park, to dealing with the pressures of having a film made about his life, to International Chess Championships in India, Hungary, and Brazil, to gripping battles against powerhouse fighters in Taiwan in the Push Hands World Championships, The Art of Learning encapsulates an extraordinary competitor's life lessons in a page-turning narrative.",
+        "coverPath": "covers/book_1777930931207.jpg",
+        "pageCount": 342,
+        "epubPath": "ebooks/book_1777930931207.epub",
+        "tags": [
+            "apprendimento continuo"
+        ]
+    },
+    {
+        "id": "book_1777930931486",
+        "title": "The Talent Code",
+        "author": "Daniel Coyle",
+        "description": "'Talent. You've either got it or you haven't.' Not true, actually.In The Talent Code, award-winning journalist Daniel Coyle draws on cutting-edge research to reveal that, far from being some abstract mystical power fixed at birth, ability really can be created and nurtured.In the process, he considers talent at work in venues as diverse as a music school in Dallas and a tennis academy near Moscow to demonstrate how the wiring of our brains can be transformed by the way we approach particular tasks. He explains what is really going on when apparently unremarkable people suddenly make a major leap forward. He reveals why some teaching methods are so much more effective than others. Above all, he shows how all of us can achieve our full potential if we set about training our brains in the right way.",
+        "coverPath": "covers/book_1777930931486.jpg",
+        "pageCount": 301,
+        "epubPath": "ebooks/book_1777930931486.epub",
+        "tags": [
+            "apprendimento continuo"
+        ]
     }
 ]

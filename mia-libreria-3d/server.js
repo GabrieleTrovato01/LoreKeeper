@@ -7,6 +7,7 @@ import { EPub } from 'epub2';
 import axios from 'axios';
 import sharp from 'sharp';
 import { askBookRAG } from './rag-service.js'; // Importiamo il nostro nuovo Bibliotecario
+import { text } from 'stream/consumers';
 
 const app = express();
 const port = 3000;
@@ -37,18 +38,54 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
         let extractedTitle = epub.metadata.title;
         let extractedAuthor = epub.metadata.creator;
 
-        // PIANO B: Se mancano i metadati, usiamo il nome del file pulito!
-        if (!extractedTitle || extractedTitle.trim() === '') {
-            console.log(`⚠️ Metadati mancanti! Uso il nome del file come esca per Google...`);
-            extractedTitle = originalFileName.replace(/\.epub$/i, '').replace(/[_-]/g, ' ').trim();
+        // Rileviamo titoli "spazzatura" (Hash lunghi o "Unknown")
+        const isJunkTitle = extractedTitle && (
+            /^[a-f0-9]{20,}$/i.test(extractedTitle) || // Cattura stringhe esadecimali lunghissime
+            extractedTitle.toLowerCase().includes('unknown')
+        );
+
+        // usiamo il nome del file!
+        if (!extractedTitle || extractedTitle.trim() === '' || isJunkTitle) {
+            console.log(`⚠️ Metadati corrotti rilevati! Uso il nome del file...`);
+            
+            // Puliamo estensione e trattini
+            let cleanName = originalFileName.replace(/\.epub$/i, '').replace(/[_-]/g, ' ');
+            
+            // Trucchetto per pulire gli accenti rotti (es: vulnerabilitÃ  -> vulnerabilita)
+            cleanName = cleanName.replace(/Ã/g, 'a').replace(/[^a-zA-Z0-9\s]/g, ' ');
+            
+            // Togliamo eventuali spazi doppi creati dalla pulizia
+            extractedTitle = cleanName.replace(/\s+/g, ' ').trim();
             extractedAuthor = ''; 
+        }
+
+        //--- calcolo della lunghezza del testo.
+        let rawTextLength = 0;
+        // Creiamo un mini-estrattore per leggere i capitoli rapidamente
+        const getChapterAsync = (id) => new Promise(resolve => {
+            epub.getChapter(id, (err, text) => {
+                if (err || !text) resolve('');
+                else resolve(text);
+            });
+        });
+
+        if (epub.flow) {
+            for (const chapter of epub.flow) {
+                if (chapter.id) {
+                    const htmlText = await getChapterAsync(chapter.id);
+                    // Rimuoviamo i tag HTML per pesare solo le parole reali
+                    const cleanText = htmlText.replace(/<[^>]*>?/gm, '').trim();
+                    rawTextLength += cleanText.length;
+                }
+            }
         }
 
         const metadata = {
             title: extractedTitle,
             author: extractedAuthor || 'Autore Sconosciuto',
             description: epub.metadata.description ? epub.metadata.description.replace(/<[^>]*>?/gm, '').trim() : null,
-            coverPath: null
+            coverPath: null,
+            textLength: rawTextLength
         };
 
         // Dentro parseEpub, sostituisci il blocco "if (coverId) { ... }" con questo:
@@ -86,7 +123,7 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
 // 2. Ricerca su Google Books (Sistema a Punteggio sui primi 10 risultati con Retry)
 
 // La nostra Super-API ibrida: Apple Books + Open Library
-async function fetchBestBookData(title, author) {
+async function fetchBestBookData(title, author, rawTextLength) {
     let result = {
         description: "Trama non trovata.",
         coverUrl: null,
@@ -103,7 +140,7 @@ async function fetchBestBookData(title, author) {
     // --- STEP 1: APPLE BOOKS (Per Copertina HQ e Trama in Italiano) ---
     try {
         const appleUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(cleanQuery)}&media=ebook&country=it&limit=1`;
-        console.log(`🍏 Contatto Apple Books per la trama...`);
+        console.log(`🍏 Contatto Apple Books per la trama: ${appleUrl}`);
         const appleResponse = await axios.get(appleUrl, { timeout: 6000 });
 
         if (appleResponse.data && appleResponse.data.results && appleResponse.data.results.length > 0) {
@@ -127,58 +164,17 @@ async function fetchBestBookData(title, author) {
     }
 
     // --- STEP 2: OPEN LIBRARY (Solo per estrarre il numero di pagine reale) ---
-    try {
-        const extremeCleanQuery = cleanQuery.replace(/\(.*?\)/g, '').replace(/\[.*?\]/g, '').trim();
-        const olUrl = `https://openlibrary.org/search.json?q=${encodeURIComponent(extremeCleanQuery)}&limit=5`;
+    if (rawTextLength && rawTextLength > 0) {
+        // Una cartella editoriale (pagina) è in media 1500 battute
+        const calculatedPages = Math.ceil(rawTextLength / 1500);
         
-        console.log(`📚 Contatto Open Library: ${olUrl}`);
-        const olResponse = await axios.get(olUrl, { timeout: 5000 });
-
-        if (olResponse.data && olResponse.data.docs && olResponse.data.docs.length > 0) {
-            let pagesFound = false;
-
-            for (let i = 0; i < olResponse.data.docs.length; i++) {
-                const doc = olResponse.data.docs[i];
-                
-                // Opzione A: L'Opera generale ha già la media delle pagine calcolata
-                if (doc.number_of_pages_median) {
-                    result.pageCount = doc.number_of_pages_median;
-                    console.log(`   📏 Pagine trovate (${result.pageCount}) al risultato n. ${i + 1} (Opera Generale)!`);
-                    pagesFound = true;
-                    break; 
-                }
-                
-                // Opzione B: L'Opera non lo sa, ma ha un'Edizione Principale (cover_edition_key)
-                if (doc.cover_edition_key) {
-                    try {
-                        const editionUrl = `https://openlibrary.org/books/${doc.cover_edition_key}.json`;
-                        const edResponse = await axios.get(editionUrl, { timeout: 3000 }); // Micro-chiamata velocissima
-                        
-                        // Cerchiamo il campo esatto dell'edizione (number_of_pages)
-                        if (edResponse.data && edResponse.data.number_of_pages) {
-                            // A volte lo restituiscono come stringa, a volte come numero. Noi lo forziamo a numero (intero base 10)
-                            const parsedPages = parseInt(edResponse.data.number_of_pages, 10);
-                            if (!isNaN(parsedPages)) {
-                                result.pageCount = parsedPages;
-                                console.log(`   📏 Pagine trovate (${result.pageCount}) scansionando l'Edizione Specifica (${doc.cover_edition_key})!`);
-                                pagesFound = true;
-                                break;
-                            }
-                        }
-                    } catch (e) {
-                        // Ignoriamo in silenzio l'errore di rete sull'edizione e passiamo al prossimo risultato
-                    }
-                }
-            }
-
-            if (!pagesFound) {
-                console.log(`   🤷‍♂️ Nessuno dei primi 5 risultati ha il numero di pagine. Uso spessore casuale.`);
-            }
-        } else {
-            console.log(`   👻 Open Library ha restituito 0 risultati. Uso spessore casuale.`);
-        }
-    } catch (error) {
-        console.error("⚠️ Open Library non ha risposto in tempo per le pagine.");
+        // Aggiungiamo un 5% forfettario per simulare indici, titoli di capitolo e pagine bianche
+        result.pageCount = Math.floor(calculatedPages * 1.05); 
+        console.log(`🧮 Pagine calcolate matematicamente dal testo: ${result.pageCount}`);
+    } else {
+        // Se l'EPUB era vuoto o rotto
+        result.pageCount = 350; // Valore di default più realistico per un libro medio
+        console.log(`⚠️ Impossibile leggere il testo per il calcolo, uso spessore casuale.`);
     }
 
     return result;
@@ -252,10 +248,9 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         console.log(`✔️  Dati iniziali: "${epubData.title}" di ${epubData.author}`);
         
         console.log(`⏳ Attesa iniziale di 2 secondi per non sovraccaricare le API di Google...`);
-        await delay(2000);
         
         console.log(`🔍 Ricerca dati su  Books...`);
-        const googleData = await fetchBestBookData(epubData.title, epubData.author);
+        const googleData = await fetchBestBookData(epubData.title, epubData.author, epubData.textLength);
 
         let finalTitle = epubData.title;
         let finalAuthor = epubData.author;
@@ -458,6 +453,20 @@ app.put('/api/books/bulk-tags', async (req, res) => {
     } catch (error) {
         console.error("Errore nell'aggiornamento massivo:", error);
         res.status(500).json({ success: false, message: 'Errore interno del server.' });
+    }
+});
+
+// --- SCUDO ANTI-CRASH GLOBALE ---
+// Cattura gli errori critici non gestiti dalle librerie esterne (come epub2) 
+// per evitare che il server Node.js si spenga improvvisamente.
+process.on('uncaughtException', (err) => {
+    console.warn('\n🛡️ SCUDO ATTIVATO: Un errore critico ha tentato di far crashare il server!');
+    
+    if (err.message && err.message.includes('linkparts.shift')) {
+        console.warn('⚠️ Causa: Un file EPUB malformato ha fatto impazzire la libreria "epub2".');
+        console.warn('👉 Soluzione: Usa Calibre per convertire l\'EPUB in EPUB (così da pulire il codice interno) e ricaricalo.\n');
+    } else {
+        console.warn('❌ Errore imprevisto:', err);
     }
 });
 
