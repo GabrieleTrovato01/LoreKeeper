@@ -315,7 +315,7 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
 // --- ROTTA PER LA CHAT RAG CON IA LOCALE ---
 app.post('/api/chat', async (req, res) => {
     // Ora ci aspettiamo anche epubUrl e currentSnippet dal frontend
-    const { question, currentSnippet, epubUrl } = req.body; 
+    const { question, currentSnippet, epubUrl, description } = req.body; 
 
     if (!question || !epubUrl) {
         return res.status(400).json({ success: false, message: 'Dati mancanti (domanda o url del libro)' });
@@ -336,7 +336,7 @@ app.post('/api/chat', async (req, res) => {
         console.log(`==================================================\n`);
 
         // Lanciamo la ricerca e generazione RAG!
-        const answer = await askBookRAG(physicalEpubPath, question, currentSnippet || "");
+        const answer = await askBookRAG(physicalEpubPath, question, currentSnippet || "", description || "Trama non disponibile.");
         
         res.json({ success: true, answer: answer });
 

@@ -7,7 +7,7 @@ import { OllamaEmbeddings, Ollama } from "@langchain/ollama";
 // Così se fai 10 domande sullo stesso libro, lo legge e lo converte una volta sola!
 const bookDatabases = {}; 
 
-export async function askBookRAG(epubFilePath, question, currentSnippet) {
+export async function askBookRAG(epubFilePath, question, currentSnippet, bookDescription) {
     try {
         // --- 1. LETTURA E CREAZIONE DEL DATABASE (Se non esiste già) ---
         if (!bookDatabases[epubFilePath]) {
@@ -46,28 +46,35 @@ export async function askBookRAG(epubFilePath, question, currentSnippet) {
         // Il Bibliotecario ci restituisce i 4 frammenti del libro più inerenti alla domanda
         const relevantChunks = await vectorStore.similaritySearch(searchQuery, 4);
         
-        // Incolliamo i frammenti trovati
         const retrievedContext = relevantChunks.map(chunk => chunk.pageContent).join("\n\n---\n\n");
 
-        // --- 3. GENERAZIONE DELLA RISPOSTA (Gemma 2) ---
+        // --- 3. GENERAZIONE DELLA RISPOSTA (Gemma 4) ---
         const llm = new Ollama({
-            model: "gemma2:2b",
+            model: "gemma4:e2b", 
             baseUrl: "http://127.0.0.1:11434",
-            temperature: 0.3 // Temperatura bassa per evitare allucinazioni
+            temperature: 0.3
         });
 
-        // Creiamo un prompt a prova di bomba che include il mirino
-        const prompt = `Sei l'assistente IA di un e-reader. 
-L'utente ti ha fatto una domanda. 
+        // ✨ IL NUOVO PROMPT IBRIDO
+        const prompt = `Sei l'assistente IA di una libreria digitale. 
+        L'utente ti ha fatto una domanda su questo libro.
 
-Sappi che in questo momento l'utente sta guardando questa precisa frase nel libro:
-"${currentSnippet}"
+        TRAMA GENERALE DEL LIBRO (Usala se l'utente ti chiede un riassunto o di cosa parla il libro):
+        "${bookDescription}"
 
-Per rispondere, utilizza ESCLUSIVAMENTE queste informazioni trovate nel libro:
-${retrievedContext}
+        POSIZIONE ATTUALE (Cosa sta leggendo l'utente in questo momento):
+        "${currentSnippet}"
 
-Domanda dell'utente: ${question}
-Rispondi in modo chiaro, utile e in italiano. Se la risposta non è nel contesto, dillo chiaramente.`;
+        FRAMMENTI ESTRATTI DAL TESTO (Usali se l'utente ti fa domande specifiche su trama, personaggi o eventi particolari):
+        ${retrievedContext}
+
+        Domanda dell'utente: ${question}
+
+        Regole per la risposta:
+        - Rispondi in italiano in modo chiaro e utile.
+        - Se la domanda è generale (es. "Fammi un riassunto"), basati principalmente sulla TRAMA GENERALE.
+        - Se la domanda è specifica, cerca la risposta nei FRAMMENTI ESTRATTI.
+        - Se non sai la risposta, dillo chiaramente.`;
 
         const response = await llm.invoke(prompt);
         return response;

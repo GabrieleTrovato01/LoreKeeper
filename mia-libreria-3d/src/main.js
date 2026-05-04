@@ -346,7 +346,8 @@ async function sendChatMessage() {
             body: JSON.stringify({
                 question: text,
                 epubUrl: activeBook.userData.epubPath,
-                currentSnippet: "L'utente sta chiedendo informazioni generali sul libro dal menu principale." 
+                currentSnippet: "L'utente sta chiedendo informazioni generali sul libro dal menu principale." ,
+                description: activeBook.userData.description 
             })
         });
 
