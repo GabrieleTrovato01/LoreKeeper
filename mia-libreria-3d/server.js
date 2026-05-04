@@ -120,6 +120,16 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
     }
 }
 
+// --- TIMER DI SICUREZZA PER GLI EPUB CORROTTI ---
+function parseEpubWithTimeout(filePath, coverFileName, originalFileName, timeoutMs = 8000) {
+    return Promise.race([
+        parseEpub(filePath, coverFileName, originalFileName),
+        new Promise((_, reject) => 
+            setTimeout(() => reject(new Error("Timeout: L'EPUB è malformato o troppo complesso e ha bloccato la lettura.")), timeoutMs)
+        )
+    ]);
+}
+
 // 2. Ricerca su Google Books (Sistema a Punteggio sui primi 10 risultati con Retry)
 
 // La nostra Super-API ibrida: Apple Books + Open Library
@@ -226,7 +236,7 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         const baseName = `book_${timestamp}`;
 
         console.log(`⚙️  Estrazione metadati e copertina interna...`);
-        const epubData = await parseEpub(file.path, baseName, file.originalname);
+        const epubData = await parseEpubWithTimeout(file.path, baseName, file.originalname,8000);
 
         let currentBooks = [];
         try {
