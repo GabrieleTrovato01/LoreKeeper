@@ -442,5 +442,15 @@
         "tags": [
             "tecnologia e innovazione"
         ]
+    },
+    {
+        "id": "book_1777927220958",
+        "title": "Pensieri lenti e veloci (Saggi) (Italian Edition)",
+        "author": "Daniel Kahneman",
+        "description": "Ogni giorno prendiamo decisioni, e molte di queste si basano su convinzioni riguardo la probabilità di eventi incerti: il risultato di un'elezione politica, l'andamento della borsa, la colpevolezza di un imputato, il meteo della giornata. Ma che cosa determina simili convinzioni? Come fanno le persone a valutare la probabilità di un evento incerto? La ricerca neuropsicologica ha dimostrato che si affidano a un numero limitato di principi euristici, riducendo così le complesse attività di valutazione delle probabilità a operazioni di giudizio più semplici. In generale, queste euristiche sono piuttosto utili, ma talvolta possono indurre a gravi errori. Decidere nell'incertezza affronta le diverse euristiche di giudizio e i bias che producono, calandole non solo negli esperimenti dei laboratori ma anche nelle più comuni situazioni sociali, sanitarie e politiche. Tra eccessiva sicurezza, percezione del rischio e inferenze, gli autori dei trentacinque saggi qui raccolti spiegano non solo come il nostro cervello si inganna, ma anche come correggere e migliorare i nostri giudizi in condizioni di incertezza. Frutto di molti anni di studio e della revisione di numerose ricerche internazionali a opera di un consistente team di scienziati, questa raccolta, pubblicata per la prima volta nel 1974, è una pietra miliare nella storia delle neuroscienze, un libro imprescindibile che ha segnato l'inizio di quel connubio tra psicologia ed economia che è valso a Kahneman il Premio Nobel. Un campo di indagine che riguarda come nessun altro le vite quotidiane di tutti noi.",
+        "coverPath": "covers/book_1777927220958.jpg",
+        "pageCount": 230,
+        "epubPath": "ebooks/book_1777927220958.epub",
+        "tags": []
     }
 ]

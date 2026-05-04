@@ -84,90 +84,101 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
 }
 
 // 2. Ricerca su Google Books (Sistema a Punteggio sui primi 10 risultati con Retry)
-async function fetchGoogleBooksData(title, author) {
+
+// La nostra Super-API ibrida: Apple Books + Open Library
+async function fetchBestBookData(title, author) {
     let result = {
-        description: "Trama non trovata su Google Books.",
+        description: "Trama non trovata.",
         coverUrl: null,
-        pageCount: 350,
-        googleTitle: null,
+        pageCount: 350, 
+        googleTitle: null, 
         googleAuthor: null,
         categories: []
     };
 
+    const searchTitle = title === 'Titolo Sconosciuto' ? '' : title;
+    const searchAuthor = author === 'Autore Sconosciuto' ? '' : author;
+    const cleanQuery = `${searchTitle} ${searchAuthor}`.replace(/[_-]/g, ' ').trim();
+
+    // --- STEP 1: APPLE BOOKS (Per Copertina HQ e Trama in Italiano) ---
     try {
-        const searchTitle = title === 'Titolo Sconosciuto' ? '' : title;
-        const searchAuthor = author === 'Autore Sconosciuto' ? '' : author;
-        
-        const cleanQuery = `${searchTitle} ${searchAuthor}`.replace(/[_-]/g, ' ').trim();
-        
-        const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(cleanQuery)}&langRestrict=it&printType=books&maxResults=10&key=AIzaSyDf-vxdHbYaoJJ0s65sR-9l_aIWoV2qgqA`;
-        
-        console.log(`🌐 Sto contattando Google con questo URL: ${url}`);
+        const appleUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(cleanQuery)}&media=ebook&country=it&limit=1`;
+        console.log(`🍏 Contatto Apple Books per la trama...`);
+        const appleResponse = await axios.get(appleUrl, { timeout: 6000 });
 
-        // --- SISTEMA DI RETRY (Fino a 3 tentativi) ---
-        let response = null;
-        let isSuccess = false;
+        if (appleResponse.data && appleResponse.data.results && appleResponse.data.results.length > 0) {
+            const bestMatch = appleResponse.data.results[0];
 
-        for (let attempt = 1; attempt <= 3; attempt++) {
-            try {
-                response = await axios.get(url, { timeout: 8000 });
-                isSuccess = true;
-                break; // Se ha successo, interrompe immediatamente il ciclo
-            } catch (error) {
-                // Se è un errore 503 e non siamo all'ultimo tentativo
-                if (error.response && error.response.status === 503 && attempt < 3) {
-                    console.log(`   ⚠️ Google limitato (503). Tentativo ${attempt}/3 fallito. Riprovo tra 3 secondi...`);
-                    await delay(3000); // Pausa di 3 secondi
-                } else {
-                    // Altrimenti (es. nessun internet, timeout o fine tentativi), lancia l'errore al catch esterno
-                    throw error;
-                }
-            }
-        }
-        // ----------------------------------------------
-
-        if (isSuccess && response && response.data.items && response.data.items.length > 0) {
-            let bestVolume = null;
-            let highestScore = -1;
-
-            const queryWords = cleanQuery.toLowerCase().split(' ').filter(w => w.length > 3);
-
-            for (let item of response.data.items) {
-                const volumeInfo = item.volumeInfo;
-                const itemTitle = (volumeInfo.title || '').toLowerCase();
-                const itemAuthors = (volumeInfo.authors || []).join(' ').toLowerCase();
-                const fullText = `${itemTitle} ${itemAuthors}`;
-
-                let score = 0;
-
-                for (let word of queryWords) {
-                    if (fullText.includes(word)) score++;
-                }
-
-                if (volumeInfo.description) score += 0.5;
-
-                if (score > highestScore) {
-                    highestScore = score;
-                    bestVolume = volumeInfo;
-                }
+            if (bestMatch.trackName) result.googleTitle = bestMatch.trackName;
+            if (bestMatch.artistName) result.googleAuthor = bestMatch.artistName;
+            
+            if (bestMatch.description) {
+                let cleanDesc = bestMatch.description.replace(/<[^>]*>?/gm, '').trim();
+                cleanDesc = cleanDesc.replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+                result.description = cleanDesc;
             }
 
-            if (!bestVolume) {
-                bestVolume = response.data.items[0].volumeInfo;
+            if (bestMatch.artworkUrl100) {
+                result.coverUrl = bestMatch.artworkUrl100.replace('100x100bb', '600x900bb'); // Hack Alta Risoluzione
             }
-
-            if (bestVolume.description) {
-                result.description = bestVolume.description.replace(/<[^>]*>?/gm, ''); 
-            }
-            if (bestVolume.imageLinks && bestVolume.imageLinks.thumbnail) {
-                result.coverUrl = bestVolume.imageLinks.thumbnail.replace('http:', 'https:').replace('&zoom=1', '&zoom=0');
-            }
-            if (bestVolume.pageCount) result.pageCount = bestVolume.pageCount;
-            if (bestVolume.title) result.googleTitle = bestVolume.title;
-            if (bestVolume.authors && bestVolume.authors.length > 0) result.googleAuthor = bestVolume.authors.join(', ');
         }
     } catch (error) {
-        console.error("❌ Errore con l'API di Google Books:", error.message);
+        console.error("⚠️ Apple Books non ha risposto in tempo.");
+    }
+
+    // --- STEP 2: OPEN LIBRARY (Solo per estrarre il numero di pagine reale) ---
+    try {
+        const extremeCleanQuery = cleanQuery.replace(/\(.*?\)/g, '').replace(/\[.*?\]/g, '').trim();
+        const olUrl = `https://openlibrary.org/search.json?q=${encodeURIComponent(extremeCleanQuery)}&limit=5`;
+        
+        console.log(`📚 Contatto Open Library: ${olUrl}`);
+        const olResponse = await axios.get(olUrl, { timeout: 5000 });
+
+        if (olResponse.data && olResponse.data.docs && olResponse.data.docs.length > 0) {
+            let pagesFound = false;
+
+            for (let i = 0; i < olResponse.data.docs.length; i++) {
+                const doc = olResponse.data.docs[i];
+                
+                // Opzione A: L'Opera generale ha già la media delle pagine calcolata
+                if (doc.number_of_pages_median) {
+                    result.pageCount = doc.number_of_pages_median;
+                    console.log(`   📏 Pagine trovate (${result.pageCount}) al risultato n. ${i + 1} (Opera Generale)!`);
+                    pagesFound = true;
+                    break; 
+                }
+                
+                // Opzione B: L'Opera non lo sa, ma ha un'Edizione Principale (cover_edition_key)
+                if (doc.cover_edition_key) {
+                    try {
+                        const editionUrl = `https://openlibrary.org/books/${doc.cover_edition_key}.json`;
+                        const edResponse = await axios.get(editionUrl, { timeout: 3000 }); // Micro-chiamata velocissima
+                        
+                        // Cerchiamo il campo esatto dell'edizione (number_of_pages)
+                        if (edResponse.data && edResponse.data.number_of_pages) {
+                            // A volte lo restituiscono come stringa, a volte come numero. Noi lo forziamo a numero (intero base 10)
+                            const parsedPages = parseInt(edResponse.data.number_of_pages, 10);
+                            if (!isNaN(parsedPages)) {
+                                result.pageCount = parsedPages;
+                                console.log(`   📏 Pagine trovate (${result.pageCount}) scansionando l'Edizione Specifica (${doc.cover_edition_key})!`);
+                                pagesFound = true;
+                                break;
+                            }
+                        }
+                    } catch (e) {
+                        // Ignoriamo in silenzio l'errore di rete sull'edizione e passiamo al prossimo risultato
+                    }
+                }
+            }
+
+            if (!pagesFound) {
+                console.log(`   🤷‍♂️ Nessuno dei primi 5 risultati ha il numero di pagine. Uso spessore casuale.`);
+            }
+        } else {
+            console.log(`   👻 Open Library ha restituito 0 risultati. Uso spessore casuale.`);
+        }
+    } catch (error) {
+        console.error("⚠️ Open Library non ha risposto in tempo per le pagine.");
     }
 
     return result;
@@ -243,8 +254,8 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         console.log(`⏳ Attesa iniziale di 2 secondi per non sovraccaricare le API di Google...`);
         await delay(2000);
         
-        console.log(`🔍 Ricerca dati su Google Books...`);
-        const googleData = await fetchGoogleBooksData(epubData.title, epubData.author);
+        console.log(`🔍 Ricerca dati su  Books...`);
+        const googleData = await fetchBestBookData(epubData.title, epubData.author);
 
         let finalTitle = epubData.title;
         let finalAuthor = epubData.author;
