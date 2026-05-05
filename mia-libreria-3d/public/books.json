@@ -360,18 +360,6 @@
         ]
     },
     {
-        "id": "book_1777930908871",
-        "title": "Osare in grande Come il coraggio della vulnerabilita Bren Brown",
-        "author": "Autore Sconosciuto",
-        "description": "Trama non trovata.",
-        "coverPath": null,
-        "pageCount": 350,
-        "epubPath": "ebooks/book_1777930908871.epub",
-        "tags": [
-            "filosofia e psicologia pratica"
-        ]
-    },
-    {
         "id": "book_1777930909110",
         "title": "Pensieri lenti e veloci (Saggi) (Italian Edition)",
         "author": "Daniel Kahneman",
@@ -561,6 +549,18 @@
         "epubPath": "ebooks/book_1777930931486.epub",
         "tags": [
             "apprendimento continuo"
+        ]
+    },
+    {
+        "id": "book_1777977305505",
+        "title": "RIEPILOGO - Daring Greatly / Osare alla grande: come il coraggio di essere vulnerabili trasforma il modo in cui viviamo, amiamo, facciamo i genitori e guidiamo di Brené Brown",
+        "author": "Shortcut Edition",
+        "description": "Leggendo questa sintesi, scoprirete che la vostra vulnerabilità è una fonte di coraggio e di forza a cui potete attingere per vivere al meglio la vostra vita.\nScoprirete anche :\nche accettare la propria vulnerabilità aiuta a osare e a rischiare;\nche vi dà i mezzi per perseverare;\nche è la prova della vostra apertura emotiva;\nche, imparando a superare i sentimenti di vergogna, si sviluppa la propria vulnerabilità.\nOgni giorno vi confrontate con la vostra vulnerabilità. Nei rapporti con gli altri, temete l'incomprensione, le critiche, il rifiuto, ecc. Esitate a mettere in campo la vostra creatività, avete paura di rivelarvi per timore di essere rinnegati, di essere feriti. Così, spesso, vi tirate un po' indietro: non osate esprimere tutti i vostri pensieri, non osate impegnarvi. Imparando ad accettare le emozioni difficili, le delusioni, i sentimenti di solitudine, la paura, ecc. troverete, al di là di questi sentimenti dolorosi, la gioia di essere voi stessi, la fiducia, l'empatia e tutte le ricchezze della vulnerabilità. Siete pronti a osare la vulnerabilità?",
+        "coverPath": "covers/book_1777977305505_google.jpg",
+        "pageCount": 350,
+        "epubPath": "ebooks/book_1777977305505.epub",
+        "tags": [
+            "filosofia e psicologia pratica"
         ]
     }
 ]

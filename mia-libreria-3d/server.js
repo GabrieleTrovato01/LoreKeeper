@@ -45,18 +45,34 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
         );
 
         // usiamo il nome del file!
+        // PIANO B POTENZIATO: Se mancano i metadati o sono spazzatura, usiamo il nome del file!
         if (!extractedTitle || extractedTitle.trim() === '' || isJunkTitle) {
             console.log(`⚠️ Metadati corrotti rilevati! Uso il nome del file...`);
             
-            // Puliamo estensione e trattini
-            let cleanName = originalFileName.replace(/\.epub$/i, '').replace(/[_-]/g, ' ');
+            // Rimuoviamo l'estensione .epub
+            let cleanName = originalFileName.replace(/\.epub$/i, '');
             
-            // Trucchetto per pulire gli accenti rotti (es: vulnerabilitÃ  -> vulnerabilita)
-            cleanName = cleanName.replace(/Ã/g, 'a').replace(/[^a-zA-Z0-9\s]/g, ' ');
-            
-            // Togliamo eventuali spazi doppi creati dalla pulizia
-            extractedTitle = cleanName.replace(/\s+/g, ' ').trim();
-            extractedAuthor = ''; 
+            // -----------------------------------------------------
+            // ✨ NUOVO: SEPARAZIONE INTELLIGENTE TITOLO E AUTORE
+            // Se nel nome del file c'est un trattino "-", lo usiamo per separare!
+            // -----------------------------------------------------
+            if (cleanName.includes('-')) {
+                const parts = cleanName.split('-'); // Taglia la stringa a metà
+                
+                // Puliamo la prima metà (Titolo)
+                extractedTitle = parts[0].replace(/[_-]/g, ' ').replace(/Ã/g, 'a').replace(/[^a-zA-Z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+                
+                // Puliamo la seconda metà (Autore)
+                extractedAuthor = parts[1].replace(/[_-]/g, ' ').replace(/Ã/g, 'a').replace(/[^a-zA-Z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+                
+                console.log(`🪄 Trovato un trattino! Titolo: "${extractedTitle}", Autore: "${extractedAuthor}"`);
+            } else {
+                // Se non c'è il trattino, il server è costretto a buttare tutto nel titolo
+                cleanName = cleanName.replace(/[_-]/g, ' ');
+                cleanName = cleanName.replace(/Ã/g, 'a').replace(/[^a-zA-Z0-9\s]/g, ' ');
+                extractedTitle = cleanName.replace(/\s+/g, ' ').trim();
+                extractedAuthor = ''; // Lasciamo vuoto, diventerà "Autore Sconosciuto"
+            }
         }
 
         //--- calcolo della lunghezza del testo.
@@ -396,6 +412,50 @@ app.post('/api/books/:id/tags', async (req, res) => {
             return res.json({ success: true, message: 'Tag già presente.' });
         }
     } catch (error) {
+        res.status(500).json({ success: false, message: 'Errore interno del server.' });
+    }
+});
+
+// --- ROTTA PER ELIMINARE UN SINGOLO LIBRO FISICAMENTE ---
+app.delete('/api/books/:id', async (req, res) => {
+    const bookId = req.params.id;
+
+    try {
+        const fileData = await fs.readFile(booksJsonPath, 'utf-8');
+        let books = JSON.parse(fileData);
+        
+        // Troviamo l'indice del libro
+        const bookIndex = books.findIndex(b => b.id === bookId);
+
+        if (bookIndex === -1) {
+            return res.status(404).json({ success: false, message: 'Libro non trovato.' });
+        }
+
+        const bookToDelete = books[bookIndex];
+
+        // 1. Rimuoviamo il libro dall'array
+        books.splice(bookIndex, 1);
+        
+        // 2. Salviamo il database JSON aggiornato
+        await fs.writeFile(booksJsonPath, JSON.stringify(books, null, 4));
+
+        // 3. IGIENE DEL DISCO: Eliminiamo i file fisici!
+        try {
+            if (bookToDelete.epubPath) {
+                await fs.unlink(path.join(publicDir, bookToDelete.epubPath));
+            }
+            if (bookToDelete.coverPath) {
+                await fs.unlink(path.join(publicDir, bookToDelete.coverPath));
+            }
+        } catch (fileError) {
+            console.log(`⚠️ Libro rimosso dal database, ma i file fisici erano già assenti.`);
+        }
+
+        console.log(`🗑️ Eliminato con successo: "${bookToDelete.title}"`);
+        res.json({ success: true, message: 'Libro eliminato con successo!' });
+
+    } catch (error) {
+        console.error("Errore durante l'eliminazione del libro:", error);
         res.status(500).json({ success: false, message: 'Errore interno del server.' });
     }
 });

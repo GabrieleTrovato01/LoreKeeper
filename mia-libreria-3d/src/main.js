@@ -224,6 +224,27 @@ assignCatBtn.innerHTML = '🏷️ Assegna Categoria';
 assignCatBtn.className = 'glass-effect modern-btn';
 uiContainer.appendChild(assignCatBtn);
 
+const deleteBookBtn = document.createElement('button');
+deleteBookBtn.innerHTML = '🗑️ Elimina';
+deleteBookBtn.className = 'glass-effect modern-btn';
+// Diamo un colore rossastro coerente col design glassmorphism
+deleteBookBtn.style.background = 'rgba(255, 50, 50, 0.15)';
+deleteBookBtn.style.borderColor = 'rgba(255, 100, 100, 0.3)';
+deleteBookBtn.style.color = '#ffb3b3';
+
+// Effetto hover personalizzato (rosso acceso)
+deleteBookBtn.onmouseover = () => {
+    deleteBookBtn.style.background = 'rgba(255, 50, 50, 0.3)';
+    deleteBookBtn.style.transform = 'translateY(-3px)';
+    deleteBookBtn.style.boxShadow = '0 8px 15px rgba(255, 0, 0, 0.2)';
+};
+deleteBookBtn.onmouseout = () => {
+    deleteBookBtn.style.background = 'rgba(255, 50, 50, 0.15)';
+    deleteBookBtn.style.transform = 'translateY(0px)';
+    deleteBookBtn.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+};
+uiContainer.appendChild(deleteBookBtn);
+
 // --- LOGICA DEL BOTTONE ASSEGNA CATEGORIA (Singolo Libro) ---
 // --- LOGICA DEL BOTTONE ASSEGNA CATEGORIA (Modale Custom con Chips) ---
 assignCatBtn.onclick = () => {
@@ -387,7 +408,41 @@ assignCatBtn.onclick = () => {
     setTimeout(() => catInput.focus(), 100);
 };
 
-// --- LOGICA DEL BOTTONE GESTISCI CATEGORIA (Intera Mensola) ---
+// --- LOGICA DEL BOTTONE ELIMINA LIBRO ---
+deleteBookBtn.onclick = async () => {
+    if (booksArray.length === 0) return;
+    const activeBook = booksArray[currentIndex];
+    
+    // Popup di sistema per evitare click accidentali
+    const isConfirmed = confirm(`Sei sicuro di voler eliminare DEFINITIVAMENTE "${activeBook.userData.title}"?\nL'azione cancellerà il file dal tuo computer e non può essere annullata.`);
+    
+    if (isConfirmed) {
+        deleteBookBtn.innerHTML = '⏳...';
+        deleteBookBtn.disabled = true;
+
+        try {
+            const response = await fetch(`/api/books/${activeBook.userData.id}`, {
+                method: 'DELETE'
+            });
+            const result = await response.json();
+            
+            if (result.success) {
+                // Ricarichiamo la pagina per ricostruire la libreria senza il libro eliminato
+                location.reload(); 
+            } else {
+                alert(result.message);
+                deleteBookBtn.innerHTML = '🗑️ Elimina';
+                deleteBookBtn.disabled = false;
+            }
+        } catch (e) {
+            console.error(e);
+            alert("Errore di connessione al server.");
+            deleteBookBtn.innerHTML = '🗑️ Elimina';
+            deleteBookBtn.disabled = false;
+        }
+    }
+};
+
 // --- LOGICA DEL BOTTONE GESTISCI CATEGORIA (Intera Mensola) ---
 manageCatBtn.onclick = () => {
     if (booksArray.length === 0) return;
