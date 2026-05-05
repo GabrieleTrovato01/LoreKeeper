@@ -324,13 +324,25 @@ assignCatBtn.onclick = () => {
     // Bottone Annulla
     const cancelBtn = document.createElement('button');
     cancelBtn.innerText = 'Annulla';
+    cancelBtn.className = 'glass-effect modern-btn'; // Usiamo le tue classi base!
     cancelBtn.style.marginTop = '20px';
-    cancelBtn.style.background = 'transparent';
-    cancelBtn.style.border = 'none';
-    cancelBtn.style.color = '#fff';
-    cancelBtn.style.textDecoration = 'underline';
-    cancelBtn.style.cursor = 'pointer';
+    cancelBtn.style.padding = '8px 20px';
+    cancelBtn.style.fontSize = '11px'; // Leggermente più piccolo del tasto Salva
+    cancelBtn.style.background = 'rgba(255, 50, 50, 0.1)'; // Sfondo rossastro semi-trasparente
+    cancelBtn.style.borderColor = 'rgba(255, 100, 100, 0.3)'; // Bordo rossastro
+    cancelBtn.style.color = '#ffb3b3'; // Testo rosa/rosso chiaro
     cancelBtn.onclick = () => overlay.remove();
+    
+    // Effetto hover personalizzato per l'annullamento
+    cancelBtn.onmouseover = () => {
+        cancelBtn.style.background = 'rgba(255, 50, 50, 0.2)';
+        cancelBtn.style.transform = 'translateY(-2px)';
+    };
+    cancelBtn.onmouseout = () => {
+        cancelBtn.style.background = 'rgba(255, 50, 50, 0.1)';
+        cancelBtn.style.transform = 'translateY(0px)';
+    };
+
     modal.appendChild(cancelBtn);
 
     // --- FUNZIONE DI INVIO AL SERVER ---
