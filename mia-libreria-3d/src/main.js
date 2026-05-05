@@ -775,6 +775,58 @@ function createBackCoverTexture(description) {
     return new THREE.CanvasTexture(canvas);
 }
 
+function createFrontPlaceholderTexture(title, author) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512; 
+    canvas.height = 768;
+    const ctx = canvas.getContext('2d');
+
+    // Sfondo (Un bel blu scuro ed elegante, tipo edizione rilegata)
+    ctx.fillStyle = '#1e2d3b'; 
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Bordo decorativo interno dorato
+    ctx.strokeStyle = '#d4af37'; // Colore oro
+    ctx.lineWidth = 4;
+    ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+    ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80); // Doppio bordo
+
+    // Stile del Testo Principale
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#f5f5dc'; // Bianco panna
+
+    // --- Disegna il Titolo (con a capo automatico se è lungo) ---
+    ctx.font = 'bold 36px "Times New Roman", Times, serif';
+    const words = title.split(' ');
+    let line = '';
+    let y = 250; // Altezza di partenza
+    const maxWidth = 380;
+
+    for (let i = 0; i < words.length; i++) {
+        let testLine = line + words[i] + ' ';
+        if (ctx.measureText(testLine).width > maxWidth && i > 0) {
+            ctx.fillText(line, canvas.width / 2, y);
+            line = words[i] + ' ';
+            y += 45; // Spazio tra le righe
+        } else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, canvas.width / 2, y);
+
+    // --- Disegna l'Autore ---
+    ctx.font = 'italic 28px "Times New Roman", Times, serif';
+    ctx.fillStyle = '#d4af37'; // Autore in oro
+    ctx.fillText(author, canvas.width / 2, y + 80);
+
+    // --- Etichetta di servizio ---
+    ctx.font = '16px Arial, sans-serif';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.fillText('[ Nessuna copertina trovata ]', canvas.width / 2, canvas.height - 80);
+
+    return new THREE.CanvasTexture(canvas);
+}
+
 // --- 4. CARICAMENTO E LOGICA CAROSELLO (Con Modellazione Reale dello spessore) ---
 async function loadBooks() {
     try {
@@ -868,8 +920,12 @@ async function loadBooks() {
                 const spineTexture = createSpineTexture(bookData.title, bookData.author);
                 const spineMaterial = new THREE.MeshStandardMaterial({ map: spineTexture, roughness: 0.7 });
 
-                // Materiale placeholder scuro provvisorio per la copertina
-                const frontCoverMaterial = baseCoverMaterial.clone();
+                // Materiale placeholder: invece di un blocco nero, generiamo una bella copertina di testo!
+                const frontCoverTexture = createFrontPlaceholderTexture(bookData.title, bookData.author);
+                const frontCoverMaterial = new THREE.MeshStandardMaterial({ 
+                    map: frontCoverTexture, 
+                    roughness: 0.8 
+                });
 
                 let materials = [pagesMaterial, spineMaterial, pagesMaterial, pagesMaterial, frontCoverMaterial, baseCoverMaterial];
 
