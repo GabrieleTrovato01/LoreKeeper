@@ -556,13 +556,46 @@ fileInput.addEventListener('change', async (event) => {
 // --- 3. GENERATORI DI TEXTURE ---
 function createSpineTexture(title, author) {
     const canvas = document.createElement('canvas');
-    canvas.width = 128; canvas.height = 1024;
+    canvas.width = 128; 
+    canvas.height = 1024;
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = baseCoverColor; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.translate(canvas.width / 2, canvas.height / 2); ctx.rotate(Math.PI / 2); 
-    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 40px Arial, sans-serif'; ctx.fillText(title, 0, -15);
-    ctx.fillStyle = '#cccccc'; ctx.font = 'italic 30px Arial, sans-serif'; ctx.fillText(author, 0, 30); 
+    
+    // Sfondo e rotazione
+    ctx.fillStyle = baseCoverColor; 
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.textAlign = 'center'; 
+    ctx.textBaseline = 'middle';
+    ctx.translate(canvas.width / 2, canvas.height / 2); 
+    ctx.rotate(Math.PI / 2); 
+    
+    // --- 1. RIDIMENSIONAMENTO DINAMICO TITOLO ---
+    let titleFontSize = 40; // Partiamo dalla grandezza massima desiderata
+    const maxWidth = canvas.height - 60; // 1024px meno un po' di margine ai bordi
+    
+    ctx.font = `bold ${titleFontSize}px Arial, sans-serif`;
+    
+    // Finché il testo è troppo largo (e il font non diventa minuscolo), rimpiccioliscilo!
+    while (ctx.measureText(title).width > maxWidth && titleFontSize > 12) {
+        titleFontSize -= 2;
+        ctx.font = `bold ${titleFontSize}px Arial, sans-serif`;
+    }
+    
+    ctx.fillStyle = '#ffffff'; 
+    ctx.fillText(title, 0, -15);
+    
+    // --- 2. RIDIMENSIONAMENTO DINAMICO AUTORE ---
+    let authorFontSize = 30;
+    
+    ctx.font = `italic ${authorFontSize}px Arial, sans-serif`;
+    
+    while (ctx.measureText(author).width > maxWidth && authorFontSize > 10) {
+        authorFontSize -= 2;
+        ctx.font = `italic ${authorFontSize}px Arial, sans-serif`;
+    }
+    
+    ctx.fillStyle = '#cccccc'; 
+    ctx.fillText(author, 0, 30); 
+    
     return new THREE.CanvasTexture(canvas);
 }
 
