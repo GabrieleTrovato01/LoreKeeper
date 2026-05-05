@@ -225,23 +225,154 @@ assignCatBtn.className = 'glass-effect modern-btn';
 uiContainer.appendChild(assignCatBtn);
 
 // --- LOGICA DEL BOTTONE ASSEGNA CATEGORIA (Singolo Libro) ---
-assignCatBtn.onclick = async () => {
+// --- LOGICA DEL BOTTONE ASSEGNA CATEGORIA (Modale Custom con Chips) ---
+assignCatBtn.onclick = () => {
     if (booksArray.length === 0) return;
     const activeBook = booksArray[currentIndex];
     
-    const newTag = prompt(`Sposta "${activeBook.userData.title}" in una nuova categoria/mensola:\nAttuale: ${activeBook.userData.category}`);
-    if (!newTag || newTag.trim() === '') return;
+    // 1. Estraiamo tutte le categorie UNICHE attualmente esistenti (escludendo "Senza Categoria")
+    const existingCategories = [...new Set(booksArray.map(b => b.userData.category))]
+                                .filter(cat => cat !== 'Senza Categoria');
 
-    try {
-        const response = await fetch(`/api/books/${activeBook.userData.id}/tags`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ tag: newTag })
+    // 2. Creiamo l'Overlay (Sfondo scuro)
+    const overlay = document.createElement('div');
+    overlay.id = 'assign-category-overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0'; overlay.style.left = '0';
+    overlay.style.width = '100vw'; overlay.style.height = '100vh';
+    overlay.style.backgroundColor = 'rgba(0,0,0,0.6)';
+    overlay.style.zIndex = '2000';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.backdropFilter = 'blur(5px)'; // Sfocatura dello sfondo 3D
+    document.body.appendChild(overlay);
+
+    // 3. Creiamo la Finestra Modale
+    const modal = document.createElement('div');
+    modal.className = 'glass-effect';
+    modal.style.padding = '30px';
+    modal.style.borderRadius = '20px';
+    modal.style.width = '90%';
+    modal.style.maxWidth = '400px';
+    modal.style.textAlign = 'center';
+    overlay.appendChild(modal);
+
+    // Titolo
+    const title = document.createElement('h3');
+    title.innerText = `Sposta "${activeBook.userData.title}"`;
+    title.style.margin = '0 0 15px 0';
+    modal.appendChild(title);
+
+    // Input per creare una NUOVA categoria
+    const inputWrapper = document.createElement('div');
+    inputWrapper.style.display = 'flex';
+    inputWrapper.style.gap = '10px';
+    inputWrapper.style.marginBottom = '20px';
+    
+    const catInput = document.createElement('input');
+    catInput.type = 'text';
+    catInput.placeholder = 'Scrivi una nuova categoria...';
+    catInput.className = 'glass-effect modern-input';
+    catInput.style.flexGrow = '1';
+    
+    const saveBtn = document.createElement('button');
+    saveBtn.innerText = 'Salva';
+    saveBtn.className = 'glass-effect modern-btn';
+    saveBtn.style.padding = '10px 20px';
+    
+    inputWrapper.appendChild(catInput);
+    inputWrapper.appendChild(saveBtn);
+    modal.appendChild(inputWrapper);
+
+    // Sezione delle categorie ESISTENTI (I bottoncini veloci)
+    if (existingCategories.length > 0) {
+        const subtitle = document.createElement('div');
+        subtitle.innerText = 'Oppure scegli una mensola esistente:';
+        subtitle.style.fontSize = '12px';
+        subtitle.style.opacity = '0.7';
+        subtitle.style.marginBottom = '10px';
+        modal.appendChild(subtitle);
+
+        const chipsContainer = document.createElement('div');
+        chipsContainer.style.display = 'flex';
+        chipsContainer.style.flexWrap = 'wrap';
+        chipsContainer.style.gap = '8px';
+        chipsContainer.style.justifyContent = 'center';
+
+        existingCategories.forEach(cat => {
+            const chip = document.createElement('button');
+            chip.innerText = cat;
+            chip.className = 'glass-effect';
+            chip.style.padding = '8px 15px';
+            chip.style.borderRadius = '50px';
+            chip.style.fontSize = '12px';
+            chip.style.cursor = 'pointer';
+            
+            // Effetto hover per i bottoncini
+            chip.onmouseover = () => chip.style.background = 'rgba(255,255,255,0.2)';
+            chip.onmouseout = () => chip.style.background = 'rgba(255,255,255,0.08)';
+
+            // Cliccando il bottoncino veloce, inviamo subito al server
+            chip.onclick = () => submitCategory(cat);
+            
+            chipsContainer.appendChild(chip);
         });
-        const result = await response.json();
-        if (result.success) location.reload();
-        else alert(result.message);
-    } catch (e) { console.error(e); }
+        modal.appendChild(chipsContainer);
+    }
+
+    // Bottone Annulla
+    const cancelBtn = document.createElement('button');
+    cancelBtn.innerText = 'Annulla';
+    cancelBtn.style.marginTop = '20px';
+    cancelBtn.style.background = 'transparent';
+    cancelBtn.style.border = 'none';
+    cancelBtn.style.color = '#fff';
+    cancelBtn.style.textDecoration = 'underline';
+    cancelBtn.style.cursor = 'pointer';
+    cancelBtn.onclick = () => overlay.remove();
+    modal.appendChild(cancelBtn);
+
+    // --- FUNZIONE DI INVIO AL SERVER ---
+    const submitCategory = async (newTag) => {
+        if (!newTag || newTag.trim() === '') return;
+        
+        saveBtn.innerText = '⏳...';
+        saveBtn.disabled = true;
+
+        try {
+            const response = await fetch(`/api/books/${activeBook.userData.id}/tags`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tag: newTag.trim() })
+            });
+            const result = await response.json();
+            if (result.success) {
+                location.reload(); // Ricarica per spostare il libro fisicamente sulla nuova mensola
+            } else {
+                alert(result.message);
+                saveBtn.innerText = 'Salva';
+                saveBtn.disabled = false;
+            }
+        } catch (e) { 
+            console.error(e); 
+            overlay.remove();
+        }
+    };
+
+    // Colleghiamo l'invio all'input testuale (Click su Salva o tasto Invio)
+    saveBtn.onclick = () => submitCategory(catInput.value);
+    catInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') submitCategory(catInput.value);
+    });
+
+    // Chiudi cliccando fuori dal modale
+    overlay.addEventListener('pointerdown', (e) => {
+        if (e.target === overlay) overlay.remove();
+    });
+
+    // Focus automatico sull'input
+    setTimeout(() => catInput.focus(), 100);
 };
 
 // --- LOGICA DEL BOTTONE GESTISCI CATEGORIA (Intera Mensola) ---
@@ -917,6 +1048,7 @@ let isDragging = false;
 window.addEventListener('pointerdown', (event) => {
     if (helpModal && helpModal.style.display === 'flex') return;
     if (document.getElementById('category-manager-overlay')) return;
+    if (document.getElementById('assign-category-overlay')) return;
     if (event.target.tagName === 'BUTTON' || event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL') return;
     
     pointerStartX = event.clientX;
@@ -927,6 +1059,7 @@ window.addEventListener('pointerdown', (event) => {
 window.addEventListener('pointerup', (event) => {
     if (helpModal && helpModal.style.display === 'flex') return;
     if (document.getElementById('category-manager-overlay')) return;
+    if (document.getElementById('assign-category-overlay')) return;
     if (!isDragging) return;
     isDragging = false;
     pointerEndX = event.clientX;
@@ -1004,6 +1137,7 @@ window.addEventListener('pointerup', (event) => {
 let scrollTimeout = null; 
 window.addEventListener('wheel', (event) => {
     if (document.getElementById('category-manager-overlay')) return;
+    if (document.getElementById('assign-category-overlay')) return;
     if (helpModal && helpModal.style.display === 'flex') return;
     if (scrollTimeout) return;
 
@@ -1026,6 +1160,7 @@ window.addEventListener('keydown', (event) => {
     if (readerOverlay && readerOverlay.style.display === 'block') return;
 
     if (document.getElementById('category-manager-overlay')) return;
+    if (document.getElementById('assign-category-overlay')) return;
     if (helpModal && helpModal.style.display === 'flex') return;
 
     if (event.key === 'ArrowRight') {
