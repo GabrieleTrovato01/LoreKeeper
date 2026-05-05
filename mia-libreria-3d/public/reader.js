@@ -39,6 +39,12 @@ window.openReader = function(epubUrl, bookId) {
         allowScriptedContent: true // Sblocca la sandbox
     });
 
+    // Allinea graficamente lo slider al valore globale quando apri un libro
+    const existingSlider = document.querySelector('.glass-slider');
+    if (existingSlider) {
+        existingSlider.value = localStorage.getItem('readerZoom') || '100';
+    }
+
     const keyListener = function(e) {
         if (e.key === "ArrowRight") rendition.next();
         if (e.key === "ArrowLeft") rendition.prev();
@@ -67,6 +73,10 @@ window.openReader = function(epubUrl, bookId) {
 
     rendition.on("rendered", () => {
         window.applyCurrentTheme();
+        
+        // ✨ FIX: Applica lo zoom globale salvato solo quando la pagina è fisicamente pronta!
+        const savedZoom = localStorage.getItem('readerZoom') || '100';
+        rendition.themes.fontSize(`${savedZoom}%`);
     });
 
     rendition.on('relocated', function(location) {
