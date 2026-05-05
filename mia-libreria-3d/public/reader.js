@@ -107,12 +107,31 @@ window.applyCurrentTheme = function() {
     const readerOverlay = document.getElementById('reader-overlay');
     const themeBtn = document.getElementById('theme-toggle-btn');
 
+    const readingProgress = document.getElementById('reading-progress');
+    const bottomBarZoom = document.getElementById('bottom-bar-zoom');
+
     if (isDarkMode) {
         if (readerOverlay) readerOverlay.style.background = '#121212';
         if (themeBtn) themeBtn.innerText = '☀️ Light Mode';
+        if (readingProgress) {
+            readingProgress.style.color = '#ffffff';
+            readingProgress.style.background = 'rgba(255, 255, 255, 0.08)';
+        }
+        if (bottomBarZoom) {
+            bottomBarZoom.style.color = '#ffffff';
+            bottomBarZoom.style.background = 'rgba(255, 255, 255, 0.08)';
+        }
     } else {
         if (readerOverlay) readerOverlay.style.background = '#faf9f6';
         if (themeBtn) themeBtn.innerText = '🌙 Dark Mode';
+        if (readingProgress) {
+            readingProgress.style.color = '#000000';
+            readingProgress.style.background = 'rgba(0, 0, 0, 0.1)';
+        }
+        if (bottomBarZoom) {
+            bottomBarZoom.style.color = '#000000';
+            bottomBarZoom.style.background = 'rgba(0, 0, 0, 0.1)';
+        }
     }
 
     if (rendition && typeof rendition.getContents === 'function') {
@@ -168,5 +187,84 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (closeReaderBtn) {
         closeReaderBtn.onclick = () => window.closeReader();
+    }
+
+    // --- COSTRUZIONE BARRA INFERIORE (Zoom + Percentuale) ---
+    const readerOverlay = document.getElementById('reader-overlay');
+    if (readerOverlay) {
+        const bottomBar = document.createElement('div');
+        bottomBar.style.position = 'fixed';
+        bottomBar.style.bottom = '20px';
+        bottomBar.style.left = '50%';
+        bottomBar.style.transform = 'translateX(-50%)';
+        bottomBar.style.width = '90%';
+        bottomBar.style.maxWidth = '800px';
+        bottomBar.style.display = 'flex';
+        bottomBar.style.justifyContent = 'space-between'; // Spinge lo zoom a sx e la % a dx!
+        bottomBar.style.alignItems = 'center';
+        bottomBar.style.zIndex = '1000';
+
+        // 1. Blocco Zoom (A sinistra)
+        const zoomContainer = document.createElement('div');
+        zoomContainer.id = 'bottom-bar-zoom';
+        zoomContainer.className = 'glass-effect';
+        zoomContainer.style.display = 'flex';
+        zoomContainer.style.alignItems = 'center';
+        zoomContainer.style.gap = '12px';
+        zoomContainer.style.padding = '8px 20px';
+        zoomContainer.style.borderRadius = '50px';
+
+        const zoomLabelSmall = document.createElement('span');
+        zoomLabelSmall.innerText = 'A';
+        zoomLabelSmall.style.fontSize = '12px';
+
+        const zoomSlider = document.createElement('input');
+        zoomSlider.type = 'range';
+        zoomSlider.className = 'glass-slider'; // Ricordati il CSS di questo!
+        zoomSlider.min = '80';
+        zoomSlider.max = '250';
+        zoomSlider.value = localStorage.getItem('readerZoom') || '100'; // Carica l'ultimo zoom salvato
+
+        const zoomLabelBig = document.createElement('span');
+        zoomLabelBig.innerText = 'A';
+        zoomLabelBig.style.fontSize = '18px';
+        zoomLabelBig.style.fontWeight = 'bold';
+
+        zoomContainer.appendChild(zoomLabelSmall);
+        zoomContainer.appendChild(zoomSlider);
+        zoomContainer.appendChild(zoomLabelBig);
+
+        // 2. Blocco Percentuale (A destra)
+        // Diamo l'ID 'reading-progress' così il tuo codice esistente lo aggiorna in automatico!
+        const progressText = document.createElement('div');
+        progressText.id = 'reading-progress'; 
+        progressText.className = 'glass-effect';
+        progressText.style.padding = '8px 20px';
+        progressText.style.borderRadius = '50px';
+        progressText.style.fontSize = '14px';
+        progressText.style.fontWeight = 'bold';
+        progressText.innerText = '0%';
+
+        bottomBar.appendChild(zoomContainer);
+        bottomBar.appendChild(progressText);
+        readerOverlay.appendChild(bottomBar);
+
+        // 3. Logica in tempo reale per lo Zoom
+        zoomSlider.addEventListener('input', (e) => {
+            const zoomValue = e.target.value;
+            localStorage.setItem('readerZoom', zoomValue); // Salva la preferenza dell'utente
+            if (rendition) {
+                rendition.themes.fontSize(`${zoomValue}%`);
+            }
+        });
+    }
+});
+
+// --- LOGICA DI RIDIMENSIONAMENTO RESPONSIVE ---
+window.addEventListener('resize', () => {
+    // Se il lettore è aperto e la finestra cambia dimensione...
+    if (rendition) {
+        // ...diciamo a epub.js di ricalcolare istantaneamente l'impaginazione!
+        rendition.resize('100%', '100%');
     }
 });
