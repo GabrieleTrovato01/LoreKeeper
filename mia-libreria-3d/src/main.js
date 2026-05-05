@@ -42,7 +42,7 @@ let textureLoader = new THREE.TextureLoader();
 const shelfGeometry = new THREE.BoxGeometry(50, 0.2, 4); 
 
 // 1. Carichiamo la texture del legno (da internet o da un file locale)
-const woodTexture = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/hardwood2_diffuse.jpg');
+const woodTexture = textureLoader.load('/wood.jpg');
 
 // 2. Ripetiamo la texture per evitare che si "stiri" sulla mensola lunghissima
 woodTexture.wrapS = THREE.RepeatWrapping;
