@@ -871,7 +871,6 @@ function updateCarousel() {
 }
 
 // --- 5. INTERAZIONI UNIFICATE (Click, Swipe, Trackpad) ---
-// --- 5. INTERAZIONI UNIFICATE (Click, Swipe, Trackpad) ---
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
@@ -883,6 +882,7 @@ let pointerEndY = 0;   // Tracciamo anche la Y
 let isDragging = false;
 
 window.addEventListener('pointerdown', (event) => {
+    if (helpModal && helpModal.style.display === 'flex') return;
     if (document.getElementById('category-manager-overlay')) return;
     if (event.target.tagName === 'BUTTON' || event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL') return;
     
@@ -892,6 +892,7 @@ window.addEventListener('pointerdown', (event) => {
 });
 
 window.addEventListener('pointerup', (event) => {
+    if (helpModal && helpModal.style.display === 'flex') return;
     if (document.getElementById('category-manager-overlay')) return;
     if (!isDragging) return;
     isDragging = false;
@@ -970,6 +971,7 @@ window.addEventListener('pointerup', (event) => {
 let scrollTimeout = null; 
 window.addEventListener('wheel', (event) => {
     if (document.getElementById('category-manager-overlay')) return;
+    if (helpModal && helpModal.style.display === 'flex') return;
     if (scrollTimeout) return;
 
     if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 20) {
@@ -991,6 +993,7 @@ window.addEventListener('keydown', (event) => {
     if (readerOverlay && readerOverlay.style.display === 'block') return;
 
     if (document.getElementById('category-manager-overlay')) return;
+    if (helpModal && helpModal.style.display === 'flex') return;
 
     if (event.key === 'ArrowRight') {
         changeBook(1); 
