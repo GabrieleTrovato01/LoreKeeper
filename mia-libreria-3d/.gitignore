@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+uploads
+public/ebooks/
+public/covers/
+public/books.json
