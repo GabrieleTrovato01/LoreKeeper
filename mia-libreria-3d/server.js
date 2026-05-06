@@ -19,9 +19,26 @@ const coversDir = path.join(publicDir, 'covers');
 const booksJsonPath = path.join(publicDir, 'books.json');
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
-// Creiamo le cartelle se non esistono
-if (!fsSync.existsSync(uploadDir)) fsSync.mkdirSync(uploadDir);
-if (!fsSync.existsSync(coversDir)) fsSync.mkdirSync(coversDir, { recursive: true });
+// --- Creiamo le cartelle e i file se non esistono ---
+if (!fsSync.existsSync(uploadDir)) {
+    fsSync.mkdirSync(uploadDir);
+    console.log("📁 Cartella 'uploads' creata automaticamente.");
+}
+
+if (!fsSync.existsSync(coversDir)) {
+    fsSync.mkdirSync(coversDir, { recursive: true });
+    console.log("📁 Cartella 'covers' creata automaticamente.");
+}
+
+// NUOVO: Controllo specifico per il database JSON
+if (!fsSync.existsSync(booksJsonPath)) {
+    fsSync.writeFileSync(booksJsonPath, '[]'); 
+    console.log("📄 File 'books.json' creato automaticamente.");
+} else if (fsSync.statSync(booksJsonPath).isDirectory()) {
+    // Protezione Docker
+    console.error("⚠️ ERRORE CRITICO: Docker ha creato 'books.json' come cartella invece che come file! Elimina la cartella e riavvia.");
+}
+// ----------------------------------------------------
 
 const upload = multer({ dest: uploadDir });
 
