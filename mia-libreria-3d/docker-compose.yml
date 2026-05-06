@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  libreria-3d:
+    build: .
+    container_name: libreria-3d-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./public/ebooks:/app/public/ebooks
+      - ./public/covers:/app/public/covers
+      - ./public/books.json:/app/public/books.json

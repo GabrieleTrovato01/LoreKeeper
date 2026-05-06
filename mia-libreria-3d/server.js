@@ -43,7 +43,9 @@ if (!fsSync.existsSync(booksJsonPath)) {
 const upload = multer({ dest: uploadDir });
 
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('dist')); // Aggiungi questa riga per servire il frontend compilato
+app.use(express.static('public')); // (Questa dovresti averla già)
+
 
 // --- FUNZIONI HELPER ---
 

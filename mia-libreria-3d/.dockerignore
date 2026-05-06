@@ -1,3 +1,6 @@
-node_modules    
-ebooks
-covers
+node_modules
+uploads
+public/covers
+public/ebooks
+public/books.json
+dist

@@ -28,7 +28,7 @@ export async function askBookRAG(epubFilePath, question, currentSnippet, bookDes
             // Usa il modello "Bibliotecario" per trasformare il testo in vettori e salvarlo in memoria
             const embeddings = new OllamaEmbeddings({
                 model: "nomic-embed-text",
-                baseUrl: "http://127.0.0.1:11434",
+                baseUrl: "http://host.docker.internal:11434",
             });
             
             bookDatabases[epubFilePath] = await MemoryVectorStore.fromDocuments(docs, embeddings);
@@ -51,7 +51,7 @@ export async function askBookRAG(epubFilePath, question, currentSnippet, bookDes
         // --- 3. GENERAZIONE DELLA RISPOSTA (Gemma 4) ---
         const llm = new Ollama({
             model: "gemma4:e2b", 
-            baseUrl: "http://127.0.0.1:11434",
+            baseUrl: "http://host.docker.internal:11434",
             temperature: 0.3
         });
 
@@ -79,8 +79,18 @@ export async function askBookRAG(epubFilePath, question, currentSnippet, bookDes
         const response = await llm.invoke(prompt);
         return response;
 
-    } catch (error) {
+    }catch (error) {
+        // Controlliamo se l'errore è dovuto alla connessione rifiutata (Ollama spento)
+        if (error.code === 'ECONNREFUSED' || (error.message && error.message.includes('fetch failed'))) {
+            console.error("⚠️ ATTENZIONE: Impossibile contattare Ollama. Il server locale non risponde.");
+            
+            // Invece di far crashare l'app, restituiamo un messaggio cortese all'utente!
+            return "🤖 **Bibliotecario Offline:** Zzz... scusami, stavo dormendo! Sembra che il motore di Intelligenza Artificiale (Ollama) non sia acceso sul tuo computer. \n\nPer favore, avvia Ollama in background e riprova a farmi la domanda!";
+        }
+
+        // Se è un errore diverso (es. file corrotto, memoria piena), loggiamo il problema
         console.error("❌ Errore critico nel sistema RAG:", error);
-        throw error;
+        
+        return "❌ Mmh, c'è stato un problema tecnico mentre sfogliavo il libro. Riprova tra poco.";
     }
 }
