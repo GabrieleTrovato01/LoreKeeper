@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
-  LoreKeeper:
+  lorekeeper:
     build: .
-    container_name: LoreKeeper
+    container_name: lorekeeper
     restart: unless-stopped
     ports:
       - "3000:3000"
