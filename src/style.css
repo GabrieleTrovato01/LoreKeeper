@@ -6,3 +6,27 @@ body {
 canvas {
   display: block;
 }
+
+#credits-footer {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100; /* Sopra al canvas */
+    color: rgba(255, 255, 255, 0.35); /* Grigio/bianco soffuso */
+    font-size: 12px;
+    font-family: sans-serif;
+    text-align: center;
+    pointer-events: none; /* Non blocca i click del mouse sulla scena 3D */
+    transition: opacity 0.5s ease; /* Scomparsa fluida */
+}
+
+#credits-footer a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    pointer-events: auto; /* Il link invece deve essere cliccabile */
+}
+
+#credits-footer a:hover {
+    color: #fff;
+}

@@ -250,8 +250,6 @@ uiContainer.appendChild(deleteBookBtn);
 const creditsFooter = document.createElement('div');
 creditsFooter.id = 'credits-footer';
 creditsFooter.innerHTML = '&copy; 2026 LoreKeeper - Tutti i diritti riservati. Creata da <a href="https://github.com/GabrieleTrovato01" target="_blank">GabrieleTrovato01</a>';
-// Aggiungiamo una transizione fluida per quando scompare/riappare
-creditsFooter.style.transition = 'opacity 0.3s ease';
 document.body.appendChild(creditsFooter);
 
 exportAIBtn.onclick = () => {
@@ -266,14 +264,12 @@ exportAIBtn.onclick = () => {
     // Chiama la rotta di esportazione (forza il download del file .txt)
     window.location.href = `/api/books/${activeBook.userData.id}/export-ai`;
 
-    // Ripristina il bottone dopo 3 secondi
     setTimeout(() => {
         exportAIBtn.innerHTML = originalText;
         exportAIBtn.disabled = false;
     }, 3000);
 };
 
-// --- LOGICA DEL BOTTONE ASSEGNA CATEGORIA (Singolo Libro) ---
 // --- LOGICA DEL BOTTONE ASSEGNA CATEGORIA (Modale Custom con Chips) ---
 assignCatBtn.onclick = () => {
     if (booksArray.length === 0) return;
@@ -476,7 +472,6 @@ manageCatBtn.onclick = () => {
     if (booksArray.length === 0) return;
     const activeCategory = booksArray[currentIndex].userData.category;
     
-    // Passiamo la palla al nostro nuovo file UI!
     openCategoryManager(activeCategory, booksArray);
 };
 
