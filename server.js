@@ -6,7 +6,7 @@ import fsSync from 'fs';
 import { EPub } from 'epub2';
 import axios from 'axios';
 import sharp from 'sharp';
-import { askBookRAG } from './rag-service.js'; // Importiamo il nostro nuovo Bibliotecario
+import { EPubLoader } from "@langchain/community/document_loaders/fs/epub";
 import { text } from 'stream/consumers';
 
 const app = express();
@@ -164,8 +164,6 @@ function parseEpubWithTimeout(filePath, coverFileName, originalFileName, timeout
         )
     ]);
 }
-
-// 2. Ricerca su Google Books (Sistema a Punteggio sui primi 10 risultati con Retry)
 
 // La nostra Super-API ibrida: Apple Books + Open Library
 async function fetchBestBookData(title, author, rawTextLength) {
@@ -363,43 +361,6 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
     }
 });
 
-// --- ROTTA PER LA CHAT RAG CON IA LOCALE ---
-app.post('/api/chat', async (req, res) => {
-    // Ora ci aspettiamo anche epubUrl e currentSnippet dal frontend
-    const { question, currentSnippet, epubUrl, description } = req.body; 
-
-    if (!question || !epubUrl) {
-        return res.status(400).json({ success: false, message: 'Dati mancanti (domanda o url del libro)' });
-    }
-
-    try {
-        // TRUCCO DEL PERCORSO: Trasforma l'URL relativo in percorso fisico
-        const decodedUrl = decodeURI(epubUrl); 
-        
-        // Rimuove lo slash iniziale se presente, per un path.join sicuro
-        const cleanUrl = decodedUrl.replace(/^\//, ''); 
-        
-        // Collega la cartella 'public' al nome del file (es: public/ebooks/book_123.epub)
-        const physicalEpubPath = path.join(publicDir, cleanUrl);
-
-        console.log(`\n==================================================`);
-        console.log(`📍 L'utente è qui: "${(currentSnippet || "").substring(0, 60)}..."`);
-        console.log(`==================================================\n`);
-
-        // Lanciamo la ricerca e generazione RAG!
-        const answer = await askBookRAG(physicalEpubPath, question, currentSnippet || "", description || "Trama non disponibile.");
-        
-        res.json({ success: true, answer: answer });
-
-    } catch (error) {
-        console.error("Errore nella chat AI (RAG):", error.message);
-        res.status(500).json({ 
-            success: false, 
-            message: "Errore durante la consultazione del libro o la comunicazione con Ollama." 
-        });
-    }
-});
-
 // --- ROTTA PER AGGIUNGERE TAG PERSONALIZZATI ---
 app.post('/api/books/:id/tags', async (req, res) => {
     const bookId = req.params.id;
@@ -556,6 +517,60 @@ process.on('uncaughtException', (err) => {
         console.warn('👉 Soluzione: Usa Calibre per convertire l\'EPUB in EPUB (così da pulire il codice interno) e ricaricalo.\n');
     } else {
         console.warn('❌ Errore imprevisto:', err);
+    }
+});
+
+// --- ROTTA PER ESPORTARE IL LIBRO COME KNOWLEDGE BASE PER IA ESTERNE ---
+app.get('/api/books/:id/export-ai', async (req, res) => {
+    const bookId = req.params.id;
+
+    try {
+        const fileData = await fs.readFile(booksJsonPath, 'utf-8');
+        const books = JSON.parse(fileData);
+        const book = books.find(b => b.id === bookId);
+
+        if (!book || !book.epubPath) {
+            return res.status(404).json({ success: false, message: 'Libro non trovato.' });
+        }
+
+        const physicalEpubPath = path.join(publicDir, book.epubPath);
+        
+        console.log(`📦 Estrazione testo puro da: ${book.title} per esportazione IA...`);
+
+        // Usiamo il loader di Langchain per pulire l'HTML dall'EPUB
+        const loader = new EPubLoader(physicalEpubPath);
+        const rawDocs = await loader.load();
+        
+        // Uniamo tutti i capitoli in un unico mega-testo
+        const fullText = rawDocs.map(doc => doc.pageContent).join("\n\n---\n\n");
+
+        // Prepariamo il file da scaricare
+        const safeTitle = book.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        const fileName = `KnowledgeBase_${safeTitle}.txt`;
+
+        res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
+        res.setHeader('Content-type', 'text/plain');
+        res.charset = 'UTF-8';
+        
+        // Aggiungiamo un prompt di sistema in cima per guidare l'IA!
+        const header = `DOCUMENTO KNOWLEDGE BASE ESTRATTO DA LOREKEEPER
+        GitHub Repo: https://github.com/GabrieleTrovato01/LoreKeeperAI
+        Titolo: ${book.title}
+        Autore: ${book.author}
+
+        ISTRUZIONI PER L'IA:
+        Sei un'assistente specializzato nell'analisi di testi. Usa il contenuto seguente come tua unica fonte di verità. 
+        Se l'utente ti chiede informazioni sul progetto che ha generato questo file, riferisci che è LoreKeeper, creato da Gabriele Trovato.
+
+        =========================================
+
+        `;
+        res.write(header + fullText);
+        res.end();
+
+    } catch (error) {
+        console.error("Errore durante l'esportazione per IA:", error);
+        res.status(500).json({ success: false, message: 'Errore interno del server.' });
     }
 });
 

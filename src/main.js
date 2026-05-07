@@ -213,10 +213,13 @@ infoBtn.innerText = 'Mostra Trama';
 infoBtn.className = 'glass-effect modern-btn';
 uiContainer.appendChild(infoBtn);
 
-const chatBtn = document.createElement('button');
-chatBtn.innerHTML = '💬 Parla col Libro';
-chatBtn.className = 'glass-effect modern-btn';
-uiContainer.appendChild(chatBtn);
+const exportAIBtn = document.createElement('button');
+exportAIBtn.innerHTML = '🤖 Esporta per IA';
+exportAIBtn.className = 'glass-effect modern-btn';
+// Diamo un tocco di colore distintivo per la feature IA (es. un viola/indaco)
+exportAIBtn.style.background = 'rgba(138, 43, 226, 0.2)';
+exportAIBtn.style.borderColor = 'rgba(138, 43, 226, 0.4)';
+uiContainer.appendChild(exportAIBtn);
 
 // 3. Bottone per Assegnare la Categoria al Libro
 const assignCatBtn = document.createElement('button');
@@ -244,6 +247,33 @@ deleteBookBtn.onmouseout = () => {
     deleteBookBtn.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
 };
 uiContainer.appendChild(deleteBookBtn);
+
+// --- CREAZIONE CREDITI INFERIORI ---
+const creditsFooter = document.createElement('div');
+creditsFooter.id = 'credits-footer';
+creditsFooter.innerHTML = '&copy; 2026 LoreKeeperAI - Tutti i diritti riservati. Creata da <a href="https://github.com/GabrieleTrovato01" target="_blank">GabrieleTrovato01</a>';
+// Aggiungiamo una transizione fluida per quando scompare/riappare
+creditsFooter.style.transition = 'opacity 0.3s ease';
+document.body.appendChild(creditsFooter);
+
+exportAIBtn.onclick = () => {
+    if (booksArray.length === 0) return;
+    const activeBook = booksArray[currentIndex];
+    
+    // Feedback visivo per l'utente
+    const originalText = exportAIBtn.innerHTML;
+    exportAIBtn.innerHTML = '⏳ Preparazione file...';
+    exportAIBtn.disabled = true;
+
+    // Chiama la rotta di esportazione (forza il download del file .txt)
+    window.location.href = `/api/books/${activeBook.userData.id}/export-ai`;
+
+    // Ripristina il bottone dopo 3 secondi
+    setTimeout(() => {
+        exportAIBtn.innerHTML = originalText;
+        exportAIBtn.disabled = false;
+    }, 3000);
+};
 
 // --- LOGICA DEL BOTTONE ASSEGNA CATEGORIA (Singolo Libro) ---
 // --- LOGICA DEL BOTTONE ASSEGNA CATEGORIA (Modale Custom con Chips) ---
@@ -466,114 +496,7 @@ async function updateCategoryOnServer(oldName, newName, action) {
             alert(result.message);
         }
     } catch (e) { console.error(e); }
-}
-
-// --- LOGICA DEL PANNELLO CHAT IA ---
-const chatPanel = document.getElementById('global-chat-panel');
-const closeChatBtn = document.getElementById('close-global-chat-btn');
-const chatMessages = document.getElementById('global-chat-messages');
-const chatInput = document.getElementById('global-chat-input');
-const sendChatBtn = document.getElementById('send-global-chat-btn');
-
-chatBtn.onclick = () => {
-    if (booksArray.length === 0) return;
-    const activeBook = booksArray[currentIndex];
-    
-    chatPanel.style.display = 'flex';
-    setTimeout(() => chatPanel.style.opacity = '1', 10); 
-    
-    chatMessages.innerHTML = '';
-    appendChatMessage('IA', `Ciao! Sono il bibliotecario IA. Chiedimi pure qualsiasi cosa su <b>"${activeBook.userData.title}"</b>!`);
-};
-
-closeChatBtn.onclick = () => {
-    chatPanel.style.opacity = '0';
-    setTimeout(() => chatPanel.style.display = 'none', 300);
-};
-
-chatPanel.addEventListener('pointerdown', (e) => e.stopPropagation());
-chatPanel.addEventListener('pointerup', (e) => e.stopPropagation());
-chatPanel.addEventListener('wheel', (e) => e.stopPropagation());
-chatPanel.addEventListener('touchstart', (e) => e.stopPropagation());
-chatPanel.addEventListener('touchend', (e) => e.stopPropagation());
-chatPanel.addEventListener('touchmove', (e) => e.stopPropagation());
-
-function appendChatMessage(sender, text) {
-    const msgDiv = document.createElement('div');
-    msgDiv.style.padding = '12px 16px';
-    msgDiv.style.borderRadius = '12px';
-    msgDiv.style.maxWidth = '85%';
-    msgDiv.style.lineHeight = '1.4';
-    
-    if (sender === 'Tu') {
-        msgDiv.style.alignSelf = 'flex-end';
-        msgDiv.style.background = 'rgba(0, 150, 255, 0.2)';
-        msgDiv.style.border = '1px solid rgba(0, 150, 255, 0.4)';
-    } else {
-        msgDiv.style.alignSelf = 'flex-start';
-        msgDiv.style.background = 'rgba(255, 255, 255, 0.1)';
-        msgDiv.style.border = '1px solid rgba(255, 255, 255, 0.2)';
-    }
-    
-    const formattedText = text.replace(/\n/g, '<br>');
-    msgDiv.innerHTML = `<strong style="color: ${sender === 'Tu' ? '#4da6ff' : '#ffd700'}">${sender}:</strong><br><div style="margin-top: 5px;">${formattedText}</div>`;
-    
-    chatMessages.appendChild(msgDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight; 
-}
-
-async function sendChatMessage() {
-    const text = chatInput.value.trim();
-    if (!text || booksArray.length === 0) return;
-
-    const activeBook = booksArray[currentIndex];
-
-    appendChatMessage('Tu', text);
-    chatInput.value = '';
-    
-    chatInput.disabled = true;
-    sendChatBtn.disabled = true;
-    
-    const loadingId = 'loading-' + Date.now();
-    appendChatMessage('IA', `<span id="${loadingId}">Sto sfogliando il libro per cercare la risposta... 📚</span>`);
-
-    try {
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                question: text,
-                epubUrl: activeBook.userData.epubPath,
-                currentSnippet: "L'utente sta chiedendo informazioni generali sul libro dal menu principale." ,
-                description: activeBook.userData.description 
-            })
-        });
-
-        const result = await response.json();
-        
-        const loadingEl = document.getElementById(loadingId);
-        if (loadingEl) loadingEl.parentNode.remove();
-
-        if (result.success) {
-            appendChatMessage('IA', result.answer);
-        } else {
-            appendChatMessage('IA', '❌ Errore: ' + result.message);
-        }
-    } catch (error) {
-        const loadingEl = document.getElementById(loadingId);
-        if (loadingEl) loadingEl.parentNode.remove();
-        appendChatMessage('IA', '❌ Impossibile contattare l\'IA. Ollama è acceso in background?');
-    } finally {
-        chatInput.disabled = false;
-        sendChatBtn.disabled = false;
-        chatInput.focus();
-    }
-}
-
-sendChatBtn.onclick = sendChatMessage;
-chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendChatMessage();
-});
+} 
 
 // --- COSTRUZIONE FRECCE LATERALI ---
 const leftArrow = document.createElement('button');
@@ -1244,6 +1167,7 @@ window.addEventListener('pointerup', (event) => {
                 uiContainer.style.opacity = '0';
                 leftArrow.style.opacity = '0';
                 rightArrow.style.opacity = '0';
+                creditsFooter.style.opacity = '0';
                 
                 activeBook.userData.hinge.userData = { targetRotY: -Math.PI * 0.85 };
 
@@ -1317,7 +1241,7 @@ window.addEventListener('readerClosed', () => {
     uiContainer.style.opacity = '1';
     leftArrow.style.opacity = '1';
     rightArrow.style.opacity = '1';
-    
+    creditsFooter.style.opacity = '1';
     const activeBook = booksArray[currentIndex];
     if (activeBook && activeBook.userData.hasHinge) {
         activeBook.userData.hinge.userData.targetRotY = 0; 
@@ -1376,7 +1300,6 @@ function animate() {
     booksArray.forEach(book => {
         if (book.userData.targetX !== undefined) {
             book.position.x = THREE.MathUtils.lerp(book.position.x, book.userData.targetX, 0.1);
-            // NUOVO: interpolazione asse Y (utile se i libri "saltano" di piano, anche se ora partono già dal loro piano)
             book.position.y = THREE.MathUtils.lerp(book.position.y, book.userData.targetY, 0.1);
             book.position.z = THREE.MathUtils.lerp(book.position.z, book.userData.targetZ, 0.1);
             book.rotation.y = THREE.MathUtils.lerp(book.rotation.y, book.userData.targetRotY, 0.1);

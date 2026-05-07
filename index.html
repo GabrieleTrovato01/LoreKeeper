@@ -26,23 +26,6 @@
 
     </div>
 
-    <!-- 2. PANNELLO CHAT GLOBALE DELLA LIBRERIA -->
-    <div id="global-chat-panel" class="glass-effect" style="display: none; position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; background: rgba(20,20,20,0.95); flex-direction: column; box-sizing: border-box; z-index: 1000; transition: opacity 0.3s ease; opacity: 0; backdrop-filter: blur(15px);">
-        <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: space-between; align-items: center; color: white;">
-            <h3 style="margin: 0; font-family: sans-serif; font-size: 18px;">✨ Bibliotecario IA</h3>
-            <button id="close-global-chat-btn" style="background: none; border: none; color: white; font-size: 28px; cursor: pointer;">&times;</button>
-        </div>
-        
-        <div id="global-chat-messages" style="flex-grow: 1; padding: 20px; overflow-y: auto; color: white; font-family: sans-serif; font-size: 15px; display: flex; flex-direction: column; gap: 15px;">
-            <!-- Il primo messaggio verrà iniettato qui da JS -->
-        </div>
-
-        <div style="padding: 15px; border-top: 1px solid rgba(255,255,255,0.2); display: flex; gap: 10px;">
-            <input type="text" id="global-chat-input" placeholder="Chiedi qualcosa sul libro..." style="flex-grow: 1; padding: 12px; color: white; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px;">
-            <button id="send-global-chat-btn" style="padding: 12px 20px; background: rgba(0, 150, 255, 0.8); border: none; border-radius: 8px; color: white; cursor: pointer; font-weight: bold;">Invia</button>
-        </div>
-    </div> <!-- Fine overlay -->
-
     <button id="help-btn" class="glass-effect modern-btn" style="position: fixed; bottom: 30px; right: 30px; border-radius: 50%; width: 55px; height: 55px; font-size: 26px; padding: 0; z-index: 100; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.4);">
         ?
     </button>
@@ -72,13 +55,11 @@
                 <li><b>Esplora:</b> Usa "Mostra Trama" per voltare il libro 3D e leggere il retro.</li>
                 <li><b>Dark Mode:</b> Clicca l'icona della luna nel lettore per non affaticare la vista.</li>
                 
-                <!-- CHAT IA -->
-                <li><b style="color: #4da6ff;">Parla col Libro:</b> Clicca su "💬 Parla col Libro" per interrogare il Bibliotecario IA su trama, personaggi o dettagli del libro al centro dello schermo!</li>
+                <li><b style="color: #ba55d3;">🤖 Esporta per IA:</b> Scarica il testo completo del libro in un file pulito, pronto per essere caricato su ChatGPT, Claude o Gemini per fargli domande sulla trama!</li>
             </ul>
             
             <button id="close-help-btn" class="modern-btn glass-effect" style="width: 100%; margin-top: 25px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">Ho capito</button>
         </div>
     </div>
-
   </body>
 </html>
