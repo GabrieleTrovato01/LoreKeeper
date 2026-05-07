@@ -2,7 +2,11 @@
 
 *Read this in: [English](#english) | [Italiano](#italiano)*
 
-![LoreKeeper Demo](https://github.com/user-attachments/assets/9b670575-e8ba-4851-b737-3bdccf6148e6)
+---
+
+<img align="center" width="800" height="500" alt="demo" src="https://github.com/user-attachments/assets/499a1809-144c-4bc4-b870-f23b3e076ab2" />
+
+
 
 ---
 
