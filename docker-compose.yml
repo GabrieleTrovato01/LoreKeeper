@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  libreria-3d:
+  LoreKeeper:
     build: .
-    container_name: libreria-3d-app
+    container_name: LoreKeeper
     restart: unless-stopped
     ports:
       - "3000:3000"

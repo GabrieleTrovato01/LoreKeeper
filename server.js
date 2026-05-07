@@ -554,7 +554,7 @@ app.get('/api/books/:id/export-ai', async (req, res) => {
         
         // Aggiungiamo un prompt di sistema in cima per guidare l'IA!
         const header = `DOCUMENTO KNOWLEDGE BASE ESTRATTO DA LOREKEEPER
-        GitHub Repo: https://github.com/GabrieleTrovato01/LoreKeeperAI
+        GitHub Repo: https://github.com/GabrieleTrovato01/LoreKeeper
         Titolo: ${book.title}
         Autore: ${book.author}
 

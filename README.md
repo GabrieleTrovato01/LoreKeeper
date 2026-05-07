@@ -1,4 +1,4 @@
-# 📚 LoreKeeperAI
+# 📚 LoreKeeper
 
 *Read this in: [English](#english) | [Italiano](#italiano)*
 

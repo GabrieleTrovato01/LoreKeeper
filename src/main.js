@@ -217,8 +217,6 @@ const exportAIBtn = document.createElement('button');
 exportAIBtn.innerHTML = '🤖 Esporta per IA';
 exportAIBtn.className = 'glass-effect modern-btn';
 // Diamo un tocco di colore distintivo per la feature IA (es. un viola/indaco)
-exportAIBtn.style.background = 'rgba(138, 43, 226, 0.2)';
-exportAIBtn.style.borderColor = 'rgba(138, 43, 226, 0.4)';
 uiContainer.appendChild(exportAIBtn);
 
 // 3. Bottone per Assegnare la Categoria al Libro
@@ -251,7 +249,7 @@ uiContainer.appendChild(deleteBookBtn);
 // --- CREAZIONE CREDITI INFERIORI ---
 const creditsFooter = document.createElement('div');
 creditsFooter.id = 'credits-footer';
-creditsFooter.innerHTML = '&copy; 2026 LoreKeeperAI - Tutti i diritti riservati. Creata da <a href="https://github.com/GabrieleTrovato01" target="_blank">GabrieleTrovato01</a>';
+creditsFooter.innerHTML = '&copy; 2026 LoreKeeper - Tutti i diritti riservati. Creata da <a href="https://github.com/GabrieleTrovato01" target="_blank">GabrieleTrovato01</a>';
 // Aggiungiamo una transizione fluida per quando scompare/riappare
 creditsFooter.style.transition = 'opacity 0.3s ease';
 document.body.appendChild(creditsFooter);
