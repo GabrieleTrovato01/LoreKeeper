@@ -2,6 +2,8 @@
 
 *Read this in: [English](#english) | [Italiano](#italiano)*
 
+![LoreKeeper Demo](https://github.com/user-attachments/assets/9b670575-e8ba-4851-b737-3bdccf6148e6)
+
 ---
 
 <a name="english"></a>
