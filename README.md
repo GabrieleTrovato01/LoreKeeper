@@ -9,16 +9,15 @@
 
 An interactive 3D digital library that allows you to upload, browse, and organize your EPUB files in an immersive graphical environment.
 
-But that's not all: thanks to the integrated **AI Librarian** (based on a 100% local RAG system), you can literally "talk" to your books. Ask questions about the plot, search for specific concepts, or ask for summaries: the Artificial Intelligence will read the book for you and answer, ensuring total privacy for your data and files.
+But that's not all: thanks to the **Export for AI** feature, you can extract the entire clean text of any book into a ready-to-use Knowledge Base (`.txt` file). You can easily upload this file to ChatGPT, Claude, or Gemini to literally "talk" to your books: ask questions about the plot, search for specific concepts, or ask for summaries, leaving the heavy computational lifting to cloud AIs without overloading your PC!
 
 ---
 
-### ⚙️ System Requirements (Prerequisites)
+### ⚙️ System Requirements
 
-To run this project on your computer, you don't need to configure servers or install Node.js. You only need two free programs:
+To run this project on your computer, you don't need to configure servers or install Node.js. You only need one free program:
 
-1. **Docker**: The engine that will run the web application (frontend, backend, and vector database) isolated and securely with a single command.
-2. **Ollama**: The engine for local Artificial Intelligence (only necessary if you want to use the "Librarian" feature).
+1. **Docker**: The engine that will run the web application (frontend and backend) isolated and securely with a single command.
 
 ---
 
@@ -28,21 +27,8 @@ To run this project on your computer, you don't need to configure servers or ins
 * **Windows / macOS:** Download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/). Start it and make sure Docker is running in the background.
 * **Linux:** Open the terminal and install Docker Engine and the Compose plugin (e.g., on Ubuntu: `sudo apt install docker.io docker-compose-v2`).
 
-#### Step 2: Prepare the AI's "Brain" (Ollama)
-Our Librarian uses local Artificial Intelligence. 
-
-1. Go to [Ollama.com](https://ollama.com/download) and install the program. (If you use Linux: `curl -fsSL https://ollama.com/install.sh | sh`).
-2. Make sure Ollama is running.
-3. Open the terminal or command prompt and download the two required models:
-   
-   Download the model to understand and generate text:
-   `ollama run gemma4:e2b`
-   
-   Download the model to read and index books (Vector Database):
-   `ollama pull nomic-embed-text`
-
-#### Step 3: Start the 3D Library
-Now that the environment is ready, let's start the actual software!
+#### Step 2: Start the 3D Library
+Now that the environment is ready, let's start the software!
 
 1. Download this project to your PC (via `git clone` or by downloading the ZIP).
 2. Open the terminal **exactly inside the project folder** (where the `docker-compose.yml` file is located).
@@ -55,22 +41,31 @@ Wait a couple of minutes. Docker will download a lightweight Linux environment, 
 
 ### 🎮 How to Use the App
 
-Once the terminal has finished loading and is available again, the library is ready!
+Once the terminal has finished loading, the library is ready!
 Open your favorite browser (Chrome, Edge, Safari) and go to the address:
 
 👉 **http://localhost:3000**
 
-**💡 Tip for the ultimate experience:** 
-You don't need to open the browser every time! You can transform this page into a desktop app:
+**💡 Tip for the ultimate experience:** You don't need to open the browser every time! You can transform this page into a desktop app:
 On Google Chrome or Edge, go to the menu (the three dots) -> "Save and share" / "Apps" -> **Install page as App / Create shortcut** (remember to check "Open as window"). You will have an icon on your desktop, and it will look just like a native installed program!
+
+---
+
+### 🧠 Export for AI
+
+If you want to analyze a book:
+1. Select the book in the 3D library.
+2. Click on **"🤖 Esporta per IA"**.
+3. The app will instantly download a `KnowledgeBase_title.txt` file.
+4. Drag and drop this file into your favorite AI (ChatGPT, Claude, Gemini) and ask your questions!
 
 ---
 
 ### 📁 Data Management (Your Books)
 
-The app is smart and syncs data with your computer. Inside the project folder, you will find (or they will be created automatically on the first run) these folders in the `public/` directory:
+The app is smart and syncs data with your computer. Inside the project folder, you will find these folders in the `public/` directory (created automatically on the first run):
 
-* `ebooks/`: Your books (EPUBs and converted PDFs) are physically saved here.
+* `ebooks/`: Your books (EPUBs) are physically saved here.
 * `covers/`: Extracted covers for 3D visualization are saved here.
 * `books.json`: This file is the database of your library.
 
@@ -80,8 +75,6 @@ The app is smart and syncs data with your computer. Inside the project folder, y
 
 ### 🆘 Troubleshooting
 
-* **The AI Librarian answers: "Zzz... sorry, I was sleeping!"**
-  It means the Docker app cannot find Ollama. Make sure you have opened the Ollama program on your physical PC before asking the AI questions. The app uses `host.docker.internal` to communicate securely between the container and your computer.
 * **Red error during installation: `CustomEvent is not defined`**
   You are using an outdated version of Node.js in the Dockerfile. Make sure you are using the updated code, where the `Dockerfile` starts with `FROM node:22-bookworm-slim` to support Vite.
 * **Terminal error: `port is already allocated`**
@@ -94,18 +87,17 @@ The app is smart and syncs data with your computer. Inside the project folder, y
 <a name="italiano"></a>
 ## 🇮🇹 Italiano
 
-Una libreria digitale interattiva in 3D che ti permette di caricare, sfogliare e organizzare i tuoi file EPUB e PDF in un ambiente grafico immersivo.
+Una libreria digitale interattiva in 3D che ti permette di caricare, sfogliare e organizzare i tuoi file EPUB in un ambiente grafico immersivo.
 
-Ma non è finita qui: grazie al **Bibliotecario IA** integrato (basato su un sistema RAG 100% locale), puoi letteralmente "parlare" con i tuoi libri. Fai domande sulla trama, cerca concetti specifici o chiedi riassunti: l'Intelligenza Artificiale leggerà il libro per te e ti risponderà, garantendo la totale privacy dei tuoi dati e dei tuoi file.
+Ma non è finita qui: grazie alla funzione **Esporta per IA**, puoi estrarre l'intero testo pulito di qualsiasi libro in un file Knowledge Base (`.txt`) pronto all'uso. Ti basterà caricare questo file su ChatGPT, Claude o Gemini per letteralmente "parlare" con i tuoi libri: fai domande sulla trama, cerca concetti specifici o chiedi riassunti, lasciando il lavoro pesante ai server cloud senza fondere il tuo PC!
 
 ---
 
-### ⚙️ Requisiti di Sistema (Prerequisiti)
+### ⚙️ Requisiti di Sistema
 
-Per far funzionare questo progetto sul tuo computer non devi configurare server o installare Node.js. Ti servono solo due programmi gratuiti:
+Per far funzionare questo progetto sul tuo computer non devi configurare server o installare Node.js. Ti serve solo un programma gratuito:
 
-1. **Docker**: Il motore che farà girare l'applicazione web (frontend, backend e database vettoriale) in modo isolato e sicuro con un solo comando.
-2. **Ollama**: Il motore per l'Intelligenza Artificiale in locale (necessario solo se vuoi usare la funzione del "Bibliotecario").
+1. **Docker**: Il motore che farà girare l'applicazione web (frontend e backend) in modo isolato e sicuro con un solo comando.
 
 ---
 
@@ -115,21 +107,8 @@ Per far funzionare questo progetto sul tuo computer non devi configurare server 
 * **Windows / macOS:** Scarica e installa [Docker Desktop](https://www.docker.com/products/docker-desktop/). Avvialo e assicurati che Docker sia attivo in background.
 * **Linux:** Apri il terminale e installa Docker Engine e il plugin Compose (es. su Ubuntu: `sudo apt install docker.io docker-compose-v2`).
 
-#### Passo 2: Prepara il "Cervello" dell'IA (Ollama)
-Il nostro Bibliotecario usa l'Intelligenza Artificiale locale. 
-
-1. Vai su [Ollama.com](https://ollama.com/download) e installa il programma. (Se usi Linux: `curl -fsSL https://ollama.com/install.sh | sh`).
-2. Assicurati che Ollama sia in esecuzione .
-3. Apri il terminale o il prompt dei comandi e scarica i due modelli necessari:
-   
-   Scarica il modello per comprendere e generare testo:
-   `ollama run gemma4:e2b`
-   
-   Scarica il modello per leggere e indicizzare i libri (Vector Database):
-   `ollama pull nomic-embed-text`
-
-#### Passo 3: Avvia la Libreria 3D
-Ora che l'ambiente è pronto, accendiamo il software vero e proprio!
+#### Passo 2: Avvia la Libreria 3D
+Ora che l'ambiente è pronto, accendiamo il software!
 
 1. Scarica questo progetto sul tuo PC (tramite `git clone` o scaricando lo ZIP).
 2. Apri il terminale **esattamente all'interno della cartella del progetto** (dove si trova il file `docker-compose.yml`).
@@ -142,14 +121,23 @@ Attendi un paio di minuti. Docker scaricherà un ambiente Linux leggerissimo, co
 
 ### 🎮 Come usare l'App
 
-Una volta che il terminale ha finito di caricare ed è tornato disponibile, la libreria è pronta!
+Una volta che il terminale ha finito di caricare, la libreria è pronta!
 Apri il tuo browser preferito (Chrome, Edge, Safari) e vai all'indirizzo:
 
 👉 **http://localhost:3000**
 
-**💡 Tip per l'esperienza definitiva:** 
-Non c'è bisogno di aprire il browser ogni volta! Puoi trasformare questa pagina in un'app desktop:
+**💡 Tip per l'esperienza definitiva:** Non c'è bisogno di aprire il browser ogni volta! Puoi trasformare questa pagina in un'app desktop:
 Su Google Chrome o Edge, vai nel menu (i tre puntini) -> "Salva e condividi" / "App" -> **Installa pagina come App / Crea scorciatoia** (ricorda di spuntare "Apri come finestra"). Avrai un'icona sul desktop e sembrerà a tutti gli effetti un programma nativo installato!
+
+---
+
+### 🧠 Funzione "Esporta per IA"
+
+Se vuoi analizzare un libro con l'Intelligenza Artificiale:
+1. Seleziona il libro nella libreria 3D.
+2. Clicca sul tasto **"🤖 Esporta per IA"**.
+3. L'app scaricherà istantaneamente un file `KnowledgeBase_titolo.txt`.
+4. Trascina questo file nella chat della tua IA preferita (ChatGPT, Claude, Gemini) e falle tutte le domande che vuoi!
 
 ---
 
@@ -157,7 +145,7 @@ Su Google Chrome o Edge, vai nel menu (i tre puntini) -> "Salva e condividi" / "
 
 L'app è intelligente e sincronizza i dati con il tuo computer. All'interno della cartella del progetto, troverai (o verranno create automaticamente al primo avvio) queste cartelle nella directory `public/`:
 
-* `ebooks/`: Qui vengono salvati fisicamente i tuoi libri (EPUB e i PDF convertiti).
+* `ebooks/`: Qui vengono salvati fisicamente i tuoi libri (EPUB).
 * `covers/`: Qui vengono salvate le copertine estratte per la visualizzazione 3D.
 * `books.json`: Questo file è il database della tua libreria.
 
@@ -167,8 +155,6 @@ L'app è intelligente e sincronizza i dati con il tuo computer. All'interno dell
 
 ### 🆘 Risoluzione dei Problemi Frequenti
 
-* **Il Bibliotecario IA mi risponde: "Zzz... scusami, stavo dormendo!"**
-  Significa che l'app Docker non riesce a trovare Ollama. Assicurati di aver aperto il programma Ollama sul tuo PC fisico prima di fare domande all'IA. L'app usa `host.docker.internal` per comunicare in sicurezza tra il container e il tuo computer.
 * **Errore in rosso durante l'installazione: `CustomEvent is not defined`**
   Stai usando una versione di Node.js troppo vecchia nel Dockerfile. Assicurati di usare il codice aggiornato, dove il `Dockerfile` inizia con `FROM node:22-bookworm-slim` per supportare Vite.
 * **Errore nel terminale: `port is already allocated`**
