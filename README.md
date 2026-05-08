@@ -57,13 +57,18 @@ On Google Chrome or Edge, go to the menu (the three dots) -> "Save and share" / 
 
 ---
 
-### 🧠 Export for AI
+### 🧠 Export for AI (Obsidian & LLM Ready)
+
+LoreKeeper acts as an "AI-Bridge", transforming your EPUBs into clean, structured Knowledge Bases.
 
 If you want to analyze a book:
 1. Select the book in the 3D library.
 2. Click on **"🤖 Esporta per IA"**.
-3. The app will instantly download a `KnowledgeBase_title.txt` file.
-4. Drag and drop this file into your favorite AI (ChatGPT, Claude, Gemini) and ask your questions!
+3. The app will instantly download a `LoreKeeper_title.md` file.
+
+**Why Markdown?**
+* **Clean Text:** The exported file is stripped of all complex HTML, providing only the raw content, which drastically reduces AI hallucinations.
+* **Obsidian/Notion Support:** The file includes YAML Frontmatter (metadata) and hierarchical headers. It is a "Smart Document" ready to be imported and indexed in your Personal Knowledge Management systems.
 
 ---
 
@@ -137,13 +142,18 @@ Su Google Chrome o Edge, vai nel menu (i tre puntini) -> "Salva e condividi" / "
 
 ---
 
-### 🧠 Funzione "Esporta per IA"
+### 🧠 Funzione "Esporta per IA" (Pronto per Obsidian e LLM)
+
+LoreKeeper funge da "AI-Bridge", trasformando i tuoi EPUB in Knowledge Base strutturate e pulite.
 
 Se vuoi analizzare un libro con l'Intelligenza Artificiale:
 1. Seleziona il libro nella libreria 3D.
-2. Clicca sul tasto **"🤖 Esporta per IA"**.
-3. L'app scaricherà istantaneamente un file `KnowledgeBase_titolo.txt`.
-4. Trascina questo file nella chat della tua IA preferita (ChatGPT, Claude, Gemini) e falle tutte le domande che vuoi!
+2. Clicca sul tasto **"🤖 Esporta per IA / Esporta in Markdown"**.
+3. L'app scaricherà istantaneamente un file `LoreKeeper_titolo.md`.
+
+**Perché in Markdown?**
+* **Testo Pulito:** Il file esportato viene ripulito da tutto l'HTML complesso, offrendo solo il contenuto grezzo, riducendo drasticamente le allucinazioni dell'IA.
+* **Supporto Obsidian/Notion:** Il file include YAML Frontmatter (metadati) e titoli gerarchici. È un "Documento Smart" pronto per essere archiviato e indicizzato nei tuoi sistemi di Personal Knowledge Management.
 
 ---
 
