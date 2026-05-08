@@ -256,18 +256,24 @@ exportAIBtn.onclick = () => {
     if (booksArray.length === 0) return;
     const activeBook = booksArray[currentIndex];
     
-    // Feedback visivo per l'utente
+    // Feedback visivo: usiamo lo spinner e specifichiamo il formato MD
     const originalText = exportAIBtn.innerHTML;
-    exportAIBtn.innerHTML = '⏳ Preparazione file...';
+    exportAIBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERAZIONE MD...';
     exportAIBtn.disabled = true;
 
-    // Chiama la rotta di esportazione (forza il download del file .txt)
+    // Mostriamo un toast informativo (se la funzione showToast è disponibile nel tuo scope)
+    if (typeof showToast === "function") {
+        showToast('Generazione Knowledge Base (.md) per Obsidian/IA...', 'info');
+    }
+
+    // Chiama la rotta di esportazione (che ora scarica un file .md invece di .txt)
     window.location.href = `/api/books/${activeBook.userData.id}/export-ai`;
 
+    // Ripristiniamo il pulsante dopo 4 secondi (diamo tempo al browser di gestire il download)
     setTimeout(() => {
         exportAIBtn.innerHTML = originalText;
         exportAIBtn.disabled = false;
-    }, 3000);
+    }, 4000);
 };
 
 // --- LOGICA DEL BOTTONE ASSEGNA CATEGORIA (Modale Custom con Chips) ---

@@ -521,6 +521,7 @@ process.on('uncaughtException', (err) => {
 });
 
 // --- ROTTA PER ESPORTARE IL LIBRO COME KNOWLEDGE BASE PER IA ESTERNE ---
+// --- ROTTA PER ESPORTARE IL LIBRO COME KNOWLEDGE BASE IN FORMATO MARKDOWN (.md) ---
 app.get('/api/books/:id/export-ai', async (req, res) => {
     const bookId = req.params.id;
 
@@ -535,42 +536,68 @@ app.get('/api/books/:id/export-ai', async (req, res) => {
 
         const physicalEpubPath = path.join(publicDir, book.epubPath);
         
-        console.log(`📦 Estrazione testo puro da: ${book.title} per esportazione IA...`);
+        console.log(`📦 Generazione Knowledge Base Markdown per: ${book.title}...`);
 
         // Usiamo il loader di Langchain per pulire l'HTML dall'EPUB
         const loader = new EPubLoader(physicalEpubPath);
         const rawDocs = await loader.load();
         
-        // Uniamo tutti i capitoli in un unico mega-testo
+        // Uniamo tutti i capitoli separandoli con una riga orizzontale Markdown
         const fullText = rawDocs.map(doc => doc.pageContent).join("\n\n---\n\n");
 
-        // Prepariamo il file da scaricare
+        // Prepariamo il nome del file
         const safeTitle = book.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-        const fileName = `KnowledgeBase_${safeTitle}.txt`;
+        const fileName = `LoreKeeper_${safeTitle}.md`; // Estensione .md
 
+        // Configurazione Header per il download di un file Markdown
         res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
-        res.setHeader('Content-type', 'text/plain');
+        res.setHeader('Content-type', 'text/markdown');
         res.charset = 'UTF-8';
         
-        // Aggiungiamo un prompt di sistema in cima per guidare l'IA!
-        const header = `DOCUMENTO KNOWLEDGE BASE ESTRATTO DA LOREKEEPER
-        GitHub Repo: https://github.com/GabrieleTrovato01/LoreKeeper
-        Titolo: ${book.title}
-        Autore: ${book.author}
+        // --- COSTRUZIONE DEL DOCUMENTO MARKDOWN (Self-Instructing) ---
+const now = new Date().toISOString().split('T')[0];
+const mainCategory = (book.tags && book.tags.length > 0) ? book.tags[0] : "Senza Categoria";
 
-        ISTRUZIONI PER L'IA:
-        Sei un'assistente specializzato nell'analisi di testi. Usa il contenuto seguente come tua unica fonte di verità. 
-        Se l'utente ti chiede informazioni sul progetto che ha generato questo file, riferisci che è LoreKeeper, creato da Gabriele Trovato.
+const markdownHeader = `---
+title: "${book.title.replace(/"/g, '\\"')}"
+author: "${book.author.replace(/"/g, '\\"')}"
+category: "${mainCategory}"
+exported_from: "LoreKeeper"
+export_date: ${now}
+tags: [LoreKeeper, KnowledgeBase, ${mainCategory.replace(/\s+/g, '')}]
+---
 
-        =========================================
+# ${book.title}
 
-        `;
-        res.write(header + fullText);
+> **LoreKeeper Smart Document:** Questo file è stato generato automaticamente da LoreKeeper come una Knowledge Base in formato Markdown, 
+pronta per essere importata in qualsiasi sistema di gestione della conoscenza o IA esterna.
+Contiene i metadati essenziali del libro, la trama (se disponibile) e il testo completo estratto dall'EPUB, pulito da qualsiasi formattazione HTML.
+
+---
+
+## 📖 Dettagli e Trama
+- **Autore:** ${book.author}
+- **Pagine stimante:** ${book.pageCount}
+
+### Trama originale
+${book.description}
+
+---
+
+## 📂 Contenuto del Libro
+
+${fullText}
+
+---
+*Fine del documento - Generato da LoreKeeper*
+`;
+
+        res.write(markdownHeader);
         res.end();
 
     } catch (error) {
-        console.error("Errore durante l'esportazione per IA:", error);
-        res.status(500).json({ success: false, message: 'Errore interno del server.' });
+        console.error("Errore durante l'esportazione Markdown:", error);
+        res.status(500).json({ success: false, message: 'Errore interno del server durante la generazione del Markdown.' });
     }
 });
 
