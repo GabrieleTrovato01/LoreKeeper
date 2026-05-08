@@ -261,15 +261,15 @@ exportAIBtn.onclick = () => {
     exportAIBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERAZIONE MD...';
     exportAIBtn.disabled = true;
 
-    // Mostriamo un toast informativo (se la funzione showToast è disponibile nel tuo scope)
+    
     if (typeof showToast === "function") {
         showToast('Generazione Knowledge Base (.md) per Obsidian/IA...', 'info');
     }
 
-    // Chiama la rotta di esportazione (che ora scarica un file .md invece di .txt)
+    // Chiama la rotta di esportazione
     window.location.href = `/api/books/${activeBook.userData.id}/export-ai`;
 
-    // Ripristiniamo il pulsante dopo 4 secondi (diamo tempo al browser di gestire il download)
+    // Ripristiniamo il pulsante dopo 4 secondi
     setTimeout(() => {
         exportAIBtn.innerHTML = originalText;
         exportAIBtn.disabled = false;
@@ -375,7 +375,7 @@ assignCatBtn.onclick = () => {
     // Bottone Annulla
     const cancelBtn = document.createElement('button');
     cancelBtn.innerText = 'Annulla';
-    cancelBtn.className = 'glass-effect modern-btn'; // Usiamo le tue classi base!
+    cancelBtn.className = 'glass-effect modern-btn'; 
     cancelBtn.style.marginTop = '20px';
     cancelBtn.style.padding = '8px 20px';
     cancelBtn.style.fontSize = '11px'; // Leggermente più piccolo del tasto Salva
@@ -507,7 +507,7 @@ leftArrow.style.top = '50%';
 leftArrow.style.transform = 'translateY(-50%)';
 leftArrow.style.fontSize = '24px';
 leftArrow.style.padding = '15px 20px';
-leftArrow.style.borderRadius = '50%'; // Le facciamo tonde!
+leftArrow.style.borderRadius = '50%';
 document.body.appendChild(leftArrow);
 
 const rightArrow = document.createElement('button');
@@ -612,7 +612,6 @@ searchInput.addEventListener('input', (e) => {
     }
 });
 
-// Avviso per l'upload
 // --- GESTIONE UPLOAD MULTIPLO ---
 fileInput.addEventListener('change', async (event) => {
     const files = event.target.files;
@@ -673,6 +672,7 @@ fileInput.addEventListener('change', async (event) => {
     // Ricarichiamo la pagina per posizionare i nuovi libri sullo scaffale 3D!
     location.reload(); 
 });
+
 // --- 3. GENERATORI DI TEXTURE ---
 function createSpineTexture(title, author) {
     const canvas = document.createElement('canvas');
@@ -694,7 +694,7 @@ function createSpineTexture(title, author) {
     
     ctx.font = `bold ${titleFontSize}px Arial, sans-serif`;
     
-    // Finché il testo è troppo largo (e il font non diventa minuscolo), rimpiccioliscilo!
+    // Finché il testo è troppo largo, rimpiccioliscilo!
     while (ctx.measureText(title).width > maxWidth && titleFontSize > 12) {
         titleFontSize -= 2;
         ctx.font = `bold ${titleFontSize}px Arial, sans-serif`;
@@ -758,7 +758,7 @@ function createFrontPlaceholderTexture(title, author) {
     canvas.height = 768;
     const ctx = canvas.getContext('2d');
 
-    // Sfondo (Un bel blu scuro ed elegante, tipo edizione rilegata)
+    // Sfondo
     ctx.fillStyle = '#1e2d3b'; 
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -772,7 +772,7 @@ function createFrontPlaceholderTexture(title, author) {
     ctx.textAlign = 'center';
     ctx.fillStyle = '#f5f5dc'; // Bianco panna
 
-    // --- Disegna il Titolo (con a capo automatico se è lungo) ---
+    // --- Disegna il Titolo ---
     ctx.font = 'bold 36px "Times New Roman", Times, serif';
     const words = title.split(' ');
     let line = '';
@@ -818,7 +818,7 @@ async function loadBooks() {
             categoriesMap.get(cat).push(book);
         });
 
-        // 2. ORDINE DELLE MENSOLE (PIANO TERRA)
+        // 2. ORDINE DELLE MENSOLE
         // Vogliamo che "Senza Categoria" sia creata per PRIMA, così otterrà la coordinata Y più bassa (shelfIndex 0).
         // Le altre categorie verranno impilate sopra in ordine alfabetico.
         const sortedCategories = Array.from(categoriesMap.keys()).sort((a, b) => {
@@ -843,8 +843,6 @@ async function loadBooks() {
                     url, 
                     (imageBitmap) => {
                         const texture = new THREE.Texture(imageBitmap);
-                        
-                        // 🚀 OTTIMIZZAZIONI ESTREME PER LA SCHEDA VIDEO:
                         
                         // 1. Spegniamo i MipMap (evita che la GPU debba ricalcolare 10 copie dell'immagine, azzerando il lag)
                         texture.generateMipmaps = false;
@@ -897,7 +895,7 @@ async function loadBooks() {
                 const spineTexture = createSpineTexture(bookData.title, bookData.author);
                 const spineMaterial = new THREE.MeshStandardMaterial({ map: spineTexture, roughness: 0.7 });
 
-                // Materiale placeholder: invece di un blocco nero, generiamo una bella copertina di testo!
+                // Materiale placeholder: invece di un blocco nero, generiamo una copertina di testo!
                 const frontCoverTexture = createFrontPlaceholderTexture(bookData.title, bookData.author);
                 const frontCoverMaterial = new THREE.MeshStandardMaterial({ 
                     map: frontCoverTexture, 
@@ -986,8 +984,7 @@ async function loadBooks() {
                         mesh.material[4].color.setHex(0xffffff); // Ripristina i colori vividi
                         mesh.material[4].needsUpdate = true; 
                         
-                        // Il trucco magico: Aspettiamo il prossimo frame prima di caricare il libro successivo.
-                        // Questo evita di intasare la scheda video e azzera i lag di scorrimento verso l'alto!
+                        //Aspettiamo il prossimo frame prima di caricare il libro successivo.
                         await new Promise(resolve => requestAnimationFrame(resolve));
                     }
                 }
@@ -1176,7 +1173,6 @@ window.addEventListener('pointerup', (event) => {
             }
         }
     }
-    // NOTA: Se è uno swipe puramente verticale (deltaY > deltaX), il codice ora non farà assolutamente nulla!
 });
 
 // Aggiungiamo il supporto alla ROTELLINA DEL MOUSE e al TRACKPAD

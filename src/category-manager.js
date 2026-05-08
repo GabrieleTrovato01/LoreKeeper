@@ -161,7 +161,6 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
     }
 
     // VISTA 2: RINOMINA
-    // VISTA 2: RINOMINA
     function renderRename() {
         contentArea.innerHTML = `
             ${getHeader('✏️ Rinomina Mensola')}

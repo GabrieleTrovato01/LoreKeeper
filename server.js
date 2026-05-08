@@ -43,8 +43,8 @@ if (!fsSync.existsSync(booksJsonPath)) {
 const upload = multer({ dest: uploadDir });
 
 app.use(express.json());
-app.use(express.static('dist')); // Aggiungi questa riga per servire il frontend compilato
-app.use(express.static('public')); // (Questa dovresti averla già)
+app.use(express.static('dist')); 
+app.use(express.static('public'));
 
 
 // --- FUNZIONI HELPER ---
@@ -72,7 +72,7 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
             let cleanName = originalFileName.replace(/\.epub$/i, '');
             
             // -----------------------------------------------------
-            // ✨ NUOVO: SEPARAZIONE INTELLIGENTE TITOLO E AUTORE
+            // SEPARAZIONE INTELLIGENTE TITOLO E AUTORE
             // Se nel nome del file c'est un trattino "-", lo usiamo per separare!
             // -----------------------------------------------------
             if (cleanName.includes('-')) {
@@ -123,8 +123,6 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
             textLength: rawTextLength
         };
 
-        // Dentro parseEpub, sostituisci il blocco "if (coverId) { ... }" con questo:
-
         const coverId = epub.metadata.cover;
         if (coverId) {
             try {
@@ -140,7 +138,7 @@ async function parseEpub(filePath, coverFileName, originalFileName) {
                             fit: 'cover', // Ritaglia i bordi in eccesso per riempire il rettangolo perfettamente
                             position: 'center'
                         })
-                        .jpeg({ quality: 50, progressive: true }) // Qualità 80% è il compromesso aureo
+                        .jpeg({ quality: 50, progressive: true }) 
                         .toFile(fullCoverPath);
                     
                     metadata.coverPath = `covers/${finalCoverName}`; 
@@ -165,7 +163,7 @@ function parseEpubWithTimeout(filePath, coverFileName, originalFileName, timeout
     ]);
 }
 
-// La nostra Super-API ibrida: Apple Books + Open Library
+// Apple Books + calcolo pagine stimato
 async function fetchBestBookData(title, author, rawTextLength) {
     let result = {
         description: "Trama non trovata.",
@@ -206,7 +204,6 @@ async function fetchBestBookData(title, author, rawTextLength) {
         console.error("⚠️ Apple Books non ha risposto in tempo.");
     }
 
-    // --- STEP 2: OPEN LIBRARY (Solo per estrarre il numero di pagine reale) ---
     if (rawTextLength && rawTextLength > 0) {
         // Una cartella editoriale (pagina) è in media 1500 battute
         const calculatedPages = Math.ceil(rawTextLength / 1500);
@@ -245,14 +242,14 @@ async function downloadCoverImage(url, fileName) {
             .resize(512, 768, { 
                 fit: 'cover', 
                 position: 'center',
-                withoutEnlargement: true // Se Google ci dà un'immagine piccolissima, non la sgrana forzando l'ingrandimento
+                withoutEnlargement: true // Se Apple Books ci dà un'immagine piccolissima, non la sgrana forzando l'ingrandimento
             })
             .jpeg({ quality: 80, progressive: true })
             .toFile(fullCoverPath);
             
         return `covers/${finalCoverName}`; 
     } catch (error) {
-        console.error("⚠️ Errore nel download della copertina da Google Books:", error.message);
+        console.error("⚠️ Errore nel download della copertina da Apple Books:", error.message);
         return null;
     }
 }
@@ -520,7 +517,6 @@ process.on('uncaughtException', (err) => {
     }
 });
 
-// --- ROTTA PER ESPORTARE IL LIBRO COME KNOWLEDGE BASE PER IA ESTERNE ---
 // --- ROTTA PER ESPORTARE IL LIBRO COME KNOWLEDGE BASE IN FORMATO MARKDOWN (.md) ---
 app.get('/api/books/:id/export-ai', async (req, res) => {
     const bookId = req.params.id;
@@ -555,42 +551,42 @@ app.get('/api/books/:id/export-ai', async (req, res) => {
         res.charset = 'UTF-8';
         
         // --- COSTRUZIONE DEL DOCUMENTO MARKDOWN (Self-Instructing) ---
-const now = new Date().toISOString().split('T')[0];
-const mainCategory = (book.tags && book.tags.length > 0) ? book.tags[0] : "Senza Categoria";
+        const now = new Date().toISOString().split('T')[0];
+        const mainCategory = (book.tags && book.tags.length > 0) ? book.tags[0] : "Senza Categoria";
 
-const markdownHeader = `---
-title: "${book.title.replace(/"/g, '\\"')}"
-author: "${book.author.replace(/"/g, '\\"')}"
-category: "${mainCategory}"
-exported_from: "LoreKeeper"
-export_date: ${now}
-tags: [LoreKeeper, KnowledgeBase, ${mainCategory.replace(/\s+/g, '')}]
----
+        const markdownHeader = `---
+        title: "${book.title.replace(/"/g, '\\"')}"
+        author: "${book.author.replace(/"/g, '\\"')}"
+        category: "${mainCategory}"
+        exported_from: "LoreKeeper"
+        export_date: ${now}
+        tags: [LoreKeeper, KnowledgeBase, ${mainCategory.replace(/\s+/g, '')}]
+        ---
 
-# ${book.title}
+        # ${book.title}
 
-> **LoreKeeper Smart Document:** Questo file è stato generato automaticamente da LoreKeeper come una Knowledge Base in formato Markdown, 
-pronta per essere importata in qualsiasi sistema di gestione della conoscenza o IA esterna.
-Contiene i metadati essenziali del libro, la trama (se disponibile) e il testo completo estratto dall'EPUB, pulito da qualsiasi formattazione HTML.
+        > **LoreKeeper Smart Document:** Questo file è stato generato automaticamente da LoreKeeper come una Knowledge Base in formato Markdown, 
+        pronta per essere importata in qualsiasi sistema di gestione della conoscenza o IA esterna.
+        Contiene i metadati essenziali del libro, la trama (se disponibile) e il testo completo estratto dall'EPUB, pulito da qualsiasi formattazione HTML.
 
----
+        ---
 
-## 📖 Dettagli e Trama
-- **Autore:** ${book.author}
-- **Pagine stimante:** ${book.pageCount}
+        ## 📖 Dettagli e Trama
+        - **Autore:** ${book.author}
+        - **Pagine stimante:** ${book.pageCount}
 
-### Trama originale
-${book.description}
+        ### Trama originale
+        ${book.description}
 
----
+        ---
 
-## 📂 Contenuto del Libro
+        ## 📂 Contenuto del Libro
 
-${fullText}
+        ${fullText}
 
----
-*Fine del documento - Generato da LoreKeeper*
-`;
+        ---
+        *Fine del documento - Generato da LoreKeeper*
+        `;
 
         res.write(markdownHeader);
         res.end();
