@@ -45,11 +45,13 @@ export const translations = {
         epubError: "File EPUB non trovato per questo libro!",
         darkMode: "Modalità Scura",
         lightMode: "Modalità Chiara",
+
         // Risultati Upload
         uploadComplete: "Upload completato!",
         added: "Aggiunti",
         duplicates: "Duplicati ignorati",
         errors: "Errori",
+
         //load books
         textureError: "Impossibile caricare texture: ",
         shelfLog: "Creata mensola {name} ad altezza {y}",
@@ -64,7 +66,57 @@ export const translations = {
         categoryExisting: "Categoria già esistente",
         moveSuccess: "Spostamento completato!",
         selectBookError: "Seleziona almeno un libro.",
-        genericError: "Si è verificato un errore."  
+        genericError: "Si è verificato un errore." , 
+
+        //category manager
+        catManagerTitle: "⚙️ Gestione Libreria",
+        catManagerSubtitle: "Seleziona la mensola su cui vuoi operare:",
+        booksCount: "libri",
+        
+        // Menu Azioni
+        shelfOptions: "Opzioni Mensola",
+        systemShelfNote: "Questa è la mensola di sistema. Puoi usarla per smistare i libri in nuove categorie, ma non puoi rinominarla o eliminarla.",
+        renameShelfBtn: "✏️ Rinomina Categoria",
+        createNewCatBtn: "📦 Crea Nuova Categoria (Sposta libri da qui)",
+        addBooksToCatBtn: "📥 Aggiungi libri a questa categoria",
+        deleteShelfBtn: "🗑️ Elimina Categoria",
+        
+        // Vista Rinomina
+        renameTitle: "✏️ Rinomina Mensola",
+        chooseNewName: "Scegli un nuovo nome per",
+        emptyNameAlert: "Il nome della mensola non può essere vuoto!",
+        sameNameAlert: "Inserisci un nome diverso da quello attuale.",
+        saving: "Salvataggio...",
+        
+        // Vista Crea e Sposta
+        createMoveTitle: "📦 Crea e Sposta",
+        selectToMove: "Seleziona i libri da togliere da",
+        selectAll: "Tutti",
+        noBooksOnShelf: "Nessun libro su questa mensola.",
+        newCatNameLabel: "Nome per la nuova categoria:",
+        newCatPlaceholder: "Scrivi il nuovo nome...",
+        transferBtn: "Trasferisci",
+        selectMoveError: "Seleziona almeno un libro da spostare.",
+        writeCatNameError: "Scrivi il nome della nuova mensola.",
+        
+        // Vista Importa
+        importTitle: "📥 Aggiungi Libri",
+        selectToImport: "Seleziona i libri da portare su",
+        allBooksAlreadyHere: "Tutti i libri della libreria sono già qui.",
+        importSelectedBtn: "📥 Importa Selezionati Qui",
+        selectImportError: "Seleziona almeno un libro dalla lista.",
+        
+        // Vista Elimina
+        deleteTitle: "🗑️ Elimina Mensola",
+        deleteWarningTitle: "Attenzione!",
+        deleteWarningText: "Stai per eliminare la categoria \"{cat}\".\nNessun file verrà cancellato, ma tutti i libri torneranno in \"Senza Categoria\".",
+        confirmDeleteBtn: "Conferma Eliminazione",
+
+        selectToImport: "Seleziona i libri da portare su",
+        allBooksAlreadyHere: "Tutti i libri della libreria sono già qui.",
+        importSelectedBtn: "📥 Importa Selezionati Qui",
+
+        credits: "&copy; 2026 LoreKeeper - Tutti i diritti riservati. Creata da"
     },
     en: {
         // Top Bar
@@ -81,14 +133,17 @@ export const translations = {
         exportAI: "🤖 Export for AI",
         generatingMD: "⏳ Generating MD ...",
         exportToastMessage: "Generating Knowledge Base (.md) for Obsidian/IA ...",
+
         assignCategory: "🏷️ Assign Category",
         moveBookTitle: "Move",
         saveBtn: "Save",
         categoryPrompt: "Enter the new category name for this book:",
+
         deleteBook: "🗑️ Delete",
         deleteConfirm: "Are you sure you want to PERMANENTLY delete \"{title}\"?\nThis action will remove the file from your computer and cannot be undone.",
         serverError: "Error connecting to the server.",
         cancelBtn: "Cancel",
+
         readBook: "Read Book",
 
         // Dynamic labels and states
@@ -128,7 +183,56 @@ export const translations = {
         categoryExisting: "Category already exists",
         moveSuccess: "Move completed!",
         selectBookError: "Please select at least one book.",
-        genericError: "An error occurred."
+        genericError: "An error occurred.",
+
+        //category manager
+        catManagerTitle: "⚙️ Library Management",
+        catManagerSubtitle: "Select the shelf you want to manage:",
+        booksCount: "books",
+        
+        // Actions Menu
+        shelfOptions: "Shelf Options",
+        systemShelfNote: "This is the system shelf. You can use it to sort books into new categories, but you cannot rename or delete it.",
+        renameShelfBtn: "✏️ Rename Category",
+        createNewCatBtn: "📦 Create New Category (Move books from here)",
+        addBooksToCatBtn: "📥 Add books to this category",
+        deleteShelfBtn: "🗑️ Delete Category",
+        
+        // Rename View
+        renameTitle: "✏️ Rename Shelf",
+        chooseNewName: "Choose a new name for",
+        emptyNameAlert: "Shelf name cannot be empty!",
+        sameNameAlert: "Please enter a name different from the current one.",
+        saving: "Saving...",
+        
+        // Create and Move View
+        createMoveTitle: "📦 Create and Move",
+        selectToMove: "Select books to remove from",
+        selectAll: "All",
+        noBooksOnShelf: "No books on this shelf.",
+        newCatNameLabel: "New category name:",
+        newCatPlaceholder: "Type the new name...",
+        transferBtn: "Transfer",
+        selectMoveError: "Select at least one book to move.",
+        writeCatNameError: "Type the name of the new shelf.",
+        
+        // Import View
+        importTitle: "📥 Add Books",
+        selectToImport: "Select books to bring to",
+        allBooksAlreadyHere: "All books are already here.",
+        importSelectedBtn: "📥 Import Selected Here",
+        selectImportError: "Select at least one book from the list.",
+        
+        // Delete View
+        deleteTitle: "🗑️ Delete Shelf",
+        deleteWarningTitle: "Warning!",
+        deleteWarningText: "You are about to delete the category \"{cat}\".\nNo files will be deleted, but all books on this shelf will return to \"Uncategorized\".",
+        confirmDeleteBtn: "Confirm Deletion",
+        selectToImport: "Select books to bring to",
+        allBooksAlreadyHere: "All library books are already here.",
+        importSelectedBtn: "📥 Import Selected Here",
+        
+        credits: "&copy; 2026 LoreKeeper - All rights reserved. Created by"
     }
 };
 

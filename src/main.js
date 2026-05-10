@@ -267,7 +267,7 @@ uiContainer.appendChild(deleteBookBtn);
 // --- CREAZIONE CREDITI INFERIORI ---
 const creditsFooter = document.createElement('div');
 creditsFooter.id = 'credits-footer';
-creditsFooter.innerHTML = '&copy; 2026 LoreKeeper - Tutti i diritti riservati. Creata da <a href="https://github.com/GabrieleTrovato01" target="_blank">GabrieleTrovato01</a>';
+creditsFooter.innerHTML = `${t('credits')} <a href="https://github.com/GabrieleTrovato01" target="_blank">GabrieleTrovato01</a>`;
 document.body.appendChild(creditsFooter);
 
 exportAIBtn.onclick = () => {
@@ -551,7 +551,7 @@ function changeBook(direction) {
     if (newIndex >= 0 && newIndex < booksArray.length) {
         currentIndex = newIndex;
         isShowingBack = false;
-        infoBtn.innerText = 'Mostra Trama';
+        infoBtn.innerText = t('showSynopsis');
         updateCarousel();
     }
 }

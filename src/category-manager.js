@@ -1,3 +1,4 @@
+import { t } from './i18n.js';
 export function openCategoryManager(currentViewedCategory, booksArray) {
     // Variabile di stato: memorizza quale categoria stiamo gestendo in questo momento nel menu
     let selectedCategory = currentViewedCategory; 
@@ -96,8 +97,8 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
         const allCategories = getAllCategories();
         
         let html = `
-            <h2 style="margin-top: 0; margin-bottom: 10px; text-align: center; font-family: sans-serif;">⚙️ Gestione Libreria</h2>
-            <p style="text-align: center; color: #aaa; font-size: 14px; margin-bottom: 25px;">Seleziona la mensola su cui vuoi operare:</p>
+            <h2 style="margin-top: 0; margin-bottom: 10px; text-align: center; font-family: sans-serif;">${t('catManagerTitle')}</h2>
+            <p style="text-align: center; color: #aaa; font-size: 14px; margin-bottom: 25px;">${t('catManagerSubtitle')}</p>
             <div class="custom-scrollbar" style="max-height: 350px; overflow-y: auto; padding-right: 5px;">
         `;
 
@@ -110,7 +111,7 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
                         <span style="font-size: 18px;">${isDef ? '📥' : '📁'}</span>
                         <span>${cat.toUpperCase()}</span>
                     </div>
-                    <span style="background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 20px; font-size: 12px; color: #ddd;">${count} libri</span>
+                    <span style="background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 20px; font-size: 12px; color: #ddd;">${count} ${t('booksCount')}</span>
                 </button>
             `;
         });
@@ -131,22 +132,22 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
     function renderMainMenu() {
         const isDefault = selectedCategory === 'Senza Categoria';
         
-        let html = getHeader('Opzioni Mensola');
+        let html = getHeader(t('shelfOptions'));
         html += `<h4 style="margin-top: -10px; margin-bottom: 25px; color: #4da6ff; text-align: center; font-size: 18px; letter-spacing: 1px;">${selectedCategory.toUpperCase()}</h4>`;
 
         if (isDefault) {
-            html += `<div style="text-align: center; color: #aaa; font-size: 13px; margin-bottom: 20px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">Questa è la mensola di sistema. Puoi usarla per smistare i libri in nuove categorie, ma non puoi rinominarla o eliminarla.</div>`;
+            html += `<div style="text-align: center; color: #aaa; font-size: 13px; margin-bottom: 20px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">${t('systemShelfNote')}</div>`;
         } else {
-            html += `<button id="nav-rename" class="modern-btn glass-effect menu-btn" style="background: rgba(0, 150, 255, 0.2); border: 1px solid rgba(0, 150, 255, 0.4);">✏️ Rinomina Categoria</button>`;
+            html += `<button id="nav-rename" class="modern-btn glass-effect menu-btn" style="background: rgba(0, 150, 255, 0.2); border: 1px solid rgba(0, 150, 255, 0.4);">${t('renameShelfBtn')}</button>`;
         }
 
         html += `
-            <button id="nav-create" class="modern-btn glass-effect menu-btn" style="background: rgba(255, 165, 0, 0.2); border: 1px solid rgba(255, 165, 0, 0.4);">📦 Crea Nuova Categoria (Sposta libri da qui)</button>
-            <button id="nav-import" class="modern-btn glass-effect menu-btn" style="background: rgba(40, 167, 69, 0.2); border: 1px solid rgba(40, 167, 69, 0.4);">📥 Aggiungi libri a questa categoria</button>
+            <button id="nav-create" class="modern-btn glass-effect menu-btn" style="background: rgba(255, 165, 0, 0.2); border: 1px solid rgba(255, 165, 0, 0.4);">${t('createNewCatBtn')}</button>
+            <button id="nav-import" class="modern-btn glass-effect menu-btn" style="background: rgba(40, 167, 69, 0.2); border: 1px solid rgba(40, 167, 69, 0.4);">${t('addBooksToCatBtn')}</button>
         `;
 
         if (!isDefault) {
-            html += `<button id="nav-delete" class="modern-btn glass-effect menu-btn" style="background: rgba(200, 50, 50, 0.2); border: 1px solid rgba(200, 50, 50, 0.4); color: #ff8888;">🗑️ Elimina Categoria</button>`;
+            html += `<button id="nav-delete" class="modern-btn glass-effect menu-btn" style="background: rgba(200, 50, 50, 0.2); border: 1px solid rgba(200, 50, 50, 0.4); color: #ff8888;">${t('deleteShelfBtn')}</button>`;
         }
 
         contentArea.innerHTML = html;
@@ -163,11 +164,11 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
     // VISTA 2: RINOMINA
     function renderRename() {
         contentArea.innerHTML = `
-            ${getHeader('✏️ Rinomina Mensola')}
-            <label style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #ccc;">Scegli un nuovo nome per <span style="color:white">${selectedCategory}</span>:</label>
+            ${getHeader(t('renameTitle'))}
+            <label style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #ccc;">${t('chooseNewName')} <span style="color:white">${selectedCategory}</span>:</label>
             <div style="display: flex; gap: 10px; margin-top: 15px;">
                 <input type="text" id="rename-input" class="modern-input" value="${selectedCategory}" style="flex-grow: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); color: white;">
-                <button id="action-rename" class="modern-btn glass-effect" style="padding: 10px 20px; background: rgba(0, 150, 255, 0.4); border: 1px solid rgba(0, 150, 255, 0.6);">Salva</button>
+                <button id="action-rename" class="modern-btn glass-effect" style="padding: 10px 20px; background: rgba(0, 150, 255, 0.4); border: 1px solid rgba(0, 150, 255, 0.6);">${t('saveBtn')}</button>
             </div>
         `;
         document.getElementById('back-btn').onclick = renderMainMenu;
@@ -177,18 +178,18 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
             
             // 1. Controllo se il campo è vuoto
             if (!newName) {
-                alert("Il nome della mensola non può essere vuoto!");
+                alert(t('emptyNameAlert'));
                 return;
             }
             // 2. Controllo se il nome è rimasto uguale
             if (newName === selectedCategory) {
-                alert("Inserisci un nome diverso da quello attuale per poter rinominare la mensola.");
+                alert(t('sameNameAlert'));
                 return;
             }
 
             // 3. Feedback visivo: l'utente capisce che il sistema sta caricando
             const btn = document.getElementById('action-rename');
-            btn.innerText = 'Salvataggio...';
+            btn.innerText = t('savingBtn');
             btn.disabled = true;
 
             try {
@@ -211,14 +212,14 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
                 } else {
                     // Il server ha risposto ma con un problema logico (es. nessun libro trovato)
                     alert("Ops: " + result.message);
-                    btn.innerText = 'Salva';
+                    btn.innerText = t('saveBtn');
                     btn.disabled = false;
                 }
             } catch (e) { 
                 console.error(e); 
                 // Questo era silenzioso prima, ora lo vedremo a schermo!
-                alert("Errore critico di comunicazione con il server. Controlla il terminale di Node.js!\nDettaglio: " + e.message);
-                btn.innerText = 'Salva';
+                alert(t('serverError'));
+                btn.innerText = t('saveBtn');
                 btn.disabled = false;
             }
         };
@@ -230,18 +231,18 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
         const otherCategories = getAllCategories().filter(c => c !== selectedCategory && c !== 'Senza Categoria');
         
         contentArea.innerHTML = `
-            ${getHeader('📦 Crea e Sposta')}
+            ${getHeader(t('createMoveTitle'))}
             
             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
-                <label style="font-size: 14px; color: #ccc;">Seleziona i libri da togliere da <span style="color:white">${selectedCategory}</span>:</label>
+                <label style="font-size: 14px; color: #ccc;">${t('selectToMove')} <span style="color:white">${selectedCategory}</span>:</label>
                 ${activeBooks.length > 0 ? `
                 <label style="font-size: 12px; color: #ffaa00; cursor: pointer; display: flex; align-items: center; gap: 5px; background: rgba(255,170,0,0.1); padding: 4px 8px; border-radius: 6px;">
-                    <input type="checkbox" id="select-all-export" style="accent-color: #ffaa00; cursor: pointer; width: 14px; height: 14px;"> Tutti
+                    <input type="checkbox" id="select-all-export" style="accent-color: #ffaa00; cursor: pointer; width: 14px; height: 14px;"> ${t('selectAll')}
                 </label>` : ''}
             </div>
 
             <div class="custom-scrollbar" style="max-height: 200px; overflow-y: auto; background: rgba(0,0,0,0.5); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px;">
-                ${activeBooks.length === 0 ? '<div style="padding: 15px; text-align: center; color: #888; font-size: 13px;">Nessun libro su questa mensola.</div>' : ''}
+                ${activeBooks.length === 0 ? '<div style="padding: 15px; text-align: center; color: #888; font-size: 13px;">' + t('noBooksOnShelf') + '</div>' : ''}
                 ${activeBooks.map(b => `
                     <label style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
                         <input type="checkbox" class="export-checkbox" value="${b.userData.id}" style="width: 16px; height: 16px; accent-color: #ffaa00; cursor: pointer;">
@@ -250,11 +251,11 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
                 `).join('')}
             </div>
             
-            <label style="display: block; margin-bottom: 8px; font-size: 14px; color: #ccc;">Nome per la nuova categoria:</label>
+            <label style="display: block; margin-bottom: 8px; font-size: 14px; color: #ccc;">${t('newCatNameLabel')}</label>
             <div style="display: flex; gap: 10px;">
-                <input type="text" id="new-cat-input" list="cat-suggestions" placeholder="Scrivi il nuovo nome..." class="modern-input" style="flex-grow: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                <input type="text" id="new-cat-input" list="cat-suggestions" placeholder="${t('newCatPlaceholder')}" class="modern-input" style="flex-grow: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); color: white;">
                 <datalist id="cat-suggestions">${otherCategories.map(c => `<option value="${c}">`).join('')}</datalist>
-                <button id="action-create" class="modern-btn glass-effect" style="padding: 10px 20px; background: rgba(255, 165, 0, 0.4); border: 1px solid rgba(255, 165, 0, 0.6);">Trasferisci</button>
+                <button id="action-create" class="modern-btn glass-effect" style="padding: 10px 20px; background: rgba(255, 165, 0, 0.4); border: 1px solid rgba(255, 165, 0, 0.6);">${t('transferBtn')}</button>
             </div>
         `;
         document.getElementById('back-btn').onclick = renderMainMenu;
@@ -269,8 +270,8 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
         document.getElementById('action-create').onclick = async () => {
             const selectedIds = Array.from(document.querySelectorAll('.export-checkbox:checked')).map(cb => cb.value);
             const newCatName = document.getElementById('new-cat-input').value.trim();
-            if (selectedIds.length === 0) { alert('Seleziona almeno un libro da spostare.'); return; }
-            if (!newCatName) { alert('Scrivi il nome della nuova mensola.'); return; }
+            if (selectedIds.length === 0) { alert(t('selectMoveError')); return; }
+            if (!newCatName) { alert(t('writeCatNameError')); return; }
             try {
                 const res = await fetch('/api/books/bulk-tags', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookIds: selectedIds, newTag: newCatName }) });
                 const result = await res.json();
@@ -284,18 +285,18 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
         const otherBooks = getOtherBooks();
         
         contentArea.innerHTML = `
-            ${getHeader('📥 Aggiungi Libri')}
+            ${getHeader(t('importTitle'))}
             
             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
-                <label style="font-size: 14px; color: #ccc;">Seleziona i libri da portare su <span style="color:white">${selectedCategory}</span>:</label>
+                <label style="font-size: 14px; color: #ccc;">${t('selectToImport')} <span style="color:white">${selectedCategory}</span>:</label>
                 ${otherBooks.length > 0 ? `
                 <label style="font-size: 12px; color: #4da6ff; cursor: pointer; display: flex; align-items: center; gap: 5px; background: rgba(77,166,255,0.1); padding: 4px 8px; border-radius: 6px;">
-                    <input type="checkbox" id="select-all-import" style="accent-color: #4da6ff; cursor: pointer; width: 14px; height: 14px;"> Tutti
+                    <input type="checkbox" id="select-all-import" style="accent-color: #4da6ff; cursor: pointer; width: 14px; height: 14px;"> ${t('selectAll')}
                 </label>` : ''}
             </div>
 
             <div class="custom-scrollbar" style="max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.5); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px;">
-                ${otherBooks.length === 0 ? '<div style="padding: 15px; text-align: center; color: #888; font-size: 13px;">Tutti i libri della libreria sono già qui.</div>' : ''}
+                ${otherBooks.length === 0 ? '<div style="padding: 15px; text-align: center; color: #888; font-size: 13px;">' + t('allBooksAlreadyHere') + '</div>' : ''}
                 ${otherBooks.map(b => `
                     <label style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
                         <input type="checkbox" class="import-checkbox" value="${b.userData.id}" style="width: 16px; height: 16px; accent-color: #4da6ff; cursor: pointer;">
@@ -306,7 +307,7 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
                     </label>
                 `).join('')}
             </div>
-            <button id="action-import" class="modern-btn glass-effect" style="width: 100%; background: rgba(40, 167, 69, 0.4); border: 1px solid rgba(40, 167, 69, 0.6);">📥 Importa Selezionati Qui</button>
+            <button id="action-import" class="modern-btn glass-effect" style="width: 100%; background: rgba(40, 167, 69, 0.4); border: 1px solid rgba(40, 167, 69, 0.6);">${t('importSelectedBtn')}</button>
         `;
         document.getElementById('back-btn').onclick = renderMainMenu;
 
@@ -319,7 +320,7 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
 
         document.getElementById('action-import').onclick = async () => {
             const selectedIds = Array.from(document.querySelectorAll('.import-checkbox:checked')).map(cb => cb.value);
-            if (selectedIds.length === 0) { alert('Seleziona almeno un libro dalla lista.'); return; }
+            if (selectedIds.length === 0) { alert(t('selectImportError')); return; }
             try {
                 const res = await fetch('/api/books/bulk-tags', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookIds: selectedIds, newTag: selectedCategory }) });
                 const result = await res.json();
@@ -331,12 +332,12 @@ export function openCategoryManager(currentViewedCategory, booksArray) {
     // VISTA 5: ELIMINA MENSOLA
     function renderDelete() {
         contentArea.innerHTML = `
-            ${getHeader('🗑️ Elimina Mensola')}
+            ${getHeader(t('deleteTitle'))}
             <div style="background: rgba(200, 50, 50, 0.2); border: 1px solid rgba(200, 50, 50, 0.4); padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px;">
-                <h3 style="color: #ff8888; margin-top: 0;">Attenzione!</h3>
-                <p style="font-size: 14px; line-height: 1.5; margin-bottom: 0;">Stai per eliminare la categoria <b>"${selectedCategory}"</b>.<br><br>Nessun file verrà cancellato, ma tutti i libri presenti su questa mensola torneranno nella sezione <i>"Senza Categoria"</i>.</p>
+                <h3 style="color: #ff8888; margin-top: 0;">${t('deleteWarningTitle')}</h3>
+                <p style="font-size: 14px; line-height: 1.5; margin-bottom: 0;">${t('deleteWarningText').replace('{cat}', selectedCategory)}</p>
             </div>
-            <button id="action-delete" class="modern-btn glass-effect" style="width: 100%; background: rgba(200, 50, 50, 0.5); color: white; border: 1px solid rgba(200, 50, 50, 0.8);">Conferma Eliminazione</button>
+            <button id="action-delete" class="modern-btn glass-effect" style="width: 100%; background: rgba(200, 50, 50, 0.5); color: white; border: 1px solid rgba(200, 50, 50, 0.8);">${t('confirmDeleteBtn')}</button>
         `;
         document.getElementById('back-btn').onclick = renderMainMenu;
         document.getElementById('action-delete').onclick = async () => {
