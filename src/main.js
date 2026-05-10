@@ -1,6 +1,7 @@
 import { thickness } from 'three/src/nodes/core/PropertyNode.js';
 import { openCategoryManager } from './category-manager.js';
 import { LibraryLoader } from './loader-optimizer.js';
+import { t, currentLang, setLanguage } from './i18n.js';
 import './style.css';
 import * as THREE from 'three';
 
@@ -148,6 +149,7 @@ styleStyle.innerHTML = `
 `;
 document.head.appendChild(styleStyle);
 
+
 // --- COSTRUZIONE MENU SUPERIORE ---
 const topBar = document.createElement('div');
 topBar.className = 'top-bar';
@@ -167,10 +169,11 @@ categoryLabel.style.whiteSpace = 'nowrap';
 categoryLabel.style.display = 'none';
 topBar.appendChild(categoryLabel);
 
+
 // 2. Bottone per Gestire la Mensola intera
 const manageCatBtn = document.createElement('button');
-manageCatBtn.innerHTML = '⚙️ Gestisci';
-manageCatBtn.title = 'Rinomina o elimina questa categoria';
+manageCatBtn.innerHTML = t('manageShelf');
+manageCatBtn.title = t('manageShelfTooltip');
 manageCatBtn.className = 'glass-effect modern-btn';
 manageCatBtn.style.padding = '12px 15px';
 manageCatBtn.style.display = 'none';
@@ -178,12 +181,12 @@ topBar.appendChild(manageCatBtn);
 
 const searchInput = document.createElement('input');
 searchInput.type = 'text';
-searchInput.placeholder = 'Cerca per titolo o autore...';
+searchInput.placeholder = t('searchPlaceholder');
 searchInput.className = 'glass-effect modern-input';
 topBar.appendChild(searchInput);
 
 const uploadLabel = document.createElement('label');
-uploadLabel.innerText = '+ Carica Ebook';
+uploadLabel.innerText = t('uploadBtn');
 uploadLabel.className = 'glass-effect modern-btn';
 uploadLabel.htmlFor = 'file-upload';
 uploadLabel.style.whiteSpace = 'nowrap';
@@ -195,6 +198,21 @@ fileInput.id = 'file-upload';
 fileInput.accept = '.epub';
 fileInput.multiple = true;
 topBar.appendChild(fileInput);
+
+// --- PULSANTE CAMBIO LINGUA ---
+const langBtn = document.createElement('button');
+// Mostra la lingua opposta a quella corrente
+langBtn.innerText = currentLang === 'it' ? '🇬🇧 EN' : '🇮🇹 IT';
+langBtn.className = 'glass-effect modern-btn';
+langBtn.style.padding = '12px 15px';
+langBtn.style.fontWeight = 'bold';
+langBtn.title = currentLang === 'it' ? 'Switch to English' : 'Passa all\'Italiano';
+
+langBtn.onclick = () => {
+    const newLang = currentLang === 'it' ? 'en' : 'it';
+    setLanguage(newLang);
+};
+topBar.appendChild(langBtn);
 
 
 // --- COSTRUZIONE MENU INFERIORE ---
@@ -209,24 +227,24 @@ uiContainer.style.alignItems = 'center';
 document.body.appendChild(uiContainer);
 
 const infoBtn = document.createElement('button');
-infoBtn.innerText = 'Mostra Trama';
+infoBtn.innerText = t('showSynopsis');
 infoBtn.className = 'glass-effect modern-btn';
 uiContainer.appendChild(infoBtn);
 
 const exportAIBtn = document.createElement('button');
-exportAIBtn.innerHTML = '🤖 Esporta per IA';
+exportAIBtn.innerHTML = t('exportAI');
 exportAIBtn.className = 'glass-effect modern-btn';
 // Diamo un tocco di colore distintivo per la feature IA (es. un viola/indaco)
 uiContainer.appendChild(exportAIBtn);
 
 // 3. Bottone per Assegnare la Categoria al Libro
 const assignCatBtn = document.createElement('button');
-assignCatBtn.innerHTML = '🏷️ Assegna Categoria';
+assignCatBtn.innerHTML = t('assignCategory');
 assignCatBtn.className = 'glass-effect modern-btn';
 uiContainer.appendChild(assignCatBtn);
 
 const deleteBookBtn = document.createElement('button');
-deleteBookBtn.innerHTML = '🗑️ Elimina';
+deleteBookBtn.innerHTML = t('deleteBook');
 deleteBookBtn.className = 'glass-effect modern-btn';
 // Diamo un colore rossastro coerente col design glassmorphism
 deleteBookBtn.style.background = 'rgba(255, 50, 50, 0.15)';
@@ -258,12 +276,12 @@ exportAIBtn.onclick = () => {
     
     // Feedback visivo: usiamo lo spinner e specifichiamo il formato MD
     const originalText = exportAIBtn.innerHTML;
-    exportAIBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERAZIONE MD...';
+    exportAIBtn.innerHTML = t('generatingMD');
     exportAIBtn.disabled = true;
 
     
     if (typeof showToast === "function") {
-        showToast('Generazione Knowledge Base (.md) per Obsidian/IA...', 'info');
+        showToast(t('exportToastMessage'), 'info');
     }
 
     // Chiama la rotta di esportazione
@@ -281,9 +299,9 @@ assignCatBtn.onclick = () => {
     if (booksArray.length === 0) return;
     const activeBook = booksArray[currentIndex];
     
-    // 1. Estraiamo tutte le categorie UNICHE attualmente esistenti (escludendo "Senza Categoria")
+    // 1. Estraiamo tutte le categorie UNICHE attualmente esistenti
     const existingCategories = [...new Set(booksArray.map(b => b.userData.category))]
-                                .filter(cat => cat !== 'Senza Categoria');
+                                .filter(cat => cat !== t('uncategorized')); 
 
     // 2. Creiamo l'Overlay (Sfondo scuro)
     const overlay = document.createElement('div');
@@ -311,7 +329,7 @@ assignCatBtn.onclick = () => {
 
     // Titolo
     const title = document.createElement('h3');
-    title.innerText = `Sposta "${activeBook.userData.title}"`;
+    title.innerText = `${t('moveBookTitle')} "${activeBook.userData.title}"`;
     title.style.margin = '0 0 15px 0';
     modal.appendChild(title);
 
@@ -323,12 +341,12 @@ assignCatBtn.onclick = () => {
     
     const catInput = document.createElement('input');
     catInput.type = 'text';
-    catInput.placeholder = 'Scrivi una nuova categoria...';
+    catInput.placeholder = t('categoryPrompt');
     catInput.className = 'glass-effect modern-input';
     catInput.style.flexGrow = '1';
     
     const saveBtn = document.createElement('button');
-    saveBtn.innerText = 'Salva';
+    saveBtn.innerText = t('saveBtn');
     saveBtn.className = 'glass-effect modern-btn';
     saveBtn.style.padding = '10px 20px';
     
@@ -339,7 +357,7 @@ assignCatBtn.onclick = () => {
     // Sezione delle categorie ESISTENTI (I bottoncini veloci)
     if (existingCategories.length > 0) {
         const subtitle = document.createElement('div');
-        subtitle.innerText = 'Oppure scegli una mensola esistente:';
+        subtitle.innerText = t('existingCategoriesSubtitle');
         subtitle.style.fontSize = '12px';
         subtitle.style.opacity = '0.7';
         subtitle.style.marginBottom = '10px';
@@ -374,7 +392,7 @@ assignCatBtn.onclick = () => {
 
     // Bottone Annulla
     const cancelBtn = document.createElement('button');
-    cancelBtn.innerText = 'Annulla';
+    cancelBtn.innerText = t('cancelBtn');
     cancelBtn.className = 'glass-effect modern-btn'; 
     cancelBtn.style.marginTop = '20px';
     cancelBtn.style.padding = '8px 20px';
@@ -443,8 +461,10 @@ deleteBookBtn.onclick = async () => {
     if (booksArray.length === 0) return;
     const activeBook = booksArray[currentIndex];
     
+    const confirmMessage = t('deleteConfirm')
+        .replace('{title}', activeBook.userData.title);
     // Popup di sistema per evitare click accidentali
-    const isConfirmed = confirm(`Sei sicuro di voler eliminare DEFINITIVAMENTE "${activeBook.userData.title}"?\nL'azione cancellerà il file dal tuo computer e non può essere annullata.`);
+    const isConfirmed = confirm(confirmMessage);
     
     if (isConfirmed) {
         deleteBookBtn.innerHTML = '⏳...';
@@ -461,13 +481,13 @@ deleteBookBtn.onclick = async () => {
                 location.reload(); 
             } else {
                 alert(result.message);
-                deleteBookBtn.innerHTML = '🗑️ Elimina';
+                deleteBookBtn.innerHTML = t('deleteBook');
                 deleteBookBtn.disabled = false;
             }
         } catch (e) {
             console.error(e);
-            alert("Errore di connessione al server.");
-            deleteBookBtn.innerHTML = '🗑️ Elimina';
+            alert(t('serverError'));
+            deleteBookBtn.innerHTML = t('deleteBook');
             deleteBookBtn.disabled = false;
         }
     }
@@ -568,7 +588,7 @@ function changeShelf(direction) {
     if (targetIndex !== -1) {
         currentIndex = targetIndex;
         isShowingBack = false;
-        infoBtn.innerText = 'Mostra Trama';
+        infoBtn.innerText = t('showSynopsis');
         updateCarousel();
     }
 }
@@ -580,7 +600,7 @@ rightArrow.onclick = () => changeBook(1);
 // --- EVENTI UI ---
 infoBtn.onclick = () => {
     isShowingBack = !isShowingBack;
-    infoBtn.innerText = isShowingBack ? 'Mostra Copertina' : 'Mostra Trama';
+    infoBtn.innerText = isShowingBack ? t('showCover') : t('showSynopsis');
     updateCarousel();
 };
 
@@ -607,7 +627,7 @@ searchInput.addEventListener('input', (e) => {
     if (foundIndex !== -1 && foundIndex !== currentIndex) {
         currentIndex = foundIndex;
         isShowingBack = false;
-        infoBtn.innerText = 'Mostra Trama';
+        infoBtn.innerText = t('showSynopsis');
         updateCarousel();
     }
 });
@@ -629,7 +649,7 @@ fileInput.addEventListener('change', async (event) => {
         const file = files[i];
         
         // Aggiorniamo il testo del bottone per mostrare il progresso
-        uploadLabel.innerText = `⏳ Carico ${i + 1}/${files.length}...`;
+        uploadLabel.innerText = `${t('uploadingStatus')} ${i + 1}/${files.length}...`;
         console.log(`Caricamento ${i + 1} di ${files.length}: ${file.name}...`);
         
         const formData = new FormData();
@@ -658,15 +678,15 @@ fileInput.addEventListener('change', async (event) => {
     }
 
     // Finito il ciclo, diamo il resoconto!
-    let finalMessage = `Upload completato!\n✅ Aggiunti: ${successCount}`;
-    if (duplicateCount > 0) finalMessage += `\n🛑 Duplicati ignorati: ${duplicateCount}`;
-    if (errorCount > 0) finalMessage += `\n❌ Errori: ${errorCount}`;
+    let finalMessage = `${t('uploadComplete')}\n✅ ${t('added')}: ${successCount}`;
+    if (duplicateCount > 0) finalMessage += `\n🛑 ${t('duplicates')}: ${duplicateCount}`;
+    if (errorCount > 0) finalMessage += `\n❌ ${t('errors')}: ${errorCount}`;
     
     alert(finalMessage);
 
     // Puliamo e ripristiniamo l'interfaccia
     fileInput.value = '';
-    uploadLabel.innerText = '+ Carica Ebook';
+    uploadLabel.innerText = t('uploadBtn');
     searchInput.disabled = false;
 
     // Ricarichiamo la pagina per posizionare i nuovi libri sullo scaffale 3D!
@@ -799,7 +819,7 @@ function createFrontPlaceholderTexture(title, author) {
     // --- Etichetta di servizio ---
     ctx.font = '16px Arial, sans-serif';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-    ctx.fillText('[ Nessuna copertina trovata ]', canvas.width / 2, canvas.height - 80);
+    ctx.fillText(t('noCover'), canvas.width / 2, canvas.height - 80);
 
     return new THREE.CanvasTexture(canvas);
 }
@@ -813,7 +833,7 @@ async function loadBooks() {
         // 1. Raggruppiamo i libri per Categoria
         const categoriesMap = new Map();
         booksData.forEach(book => {
-            const cat = (book.tags && book.tags.length > 0) ? book.tags[0] : 'Senza Categoria';
+            const cat = (book.tags && book.tags.length > 0) ? book.tags[0] : t('uncategorized');
             if (!categoriesMap.has(cat)) categoriesMap.set(cat, []);
             categoriesMap.get(cat).push(book);
         });
@@ -822,8 +842,8 @@ async function loadBooks() {
         // Vogliamo che "Senza Categoria" sia creata per PRIMA, così otterrà la coordinata Y più bassa (shelfIndex 0).
         // Le altre categorie verranno impilate sopra in ordine alfabetico.
         const sortedCategories = Array.from(categoriesMap.keys()).sort((a, b) => {
-            if (a === 'Senza Categoria') return -1; // Sposta "Senza Categoria" all'INIZIO della lista
-            if (b === 'Senza Categoria') return 1;
+            if (a === t('uncategorized')) return -1; // Sposta "Senza Categoria" all'INIZIO della lista
+            if (b === t('uncategorized')) return 1;
             return a.localeCompare(b); // Ordina le altre alfabeticamente
         });
 
@@ -856,7 +876,7 @@ async function loadBooks() {
                     }, 
                     undefined, 
                     () => {
-                        console.warn(`Impossibile caricare texture: ${url}`);
+                        console.warn(`${t('textureError')} ${url}`);
                         resolve(null);
                     }
                 );
@@ -868,7 +888,7 @@ async function loadBooks() {
             const booksInShelf = categoriesMap.get(categoryName);
             
             // Salviamo l'indice del primo libro della mensola di partenza (Senza Categoria)
-            if (categoryName === 'Senza Categoria' && booksInShelf.length > 0) {
+            if (categoryName === t('uncategorized') && booksInShelf.length > 0) {
                 startingIndexForCarousel = globalBookIndex;
             }
 
@@ -880,7 +900,7 @@ async function loadBooks() {
             shelfMesh.receiveShadow = true;
             scene.add(shelfMesh);
 
-            console.log(`Creata mensola "${categoryName}" ad altezza ${shelfY}`);
+            console.log(`${t('shelfLog')}`, { name: categoryName, y: shelfY });
 
             const currentShelfMeshes = [];
 
@@ -995,7 +1015,7 @@ async function loadBooks() {
         (async () => {
             if (activeShelf) {
                 await loadActiveShelfFast(activeShelf);
-                console.log(`✅ Texture mensola attiva (${activeCategory}) caricate.`);
+                console.log(`${t('texturesSuccess')}`, { cat: activeCategory });
             }
             
             // "otherShelves" è già ordinato dal basso verso l'alto (grazie a sortedCategories)
@@ -1003,7 +1023,7 @@ async function loadBooks() {
             for (const shelf of otherShelves) {
                 await loadShelfCoversOneByOne(shelf);
             }
-            console.log(`🎉 Tutte le texture sono state caricate in background senza lag!`);
+            console.log(`${t('allTexturesLoaded')}d`);
         })();
 
     } catch (e) { console.error(e); }
@@ -1014,6 +1034,14 @@ function updateCarousel() {
     
     const activeBook = booksArray[currentIndex];
     const activeCategory = activeBook.userData.category;
+
+    const isUncategorized = (activeCategory === 'Senza Categoria');
+
+    const displayCategory = isUncategorized 
+        ? t('uncategorized') 
+        : activeCategory.toUpperCase();
+
+    categoryLabel.innerText = `${t('shelfTitlePrefix')}${displayCategory}`;
 
     categoryLabel.style.display = 'block'; 
     manageCatBtn.style.display = 'block'; // Mostriamo anche il bottoncino
