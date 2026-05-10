@@ -117,6 +117,9 @@ export const translations = {
         importSelectedBtn: "📥 Importa Selezionati Qui",
 
         credits: "&copy; 2026 LoreKeeper - Tutti i diritti riservati. Creata da"
+
+        // help guide
+        
     },
     en: {
         // Top Bar
@@ -231,8 +234,12 @@ export const translations = {
         selectToImport: "Select books to bring to",
         allBooksAlreadyHere: "All library books are already here.",
         importSelectedBtn: "📥 Import Selected Here",
-        
-        credits: "&copy; 2026 LoreKeeper - All rights reserved. Created by"
+
+        credits: "&copy; 2026 LoreKeeper - All rights reserved. Created by",
+
+        //help guide 
+
+
     }
 };
 
