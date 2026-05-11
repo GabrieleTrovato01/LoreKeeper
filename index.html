@@ -7,12 +7,33 @@
     <link rel="icon" type="image/png" href="/logo.png" />
   </head>
   <body>
+    
     <script src="reader.js"></script>
     <script type="module" src="/src/main.js"></script>
-    <!-- Librerie per leggere gli EPUB -->
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
-    <!-- 1. INTERFACCIA DEL LETTORE (Solo lettura, schermo intero) -->
+    
+    <div id="loading-screen" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #1e2d3b; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease;">
+        <div class="loader"></div>
+        <h2 style="color: white; font-family: sans-serif; margin-top: 20px; letter-spacing: 2px;">LOREKEEPER</h2>
+        <p id="loading-text" style="color: rgba(255,255,255,0.5); font-family: sans-serif; font-size: 14px;">Inizializzazione libreria...</p>
+    </div>
+
+    <style>
+        /* Una semplice animazione a cerchio che ruota */
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left-color: #4da6ff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
     <div id="reader-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #faf9f6; z-index: 999; opacity: 0; transition: opacity 0.8s ease;">
         <div style="position: absolute; top: 10px; right: 20px; z-index: 1000; display: flex; gap: 10px;">
             <button id="theme-toggle-btn" class="glass-effect modern-btn" style="background: rgba(50,50,50,0.8); color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer;">🌙 Dark Mode</button>  
@@ -23,43 +44,10 @@
         
         <button id="prev-page-btn" style="position: absolute; top: 50%; left: 10px; font-size: 24px; background: rgba(100,100,100,0.4); border-radius: 50%; color: white; border: none; cursor: pointer; z-index: 10; width: 45px; height: 45px; transform: translateY(-50%);">&#10094;</button>
         <button id="next-page-btn" style="position: absolute; top: 50%; right: 10px; font-size: 24px; background: rgba(100,100,100,0.4); border-radius: 50%; color: white; border: none; cursor: pointer; z-index: 10; width: 45px; height: 45px; transform: translateY(-50%);">&#10095;</button>
-
     </div>
 
     <button id="help-btn" class="glass-effect modern-btn" style="position: fixed; bottom: 30px; right: 30px; border-radius: 50%; width: 55px; height: 55px; font-size: 26px; padding: 0; z-index: 100; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.4);">
         ?
     </button>
-
-    <!-- MODALE HELP (Nascosto di default) -->
-    <div id="help-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); z-index: 1001; opacity: 0; transition: opacity 0.3s ease; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
-        <div class="glass-effect" style="background: rgba(30, 30, 30, 0.85); padding: 35px; border-radius: 20px; max-width: 450px; width: 90%; color: white; border: 1px solid rgba(255,255,255,0.2);">
-            <h2 style="margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 15px; text-align: center; font-family: sans-serif;">📖 Come funziona</h2>
-            
-            <ul style="line-height: 1.8; padding-left: 20px; font-family: sans-serif; font-size: 14.5px;">
-                <!-- UPLOAD -->
-                <li><b>Carica un libro:</b> Clicca sul pulsante di caricamento (o trascina un file) per aggiungere i tuoi <b>.epub</b> personali allo scaffale.</li>
-                
-                <!-- RICERCA -->
-                <li><b>Cerca:</b> Usa la barra in alto per trovare rapidamente un libro scrivendo il titolo, l'autore o la categoria.</li>
-                
-                <!-- NAVIGAZIONE 3D -->
-                <li><b>Scorri i libri (Orizzontale):</b> Usa lo swipe a destra/sinistra, la rotellina del mouse o le frecce (← e →) per scorrere i libri sulla stessa mensola.</li>
-                <li><b>Cambia Mensola (Verticale):</b> Usa lo swipe in alto/basso, o le frecce (↑ e ↓) per "volare" alle categorie superiori o inferiori.</li>
-                
-                <!-- GESTIONE CATEGORIE -->
-                <li><b>Organizza e Gestisci:</b> Usa "🏷️ Assegna Categoria" in basso per spostare un singolo libro, oppure "⚙️ Gestisci" in alto per rinominare o eliminare l'intera mensola.</li>
-                
-                <!-- LETTURA -->
-                <li><b>Leggi:</b> Clicca sul libro al centro per aprirlo e tuffarti nella lettura.</li>
-                <li><b>Gira Pagina:</b> Durante la lettura, usa le frecce della tastiera (← e →) o i pulsanti a schermo.</li>
-                <li><b>Esplora:</b> Usa "Mostra Trama" per voltare il libro 3D e leggere il retro.</li>
-                <li><b>Dark Mode:</b> Clicca l'icona della luna nel lettore per non affaticare la vista.</li>
-                
-                <li><b style="color: #ba55d3;">🤖 Knowledge Base (Markdown)</b> Esporta per IA per estrarre una Knowledge Base formattata in <strong>Markdown (.md)</strong>. È pronta per essere archiviata nel tuo vault <strong>Obsidian / Notion</strong> o analizzata su ChatGPT e Claude!</li>
-            </ul>
-            
-            <button id="close-help-btn" class="modern-btn glass-effect" style="width: 100%; margin-top: 25px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);">Ho capito</button>
-        </div>
-    </div>
   </body>
 </html>

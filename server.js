@@ -330,8 +330,10 @@ app.post('/api/upload', upload.single('ebook'), async (req, res) => {
         if (!fsSync.existsSync(ebooksDir)) fsSync.mkdirSync(ebooksDir, { recursive: true });
         
         const finalEpubPath = `ebooks/${baseName}.epub`;
-        await fs.rename(file.path, path.join(publicDir, finalEpubPath));
-
+        // SOLUZIONE EXDEV: Copiamo il file e poi cancelliamo l'originale
+        await fs.copyFile(file.path, path.join(publicDir, finalEpubPath));
+        await fs.unlink(file.path);
+        
         const newBook = {
             id: baseName,
             title: finalTitle,

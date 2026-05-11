@@ -1,9 +1,50 @@
 import { thickness } from 'three/src/nodes/core/PropertyNode.js';
 import { openCategoryManager } from './category-manager.js';
 import { LibraryLoader } from './loader-optimizer.js';
-import { t, currentLang, setLanguage } from './i18n.js';
+import { t, initI18n, setLanguage } from './i18n.js';
+import {openHelpModal} from './help-modal.js';
 import './style.css';
 import * as THREE from 'three';
+
+// --- TRADUZIONE ELEMENTI STATICI (Lettore e Titolo) ---
+// --- TRADUZIONE ELEMENTI STATICI E UI DINAMICA ---
+function translateStaticHTML() {
+    // 1. Traduzione Lettore (Reader) e pagina
+    const closeReaderBtn = document.getElementById('close-reader-btn');
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const lang = localStorage.getItem('lorekeeper_lang') || 'it';
+
+    if (closeReaderBtn) closeReaderBtn.innerHTML = `&times; ${t('closeReader')}`;
+    
+    if (themeBtn) {
+        const isDark = localStorage.getItem('readerDarkMode') === 'true';
+        themeBtn.innerText = isDark 
+            ? (lang === 'it' ? '☀️ Modalità Chiara' : '☀️ Light Mode')
+            : (lang === 'it' ? '🌙 Modalità Scura' : '🌙 Dark Mode');
+    }
+
+    document.title = lang === 'it' ? "LoreKeeper - Libreria 3D" : "LoreKeeper - 3D Library";
+
+    // 2. AGGIORNAMENTO TESTI BOTTONI (La vera soluzione al tuo problema!)
+    // Dato che la lingua ora è caricata, applichiamo i testi corretti ai bottoni creati in alto
+    if (typeof manageCatBtn !== 'undefined') {
+        manageCatBtn.innerHTML = t('manageShelf');
+        manageCatBtn.title = t('manageShelfTooltip');
+    }
+    if (typeof searchInput !== 'undefined') searchInput.placeholder = t('searchPlaceholder');
+    if (typeof uploadLabel !== 'undefined') uploadLabel.innerText = t('uploadBtn');
+    
+    // Bottoni in basso
+    if (typeof infoBtn !== 'undefined') infoBtn.innerText = t('showSynopsis');
+    if (typeof exportAIBtn !== 'undefined') exportAIBtn.innerHTML = t('exportAI');
+    if (typeof assignCatBtn !== 'undefined') assignCatBtn.innerHTML = t('assignCategory');
+    if (typeof deleteBookBtn !== 'undefined') deleteBookBtn.innerHTML = t('deleteBook');
+    
+    if (typeof creditsFooter !== 'undefined') {
+        creditsFooter.innerHTML = `${t('credits')} <a href="https://github.com/GabrieleTrovato01" target="_blank">GabrieleTrovato01</a>`;
+    }
+}
+
 
 // --- 1. SETUP BASE ---
 const scene = new THREE.Scene();
@@ -201,18 +242,27 @@ topBar.appendChild(fileInput);
 
 // --- PULSANTE CAMBIO LINGUA ---
 const langBtn = document.createElement('button');
-// Mostra la lingua opposta a quella corrente
-langBtn.innerText = currentLang === 'it' ? '🇬🇧 EN' : '🇮🇹 IT';
+// Leggiamo la lingua salvata (o 'it' di default) per impostare il testo del bottone
+const savedLang = localStorage.getItem('lorekeeper_lang') || 'it';
+langBtn.innerText = savedLang === 'it' ? '🇬🇧 EN' : '🇮🇹 IT';
 langBtn.className = 'glass-effect modern-btn';
 langBtn.style.padding = '12px 15px';
 langBtn.style.fontWeight = 'bold';
-langBtn.title = currentLang === 'it' ? 'Switch to English' : 'Passa all\'Italiano';
+langBtn.title = savedLang === 'it' ? 'Switch to English' : 'Passa all\'Italiano';
 
 langBtn.onclick = () => {
-    const newLang = currentLang === 'it' ? 'en' : 'it';
+    const newLang = savedLang === 'it' ? 'en' : 'it';
     setLanguage(newLang);
 };
 topBar.appendChild(langBtn);
+
+// --- GESTIONE BOTTONE HELP ---
+const helpBtn = document.getElementById('help-btn');
+if (helpBtn) {
+    helpBtn.onclick = () => {
+        openHelpModal(); // Richiama la funzione dal file help-modal.js
+    };
+}
 
 
 // --- COSTRUZIONE MENU INFERIORE ---
@@ -1116,7 +1166,6 @@ let pointerEndY = 0;   // Tracciamo anche la Y
 let isDragging = false;
 
 window.addEventListener('pointerdown', (event) => {
-    if (helpModal && helpModal.style.display === 'flex') return;
     if (document.getElementById('category-manager-overlay')) return;
     if (document.getElementById('assign-category-overlay')) return;
     if (event.target.tagName === 'BUTTON' || event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL') return;
@@ -1127,7 +1176,6 @@ window.addEventListener('pointerdown', (event) => {
 });
 
 window.addEventListener('pointerup', (event) => {
-    if (helpModal && helpModal.style.display === 'flex') return;
     if (document.getElementById('category-manager-overlay')) return;
     if (document.getElementById('assign-category-overlay')) return;
     if (!isDragging) return;
@@ -1208,7 +1256,6 @@ let scrollTimeout = null;
 window.addEventListener('wheel', (event) => {
     if (document.getElementById('category-manager-overlay')) return;
     if (document.getElementById('assign-category-overlay')) return;
-    if (helpModal && helpModal.style.display === 'flex') return;
     if (scrollTimeout) return;
 
     if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 20) {
@@ -1231,7 +1278,6 @@ window.addEventListener('keydown', (event) => {
 
     if (document.getElementById('category-manager-overlay')) return;
     if (document.getElementById('assign-category-overlay')) return;
-    if (helpModal && helpModal.style.display === 'flex') return;
 
     if (event.key === 'ArrowRight') {
         changeBook(1); 
@@ -1274,43 +1320,6 @@ window.addEventListener('readerClosed', () => {
     updateCarousel(); 
 });
 
-// ESEGUIAMO IL CARICAMENTO DEI LIBRI ALL'AVVIO!
-loadBooks();
-
-// --- 7. LOGICA PANNELLO HELP ---
-const helpBtn = document.getElementById('help-btn');
-const helpModal = document.getElementById('help-modal');
-const closeHelpBtn = document.getElementById('close-help-btn');
-
-// Apri il modale
-if (helpBtn) {
-    helpBtn.addEventListener('click', () => {
-        helpModal.style.display = 'flex';
-        // Aspettiamo un istante minuscolo per far partire l'animazione CSS
-        setTimeout(() => helpModal.style.opacity = '1', 10);
-    });
-}
-
-// Funzione unificata per chiudere il modale
-const closeHelp = () => {
-    helpModal.style.opacity = '0';
-    setTimeout(() => helpModal.style.display = 'none', 300); // Aspetta la fine della dissolvenza
-};
-
-// Chiudi col bottone "Ho capito"
-if (closeHelpBtn) {
-    closeHelpBtn.addEventListener('click', closeHelp);
-}
-
-// Chiudi cliccando fuori dal pannello (sul nero sfumato)
-if (helpModal) {
-    helpModal.addEventListener('click', (event) => {
-        if (event.target === helpModal) {
-            closeHelp();
-        }
-    });
-}
-
 // --- 6. ANIMAZIONE ---
 function animate() {
     requestAnimationFrame(animate);
@@ -1341,4 +1350,47 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-animate();
+// --- AVVIO DELL'APPLICAZIONE ---
+// In fondo a src/main.js
+
+async function startApp() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingText = document.getElementById('loading-text');
+    
+    // Recuperiamo la lingua salvata per i testi di caricamento
+    const savedLang = localStorage.getItem('lorekeeper_lang') || 'it';
+
+    try {
+        // 1. Carica le traduzioni dal server
+        if (loadingText) {
+            loadingText.innerText = savedLang === 'it' ? "Caricamento lingua..." : "Loading language...";
+        }
+        await initI18n(); 
+
+        // 2. Traduci l'interfaccia statica (ora che initI18n è fatto, t() funzionerà)
+        translateStaticHTML();
+
+        // 3. Carica i libri
+        if (loadingText) {
+            loadingText.innerText = savedLang === 'it' ? "Allestimento scaffali..." : "Setting up shelves...";
+        }
+        await loadBooks();
+
+        // 4. Avvia l'animazione 3D
+        animate();
+
+        // 5. Rimuovi lo splash screen
+        if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+
+    } catch (error) {
+        console.error("Errore durante l'avvio dell'app:", error);
+        if (loadingText) loadingText.innerText = "Error / Errore";
+    }
+}
+
+startApp();
