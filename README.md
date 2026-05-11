@@ -84,6 +84,20 @@ The app is smart and syncs data with your computer. Inside the project folder, y
 
 ---
 
+### 🌍 Multilingual Support (i18n)
+
+LoreKeeper supports internationalization (i18n) using an asynchronous loading system to ensure optimal performance without startup lag. Currently, the application is available in **English** and **Italian**.
+
+You can switch languages on the fly using the dedicated button in the top navigation bar. Your language preference is automatically saved in your browser via `localStorage`.
+
+**Want to contribute a new language?**
+Adding a new translation is incredibly easy:
+1. Navigate to the `src/locales/` folder, duplicate the `en.js` file, and rename it with your language code (e.g., `es.js` for Spanish).
+2. Translate the string values within the exported JavaScript object.
+3. Update the `langBtn` logic in `src/main.js` to include your new language in the toggle cycle.
+
+---
+
 ### 🆘 Troubleshooting
 
 * **Red error during installation: `CustomEvent is not defined`**
@@ -167,6 +181,18 @@ L'app è intelligente e sincronizza i dati con il tuo computer. All'interno dell
 
 **Nota:** Queste cartelle sono protette e ignorate da Git (grazie al `.gitignore`). Puoi aggiungere quanti libri vuoi senza rischiare di caricarli accidentalmente online se pubblichi il codice su GitHub!
 
+---
+### 🌍 Multilingua (i18n)
+
+LoreKeeper supporta l'internazionalizzazione (i18n) con un sistema di caricamento asincrono per garantire prestazioni ottimali. Attualmente, l'applicazione è disponibile in **Italiano** e **Inglese**.
+
+La lingua può essere cambiata istantaneamente tramite l'apposito pulsante nella barra superiore, e la tua preferenza verrà salvata automaticamente nel browser tramite `localStorage`.
+
+**Vuoi contribuire con una nuova lingua?**
+Aggiungere una traduzione è semplicissimo:
+1. Vai nella cartella `src/locales/` e duplica il file `en.js` (ad esempio, chiamalo `es.js` per lo spagnolo).
+2. Traduci le stringhe all'interno dell'oggetto JavaScript.
+3. Aggiorna la logica del pulsante `langBtn` nel file `src/main.js` per includere la tua nuova lingua nel ciclo di selezione.
 ---
 
 ### 🆘 Risoluzione dei Problemi Frequenti
