@@ -177,7 +177,7 @@ L'app è intelligente e sincronizza i dati con il tuo computer. All'interno dell
 
 * `ebooks/`: Qui vengono salvati fisicamente i tuoi libri (EPUB).
 * `covers/`: Qui vengono salvate le copertine estratte per la visualizzazione 3D.
-* `books.json`: Questo file è il database della tua libreria. 
+* `books.json`: Questo file è il database della tua libreria.  
 
 **Nota:** Queste cartelle sono protette e ignorate da Git (grazie al `.gitignore`). Puoi aggiungere quanti libri vuoi senza rischiare di caricarli accidentalmente online se pubblichi il codice su GitHub!
 
