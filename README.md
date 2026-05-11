@@ -173,7 +173,7 @@ Se vuoi analizzare un libro con l'Intelligenza Artificiale:
 
 ### 📁 Gestione dei Dati (I tuoi libri)
 
-L'app è intelligente e sincronizza i dati con il tuo computer. All'interno della cartella del progetto, troverai (o verranno create automaticamente al primo avvio) queste cartelle nella directory `public/`:
+L'app è intelligente e sincronizza i dati con il tuo computer. All'interno della cartella del progetto, troverai (o verranno create automaticamente al primo avvio) queste cartelle nella directory `public/`: 
 
 * `ebooks/`: Qui vengono salvati fisicamente i tuoi libri (EPUB).
 * `covers/`: Qui vengono salvate le copertine estratte per la visualizzazione 3D.
