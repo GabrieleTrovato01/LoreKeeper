@@ -56,7 +56,7 @@ window.openReader = function(epubUrl, bookId) {
         document.removeEventListener("keydown", keyListener);
     }, { once: true });
 
-    // 🔥 FIX 1: Controllo del "Segnalibro Avvelenato"
+
     const rawLocation = localStorage.getItem(`bookmark_${bookId}`);
     // Assicuriamoci che non sia "undefined" o "null" come stringa!
     const isValidLocation = rawLocation && rawLocation !== "undefined" && rawLocation !== "null";

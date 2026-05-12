@@ -207,7 +207,6 @@ categoryLabel.style.borderRadius = '50px';
 categoryLabel.style.fontSize = '13px';
 categoryLabel.style.fontWeight = 'bold';
 categoryLabel.style.letterSpacing = '1px';
-categoryLabel.style.whiteSpace = 'nowrap';
 categoryLabel.style.display = 'none';
 topBar.appendChild(categoryLabel);
 
@@ -231,7 +230,6 @@ const uploadLabel = document.createElement('label');
 uploadLabel.innerText = t('uploadBtn');
 uploadLabel.className = 'glass-effect modern-btn';
 uploadLabel.htmlFor = 'file-upload';
-uploadLabel.style.whiteSpace = 'nowrap';
 topBar.appendChild(uploadLabel);
 
 const fileInput = document.createElement('input');
@@ -265,11 +263,12 @@ donateBtn.target = '_blank';
 donateBtn.className = 'glass-effect modern-btn';
 donateBtn.style.textDecoration = 'none';
 
+
 // --- NUOVO POSIZIONAMENTO ---
 donateBtn.style.position = 'fixed';
-donateBtn.style.bottom = '3%';
-donateBtn.style.left = '2%';
-donateBtn.style.zIndex = '1000'; // Assicura che sia cliccabile e stia sopra il canvas 3D
+donateBtn.style.bottom = '50px';
+donateBtn.style.left = '20px';
+donateBtn.style.zIndex = '1000';// Assicura che sia cliccabile e stia sopra il canvas 3D
 
 // Allineiamo struttura e spaziature
 donateBtn.style.padding = '12px 15px';
@@ -1278,6 +1277,9 @@ window.addEventListener('pointerup', (event) => {
                 leftArrow.style.opacity = '0';
                 rightArrow.style.opacity = '0';
                 creditsFooter.style.opacity = '0';
+
+                donateBtn.style.opacity = '0';
+                donateBtn.style.pointerEvents = 'none';
                 
                 activeBook.userData.hinge.userData = { targetRotY: -Math.PI * 0.85 };
 
@@ -1349,6 +1351,10 @@ window.addEventListener('readerClosed', () => {
     leftArrow.style.opacity = '1';
     rightArrow.style.opacity = '1';
     creditsFooter.style.opacity = '1';
+
+    donateBtn.style.opacity = '1';
+    donateBtn.style.pointerEvents = 'auto';
+
     const activeBook = booksArray[currentIndex];
     if (activeBook && activeBook.userData.hasHinge) {
         activeBook.userData.hinge.userData.targetRotY = 0; 
