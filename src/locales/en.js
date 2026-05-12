@@ -130,5 +130,6 @@ export default {
             <li><b>Explore:</b> Use "Show Synopsis" to flip the 3D book and read the back cover.</li>
             <li><b>Dark Mode:</b> Click the moon icon in the reader to reduce eye strain.</li>
             <li><b style="color: #ba55d3;">🤖 Knowledge Base (Markdown):</b> Export for AI to extract a formatted <strong>Markdown (.md)</strong> Knowledge Base. It's ready to be stored in your Obsidian/Notion vault or analyzed by ChatGPT and Claude!</li>
-        `
+        `,
+        donateBtn: "💙 Donate",
 };

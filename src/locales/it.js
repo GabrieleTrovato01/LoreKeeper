@@ -132,5 +132,6 @@ export default {
             <li><b>Esplora:</b> Usa "Mostra Trama" per voltare il libro 3D e leggere il retro.</li>
             <li><b>Dark Mode:</b> Clicca l'icona della luna nel lettore per non affaticare la vista.</li>
             <li><b style="color: #ba55d3;">🤖 Knowledge Base (Markdown):</b> Esporta per IA per estrarre una Knowledge Base formattata in <strong>Markdown (.md)</strong>. È pronta per Obsidian, Notion, ChatGPT o Claude!</li>
-        ` 
+        ` ,
+        donateBtn: "💙 Supporta",
 };

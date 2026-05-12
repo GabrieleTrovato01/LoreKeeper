@@ -43,6 +43,7 @@ function translateStaticHTML() {
     if (typeof creditsFooter !== 'undefined') {
         creditsFooter.innerHTML = `${t('credits')} <a href="https://github.com/GabrieleTrovato01" target="_blank">GabrieleTrovato01</a>`;
     }
+    if (typeof donateBtn !== 'undefined') donateBtn.innerText = t('donateBtn');
 }
 
 
@@ -255,6 +256,43 @@ langBtn.onclick = () => {
     setLanguage(newLang);
 };
 topBar.appendChild(langBtn);
+
+// --- BOTTONE DONAZIONE PAYPAL ---
+const donateBtn = document.createElement('a');
+
+donateBtn.href = 'https://paypal.me/GabrieleTrovato1?locale.x=en_US&country.x=IT'; 
+donateBtn.target = '_blank'; 
+donateBtn.className = 'glass-effect modern-btn';
+donateBtn.style.textDecoration = 'none';
+
+// --- NUOVO POSIZIONAMENTO ---
+donateBtn.style.position = 'fixed';
+donateBtn.style.bottom = '3%';
+donateBtn.style.left = '2%';
+donateBtn.style.zIndex = '1000'; // Assicura che sia cliccabile e stia sopra il canvas 3D
+
+// Allineiamo struttura e spaziature
+donateBtn.style.padding = '12px 15px';
+donateBtn.style.fontWeight = 'bold';
+donateBtn.style.whiteSpace = 'nowrap'; 
+
+// Manteniamo la variazione di colore azzurro/blu
+donateBtn.style.background = 'rgba(0, 112, 186, 0.15)'; 
+donateBtn.style.borderColor = 'rgba(0, 112, 186, 0.4)';
+donateBtn.style.color = '#66b3ff'; 
+
+// Gestiamo solo il cambio di colore su hover
+donateBtn.onmouseover = () => {
+    donateBtn.style.background = 'rgba(0, 112, 186, 0.3)';
+    donateBtn.style.borderColor = 'rgba(0, 112, 186, 0.6)';
+};
+donateBtn.onmouseout = () => {
+    donateBtn.style.background = 'rgba(0, 112, 186, 0.15)';
+    donateBtn.style.borderColor = 'rgba(0, 112, 186, 0.4)';
+};
+
+// Aggiungiamo il bottone al BODY invece che alla topBar
+document.body.appendChild(donateBtn);
 
 // --- GESTIONE BOTTONE HELP ---
 const helpBtn = document.getElementById('help-btn');
