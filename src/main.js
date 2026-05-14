@@ -1034,6 +1034,26 @@ async function loadBooks() {
                     targetY: baseShelfY 
                 };
 
+                                // Se il libro è in fase di lettura (tra l'1% e il 99%)
+                if (bookData.progress > 0 && bookData.progress < 0.99) {
+                    const ribbonWidth = 0.3;
+                    const ribbonHeight = 0.6; 
+                    const ribbonDepth = 0.05;
+                    const ribbonGeo = new THREE.BoxGeometry(ribbonWidth, ribbonHeight, ribbonDepth);
+                    const ribbonMat = new THREE.MeshStandardMaterial({ 
+                        color: '#c0392b', // Un bel rosso scuro
+                        roughness: 0.7, 
+                        metalness: 0.1
+                    });
+                    const ribbon = new THREE.Mesh(ribbonGeo, ribbonMat);
+                    
+                    const fixedX = -0.9 + (ribbonWidth / 2);
+                    
+                    ribbon.position.set(fixedX, 1.5, 0.04); 
+                    
+                    bookMesh.add(ribbon);
+                }
+
                 bookMesh.position.y = baseShelfY;
 
                 libraryGroup.add(bookMesh);

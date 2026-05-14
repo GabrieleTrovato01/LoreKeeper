@@ -505,6 +505,24 @@ app.put('/api/books/bulk-tags', async (req, res) => {
     }
 });
 
+// Aggiorna la percentuale di lettura nel database
+app.put('/api/books/:id/progress', async (req, res) => {
+    const { progress } = req.body;
+    try {
+        const fileData = await fs.readFile(booksJsonPath, 'utf-8');
+        let books = JSON.parse(fileData);
+        const bookIndex = books.findIndex(b => b.id === req.params.id);
+        
+        if (bookIndex !== -1) {
+            books[bookIndex].progress = progress; // Salviamo un valore tra 0 e 1
+            await fs.writeFile(booksJsonPath, JSON.stringify(books, null, 4));
+            res.json({ success: true });
+        } else {
+            res.status(404).json({ success: false });
+        }
+    } catch (e) { res.status(500).json({ success: false }); }
+});
+
 // --- SCUDO ANTI-CRASH GLOBALE ---
 // Cattura gli errori critici non gestiti dalle librerie esterne (come epub2) 
 // per evitare che il server Node.js si spenga improvvisamente.

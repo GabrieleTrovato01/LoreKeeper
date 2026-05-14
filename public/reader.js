@@ -122,6 +122,14 @@ window.openReader = function(epubUrl, bookId) {
                 } else {
                     progressEl.innerText = "0%";
                 }
+
+                if (percentage !== undefined) {
+                    fetch(`/api/books/${bookId}/progress`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ progress: percentage })
+                    }).catch(err => console.warn("Errore sync progresso 3D:", err));
+                }
             }
         }
     });
