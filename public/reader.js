@@ -24,11 +24,42 @@ window.openReader = function(epubUrl, bookId) {
     currentBook = ePub(epubUrl);
 
     currentBook.ready.then(() => {
-        return currentBook.locations.generate(1000);
+        // 1. Proviamo a recuperare le posizioni salvate in cache per questo specifico libro
+        const cachedLocations = localStorage.getItem(`locations_${bookId}`);
+        
+        if (cachedLocations) {
+            // Caricamento ISTANTANEO!
+            currentBook.locations.load(cachedLocations);
+            console.log("⚡ Posizioni caricate dalla cache istantaneamente");
+            return Promise.resolve(); // Passiamo subito al prossimo step
+        } else {
+            // Se non ci sono, le generiamo (ci vorrà qualche secondo la PRIMA volta)
+            console.log("⏳ Generazione mappa delle posizioni in corso...");
+            return currentBook.locations.generate(1000).then(() => {
+                // Salviamo il risultato nel browser per le prossime volte
+                try {
+                    localStorage.setItem(`locations_${bookId}`, currentBook.locations.save());
+                    console.log("✅ Mappa generata e salvata in cache");
+                } catch(e) {
+                    console.warn("Spazio insufficiente per salvare le posizioni in cache");
+                }
+            });
+        }
     }).then(() => {
-        console.log("✅ Mappa delle posizioni generata con successo");
+        // 2. FORZIAMO L'AGGIORNAMENTO DELLA PERCENTUALE SUBITO DOPO
+        const currentLocation = rendition.currentLocation();
+        
+        // Se il lettore ha già caricato una pagina, calcoliamo la percentuale esatta
+        if (currentLocation && currentLocation.start && currentLocation.start.cfi) {
+            const percentage = currentBook.locations.percentageFromCfi(currentLocation.start.cfi);
+            const progressEl = document.getElementById('reading-progress');
+            
+            if (progressEl && percentage > 0) {
+                progressEl.innerText = Math.round(percentage * 100) + "%";
+            }
+        }
     }).catch(err => console.warn("Avviso mappa posizioni:", err));
-    
+
     // Ritorna a scorrimento paginato fluido e a tutto schermo
     rendition = currentBook.renderTo("viewer", {
         width: "100%",
@@ -63,7 +94,6 @@ window.openReader = function(epubUrl, bookId) {
     
     const displayPromise = isValidLocation ? rendition.display(rawLocation) : rendition.display();
 
-    // 🔥 FIX 2: Fallback di emergenza. Se la pagina salvata è rotta, apri la copertina.
     displayPromise.then(() => {
         window.applyCurrentTheme();
     }).catch(err => {
@@ -74,20 +104,24 @@ window.openReader = function(epubUrl, bookId) {
     rendition.on("rendered", () => {
         window.applyCurrentTheme();
         
-        // ✨ FIX: Applica lo zoom globale salvato solo quando la pagina è fisicamente pronta!
         const savedZoom = localStorage.getItem('readerZoom') || '100';
         rendition.themes.fontSize(`${savedZoom}%`);
     });
 
     rendition.on('relocated', function(location) {
-        // 🔥 FIX 3: Salviamo la posizione solo se esiste davvero
         if (location && location.start && location.start.cfi) {
             localStorage.setItem(`bookmark_${bookId}`, location.start.cfi);
             
             const progressEl = document.getElementById('reading-progress');
             if (progressEl) {
                 const percentage = location.start.percentage;
-                progressEl.innerText = (percentage !== undefined && percentage > 0) ? Math.round(percentage * 100) + "%" : "1%";
+                
+                if (percentage !== undefined && percentage > 0) {
+                    const displayPercent = (percentage * 100).toFixed(1);
+                    progressEl.innerText = displayPercent + "%";
+                } else {
+                    progressEl.innerText = "0%";
+                }
             }
         }
     });
