@@ -134,4 +134,6 @@ export default {
             <li><b style="color: #ba55d3;">🤖 Knowledge Base (Markdown):</b> Esporta per IA per estrarre una Knowledge Base formattata in <strong>Markdown (.md)</strong>. È pronta per Obsidian, Notion, ChatGPT o Claude!</li>
         ` ,
         donateBtn: "💙 Supporta",
+        // Aggiungi questo in fondo all'oggetto export default
+emptyLibraryMessage: "La tua libreria è vuota. Clicca su '+ Carica Ebook' per iniziare la tua collezione!",
 };

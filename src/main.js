@@ -44,6 +44,7 @@ function translateStaticHTML() {
         creditsFooter.innerHTML = `${t('credits')} <a href="https://github.com/GabrieleTrovato01" target="_blank">GabrieleTrovato01</a>`;
     }
     if (typeof donateBtn !== 'undefined') donateBtn.innerText = t('donateBtn');
+    if (emptyLibraryHint) emptyLibraryHint.innerText = t('emptyLibraryMessage');
 }
 
 
@@ -254,6 +255,24 @@ langBtn.onclick = () => {
     setLanguage(newLang);
 };
 topBar.appendChild(langBtn);
+
+// --- MESSAGGIO LIBRERIA VUOTA ---
+const emptyLibraryHint = document.createElement('div');
+emptyLibraryHint.id = 'empty-library-hint';
+emptyLibraryHint.className = 'glass-effect';
+emptyLibraryHint.style.position = 'fixed';
+emptyLibraryHint.style.top = '50%';
+emptyLibraryHint.style.left = '50%';
+emptyLibraryHint.style.transform = 'translate(-50%, -50%)';
+emptyLibraryHint.style.padding = '40px';
+emptyLibraryHint.style.borderRadius = '30px';
+emptyLibraryHint.style.textAlign = 'center';
+emptyLibraryHint.style.fontSize = '18px';
+emptyLibraryHint.style.lineHeight = '1.6';
+emptyLibraryHint.style.maxWidth = '400px';
+emptyLibraryHint.style.zIndex = '50';
+emptyLibraryHint.style.display = 'none'; // Nascosto di default
+document.body.appendChild(emptyLibraryHint);
 
 // --- BOTTONE DONAZIONE PAYPAL ---
 const donateBtn = document.createElement('a');
@@ -1117,6 +1136,17 @@ async function loadBooks() {
                 }
             }
         };
+        if (booksArray.length === 0) {
+            emptyLibraryHint.style.display = 'block';
+            uiContainer.style.display = 'none'; // Nasconde i tasti (Elimina, Trama, etc)
+            leftArrow.style.display = 'none';
+            rightArrow.style.display = 'none';
+        } else {
+            emptyLibraryHint.style.display = 'none';
+            uiContainer.style.display = 'flex';
+            leftArrow.style.display = 'block';
+            rightArrow.style.display = 'block';
+        }
 
         // Esecuzione invisibile in background
         (async () => {

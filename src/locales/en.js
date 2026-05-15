@@ -132,4 +132,7 @@ export default {
             <li><b style="color: #ba55d3;">🤖 Knowledge Base (Markdown):</b> Export for AI to extract a formatted <strong>Markdown (.md)</strong> Knowledge Base. It's ready to be stored in your Obsidian/Notion vault or analyzed by ChatGPT and Claude!</li>
         `,
         donateBtn: "💙 Donate",
+
+        // Aggiungi questo in fondo all'oggetto export default
+emptyLibraryMessage: "Your library is empty. Click '+ Upload Ebook' to start your collection!",
 };
